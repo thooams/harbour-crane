@@ -1,0 +1,15 @@
+%h1 Apps#index
+%p Find me in app/views/apps/index.html.haml
+
+= @apps.inspect
+%table.table
+  %tr
+    %th Name
+    %th Actions
+  - @apps.each do |app|
+    %tr
+      %td= app
+      %td
+        = link_to glyph('pencil'), edit_app_path(app)
+        = link_to glyph('eye'), containers_path
+        = link_to glyph('trash'), containers_path

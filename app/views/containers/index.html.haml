@@ -1,0 +1,26 @@
+%h1 Containers
+%p List of containers
+
+%table.table
+  %tr
+    %th Container ID
+    %th Image
+    %th Command
+    %th Created at
+    %th Status
+    %th Ports
+    %th Names
+    %th Actions
+  - @containers.each do |container|
+    %tr
+      %td= container.info["id"][0..12]
+      %td= container.info["Image"]
+      %td= container.info["Command"]
+      %td= container.info["Created"]
+      %td= container.info["Status"]
+      %td= container.info["Ports"].join(', ')
+      %td= container.info["Names"].join(', ')
+      %td
+        = link_to glyph('pencil'), edit_container_path(container.info["id"])
+        = link_to glyph('eye'), container_path(container.info["id"])
+        = link_to glyph('trash'), container_path(container.info["id"])

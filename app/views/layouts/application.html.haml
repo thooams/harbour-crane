@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    %title= DockerManager::Application::NAME
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    = navbar title: 'Docker Manager' do |nv|
+      - nv.nav do |n|
+        - n.link 'Apps', url: apps_path
+        - n.link 'Images', url: images_path
+        - n.link 'Containers', url: containers_path
+    .container
+      = yield

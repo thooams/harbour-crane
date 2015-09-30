@@ -1,0 +1,66 @@
+%h1= glyph_and_text DockerManager::Application::Glyph::APP, "Edit \"#{ @app.name.titleize }\""
+
+%br
+= simple_form_for :app do |f|
+  = row do
+    = col num: 8 do
+      %h2 Init App (Upstart)
+      = nav type: :tabs do |n|
+        - n.link 'Rookie', url: '#upstart-rookie', status: :active, selector: 'upstart-rookie'
+        - n.link 'Expert', url: '#upstart-expert', selector: 'upstart-expert'
+      %br
+      .tab-content
+        = panel status: :active, tab: 'upstart-rookie' do
+          = f.input :log_file_path, placeholder: '/var/log/docker-manager.log'
+          = f.input :config_dir_path, placeholder: "$HOME/docker/docker-manager"
+          = f.input :compose_file, placeholder: "docker-compose.yml"
+
+        = panel tab: 'upstart-expert' do
+          - file_path = "#{ DockerManager::Application::UPSTART_DIR }/#{ @app.name }.conf"
+          = "File: #{ file_path }"
+          %pre
+            - if File.exist?(file_path)
+              = File.read(file_path)
+            - else
+              No file exist
+
+      %h2 Docker Compose
+      = nav type: :tabs do |n|
+        - n.link 'Rookie', url: '#compose-rookie', status: :active, selector: 'compose-rookie'
+        - n.link 'Expert', url: '#compose-expert', selector: 'compose-expert'
+      %br
+      .tab-content
+        = panel status: :active, tab: 'compose-rookie' do
+          %h3 Container
+          = panel do
+            = f.input :container_name, label: 'Name', placeholder: 'eq. web'
+            = f.input :image, placeholder: "eq. docker/docker-manager:beta", hint: 'Must be registry_host[:registery_port]/name[:tag]'
+            = f.input :ports, placeholder: 'eq. 3003:3000; 3002:3002'
+
+            = f.input :environment, as: :text, placeholder: 'eq. RAILS_ENV:production; VIRTUAL_HOST: subdomain.domain.com'
+
+            = f.input :links, placeholder: 'eq. db'
+
+            %br
+
+          = link_to glyph_and_text('plus-circle', 'New container'), "#"
+        = panel tab: 'compose-expert' do
+          - file_path = "#{ DockerManager::Application::COMPOSE_FILE_DIR }/#{ @app.name }/docker-compose.yml"
+          = "File: #{ file_path }"
+          %pre
+            - if File.exist?(file_path)
+              = File.read(file_path)
+            - else
+              No file exist
+
+    = col num: 4 do
+      %h2 Volumes
+      - dir_path = "#{ DockerManager::Application::VOLUME_DIR }/#{ @app.name }"
+      - volumes = Dir.exist?(dir_path) ? Dir.entries(dir_path).reject{ |n| ['.', '..'].include?(n) } : []
+      - volumes.each do |vol|
+        = f.input :volume, label: false, as: :extra_text, append: glyph('folder-open'), prepend: 'x', input_html: { value: "#{ dir_path }/#{ vol }" }, placeholder: 'eq. logs; infos/public'
+      = link_to glyph_and_text('plus-circle', 'New volume'), "#"
+
+
+
+

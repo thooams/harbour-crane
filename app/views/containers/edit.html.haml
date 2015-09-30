@@ -1,0 +1,8 @@
+%h1 Containers#edit
+%p Find me in app/views/containers/edit.html.haml
+= panel do
+  - @container.info.each do |k,v|
+    %b= "#{ k }:"
+    = "#{ v }"
+    %br
+

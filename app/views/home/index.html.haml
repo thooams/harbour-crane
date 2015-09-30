@@ -1,0 +1,19 @@
+= jumbotron do
+  %h1=DockerManager::Application::NAME
+  %p= DockerManager::Application::DESCRIPTION
+  %p= "v#{ DockerManager::Application::VERSION }"
+  %br
+  %h2 Docker infos
+  = panel do
+    - Docker.version.each do |k,v|
+      %b= "#{ k }:"
+      = "#{ v }"
+      %br
+
+  %h2 Docker
+  = panel do
+    - Docker.info.each do |k,v|
+      %b= "#{ k }:"
+      = "#{ v }"
+      %br
+
