@@ -3,7 +3,9 @@ module DockerManager
     VERSION          = '1.0.0.beta'
     NAME             = 'Harbour Crane'
     DESCRIPTION      = 'Manage you apps through Docker containers.'
-    COMPOSE_FILE_DIR = "#{ ENV['HOME'] }/docker"
+    DOCKER_DIR       = "#{ ENV['HOME'] }/docker"
+    COMPOSE_DIR      = "#{ DOCKER_DIR }/compose"
+    UPSTART_BAK_DIR  = "#{ DOCKER_DIR }/upstart"
     VOLUME_DIR       = "/srv/docker"
     UPSTART_DIR      = "/etc/init"
 

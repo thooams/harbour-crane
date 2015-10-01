@@ -1,4 +1,4 @@
-%h1= glyph_and_text DockerManager::Application::Glyph::APP, "Edit \"#{ @app.name.titleize }\""
+%h1= glyph_and_text DockerManager::Application::Glyph::APP, "Edit \"#{ @app.slug.titleize }\""
 
 %br
 = simple_form_for :app do |f|
@@ -6,17 +6,20 @@
     = col num: 8 do
       %h2 Init App (Upstart)
       = nav type: :tabs do |n|
-        - n.link 'Rookie', url: '#upstart-rookie', status: :active, selector: 'upstart-rookie'
-        - n.link 'Expert', url: '#upstart-expert', selector: 'upstart-expert'
+        - n.link 'Rookie', url: '#upstart-rookie', status: :disabled, selector: 'upstart-rookie'
+        - n.link 'Expert', url: '#upstart-expert', status: :active, selector: 'upstart-expert'
       %br
       .tab-content
-        = panel status: :active, tab: 'upstart-rookie' do
+        = panel status: :disabled, tab: 'upstart-rookie' do
           = f.input :log_file_path, placeholder: '/var/log/docker-manager.log'
           = f.input :config_dir_path, placeholder: "$HOME/docker/docker-manager"
           = f.input :compose_file, placeholder: "docker-compose.yml"
 
-        = panel tab: 'upstart-expert' do
-          - file_path = "#{ DockerManager::Application::UPSTART_DIR }/#{ @app.name }.conf"
+        - bak_files = "#{ upstart_app_dir(@app.slug) }/*.bak"
+        = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
+
+        = panel status: :active, tab: 'upstart-expert' do
+          - file_path = "#{ DockerManager::Application::UPSTART_DIR }/#{ @app.slug }.conf"
           = "File: #{ file_path }"
           %pre
             - if File.exist?(file_path)
@@ -45,7 +48,7 @@
 
           = link_to glyph_and_text('plus-circle', 'New container'), "#"
         = panel tab: 'compose-expert' do
-          - file_path = "#{ DockerManager::Application::COMPOSE_FILE_DIR }/#{ @app.name }/docker-compose.yml"
+          - file_path = "#{ DockerManager::Application::COMPOSE_DIR }/#{ @app.slug }/docker-compose.yml"
           = "File: #{ file_path }"
           %pre
             - if File.exist?(file_path)
@@ -55,7 +58,7 @@
 
     = col num: 4 do
       %h2 Volumes
-      - dir_path = "#{ DockerManager::Application::VOLUME_DIR }/#{ @app.name }"
+      - dir_path = "#{ DockerManager::Application::VOLUME_DIR }/#{ @app.slug }"
       - volumes = Dir.exist?(dir_path) ? Dir.entries(dir_path).reject{ |n| ['.', '..'].include?(n) } : []
       - volumes.each do |vol|
         = f.input :volume, label: false, as: :extra_text, append: glyph('folder-open'), prepend: 'x', input_html: { value: "#{ dir_path }/#{ vol }" }, placeholder: 'eq. logs; infos/public'
