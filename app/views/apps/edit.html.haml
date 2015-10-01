@@ -10,13 +10,13 @@
         - n.link 'Expert', url: '#upstart-expert', status: :active, selector: 'upstart-expert'
       %br
       .tab-content
-        = panel status: :disabled, tab: 'upstart-rookie' do
+        - bak_files = "#{ upstart_app_dir(@app.slug) }/*.bak"
+        = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
+
+        = panel tab: 'upstart-rookie' do
           = f.input :log_file_path, placeholder: '/var/log/docker-manager.log'
           = f.input :config_dir_path, placeholder: "$HOME/docker/docker-manager"
           = f.input :compose_file, placeholder: "docker-compose.yml"
-
-        - bak_files = "#{ upstart_app_dir(@app.slug) }/*.bak"
-        = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
 
         = panel status: :active, tab: 'upstart-expert' do
           - file_path = "#{ DockerManager::Application::UPSTART_DIR }/#{ @app.slug }.conf"
@@ -33,6 +33,9 @@
         - n.link 'Expert', url: '#compose-expert', selector: 'compose-expert'
       %br
       .tab-content
+        - bak_files = "#{ compose_app_dir(@app.slug) }/*.bak"
+        = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
+
         = panel status: :active, tab: 'compose-rookie' do
           %h3 Container
           = panel do
