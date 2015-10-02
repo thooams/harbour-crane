@@ -6,7 +6,11 @@ class AppTest < ActiveSupport::TestCase
   # end
 
   test 'create App' do
-    @app = App.new name: 'My App', description: 'My first App', author: 'John Doe'
+    @app             = App.new
+    @app.name        = 'My App',
+    @app.description = 'My first App'
+    @app.author      = 'John Doe'
+
     @app.generate
   end
 end

@@ -27,8 +27,10 @@ class App
     # create volumes
   end
 
+  private
+
   def generate_upstart_file
-    File.open("/templates/upstart.conf.erb",'r') do |f|
+    File.open("public/templates/upstart.conf.erb",'r') do |f|
       File.write(upstart_app_dir(name), f, mode: 'a')
     end
   end
