@@ -1,0 +1,27 @@
+description "<%= app.description %>"
+author "<%= app.author %>"
+start on filesystem and started docker
+stop on runlevel [!2345]
+respawn
+
+env LOGFILE=<%= log_app_file app.slug %>
+env CONFIG_DIR=<%= compose_app_dir app.slug %>
+
+pre-start script
+  echo "[`date`] #{ app.name } Container Starting" >> $LOGFILE
+end script
+
+script
+  cd $CONFIG_DIR
+  COMPOSE_FILE=docker-compose.yml /usr/local/bin/docker-compose up
+end script
+
+pre-stop script
+  echo "[`date`] #{ app.name } Container Stopping" >> $LOGFILE
+  cd $CONFIG_DIR
+  COMPOSE_FILE=docker-compose.yml /usr/local/bin/docker-compose stop
+end script
+
+post-stop script
+  echo "[`date`] #{ app.name } Container Stopped" >> $LOGFILE
+end script

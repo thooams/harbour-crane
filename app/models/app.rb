@@ -1,4 +1,6 @@
+require 'fileutils'
 class App
+  include ApplicationHelper
   # Scopes
 
   # Constants
@@ -30,8 +32,13 @@ class App
   private
 
   def generate_upstart_file
+    ap name
+    dir_name = upstart_app_dir(slug)
+    FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
+    app = self
     File.open("public/templates/upstart.conf.erb",'r') do |f|
-      File.write(upstart_app_dir(name), f, mode: 'a')
+      ap ERB.new(f.read, 0, "", "app").result
+      File.write(upstart_app_file(slug), ERB.new(f.read, 0, "", "app").result, mode: 'a')
     end
   end
 end
