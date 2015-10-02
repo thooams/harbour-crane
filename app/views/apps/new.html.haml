@@ -1,2 +1,7 @@
-%h1 Apps#new
-%p Find me in app/views/apps/new.html.haml
+%h1= glyph_and_text DockerManager::Application::Glyph::APP, "New app"
+
+%br
+= simple_form_for :app do |f|
+  = f.input :name
+  = f.input :description
+  = f.input :author

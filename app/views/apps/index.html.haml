@@ -1,7 +1,9 @@
 %h1 Apps#index
 %p Find me in app/views/apps/index.html.haml
 
-= @apps.inspect
+= button_link 'New App', state: :primary, glyph: 'plus-circle', url: new_app_path
+%br
+%br
 %table.table
   %tr
     %th Name
