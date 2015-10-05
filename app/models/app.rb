@@ -64,6 +64,8 @@ class App
     File.open("public/templates/upstart.conf.erb",'r') do |f|
       File.write(upstart_app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
     end
+
+    versioned upstart_app_file(slug)
   end
 
   def generate_compose_file
@@ -73,6 +75,8 @@ class App
     File.open("public/templates/docker-compose.yml.erb",'r') do |f|
       File.write(compose_app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
     end
+
+    versioned compose_app_file(slug)
   end
 
   def generate_app_file
@@ -82,11 +86,19 @@ class App
     File.open("public/templates/app.yml.erb",'r') do |f|
       File.write(app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
     end
+
+    versioned app_file(slug)
   end
 
   def generate_volumes
     ["/srv/docker/#{ @app.slug }/vol", "/srv/docker/#{ @app.slug }/log"].each do |dir_name|
       FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
     end
+  end
+
+  def versioned file
+    dir_name = file.split('/')[0..-2].join('/')
+    count    = Dir.entries(dir_name).reject{ |n| ['.', '..'].include?(n) }.count
+    FileUtils::cp file, "#{ file }.bak-#{ count }"
   end
 end

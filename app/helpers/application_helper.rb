@@ -41,7 +41,7 @@ module ApplicationHelper
 
   def version_array array
     array.map do |name|
-      num = name.split('version').last.split('.').first
+      num = name.split('.bak-').last
       ["version #{ num }", num]
     end
   end

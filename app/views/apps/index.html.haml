@@ -14,6 +14,6 @@
       %td= app.name
       %td= app.description
       %td
-        = link_to glyph('pencil'), edit_app_path(app)
+        = link_to glyph('pencil'), edit_app_path(app.slug)
         = link_to glyph('eye'), containers_path
         = link_to glyph('trash'), containers_path

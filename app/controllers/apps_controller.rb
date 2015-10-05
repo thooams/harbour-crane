@@ -6,7 +6,7 @@ class AppsController < ApplicationController
     #@apps = %w(App1 App2)
     @apps = []
     Dir.entries(DockerManager::Application::APP_DIR).reject{ |n| ['.', '..'].include?(n) }.each do |file|
-      @apps << OpenStruct.new(YAML.load(File.read("#{ DockerManager::Application::APP_DIR }/#{ file }/app.yml"))["app"])
+      @apps << App.new(YAML.load(File.read("#{ DockerManager::Application::APP_DIR }/#{ file }/app.yml"))["app"])
     end
   end
 
@@ -15,7 +15,6 @@ class AppsController < ApplicationController
 
   def create
     @app = App.new(app_params)
-    ap @app
 
     respond_to do |format|
       if @app.generate

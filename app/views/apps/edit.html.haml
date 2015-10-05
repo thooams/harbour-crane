@@ -10,7 +10,7 @@
         - n.link 'Expert', url: '#upstart-expert', status: :active, selector: 'upstart-expert'
       %br
       .tab-content
-        - bak_files = "#{ upstart_app_dir(@app.slug) }/*.bak"
+        - bak_files = "#{ upstart_app_dir(@app.slug) }/*.bak-*"
         = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
 
         = panel tab: 'upstart-rookie' do
@@ -19,13 +19,12 @@
           = f.input :compose_file, placeholder: "docker-compose.yml"
 
         = panel status: :active, tab: 'upstart-expert' do
-          - file_path = "#{ DockerManager::Application::UPSTART_DIR }/#{ @app.slug }.conf"
+          - file_path = "#{ upstart_app_dir(@app.slug) }/upstart.conf"
           = "File: #{ file_path }"
-          %pre
-            - if File.exist?(file_path)
-              = File.read(file_path)
-            - else
-              No file exist
+          - if File.exist?(file_path)
+            = f.input :compose, as: :text, label: false, input_html: { rows: 25, class: 'code', value: File.read(file_path) }
+          - else
+            %pre  No file exist
 
       %h2 Docker Compose
       = nav type: :tabs do |n|
@@ -33,7 +32,7 @@
         - n.link 'Expert', url: '#compose-expert', selector: 'compose-expert'
       %br
       .tab-content
-        - bak_files = "#{ compose_app_dir(@app.slug) }/*.bak"
+        - bak_files = "#{ compose_app_dir(@app.slug) }/*.bak-*"
         = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
 
         = panel status: :active, tab: 'compose-rookie' do
@@ -51,13 +50,12 @@
 
           = link_to glyph_and_text('plus-circle', 'New container'), "#"
         = panel tab: 'compose-expert' do
-          - file_path = "#{ DockerManager::Application::COMPOSE_DIR }/#{ @app.slug }/docker-compose.yml"
+          - file_path = "#{ compose_app_dir(@app.slug) }/docker-compose.yml"
           = "File: #{ file_path }"
-          %pre
-            - if File.exist?(file_path)
-              = File.read(file_path)
-            - else
-              No file exist
+          - if File.exist?(file_path)
+            = f.input :docker_compose, as: :text, input_html: { rows: 25, class: 'code', value: File.read(file_path) }
+          - else
+            %pre No file exist
 
     = col num: 4 do
       %h2 Volumes
