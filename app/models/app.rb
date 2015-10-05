@@ -23,7 +23,7 @@ class App
   # Associations
 
   # Validations
-  validates :name, presence: true
+  validates :name, :ports, :virtual_host, :image, presence: true
 
   # Delegation
 
@@ -38,21 +38,25 @@ class App
   end
 
   def generate
-    @app = self
+    if self.valid?
+      @app = self
 
-    # generate upstart file and bak
-    generate_upstart_file
+      # generate upstart file and bak
+      generate_upstart_file
 
-    # generate compose file and bak
-    generate_compose_file
+      # generate compose file and bak
+      generate_compose_file
 
-    # generate app conf
-    generate_app_file
+      # generate app conf
+      generate_app_file
 
-    # create volumes
-    #generate_volumes
+      # create volumes
+      #generate_volumes
 
-    true
+      true
+    else
+      false
+    end
   end
 
   private

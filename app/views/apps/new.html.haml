@@ -1,11 +1,24 @@
 %h1= glyph_and_text DockerManager::Application::Glyph::APP, "New app"
 
 %br
-= simple_form_for :app, url: apps_path, method: 'POST' do |f|
-  = f.input :name
-  = f.input :description
-  = f.input :author
-  = f.input :ports
-  = f.input :image
-  = f.input :virtual_host
+= simple_form_for @app, url: apps_path, method: 'POST' do |f|
+  = f.input :name, placeholder: 'My app name'
+  = f.input :description, as: :text, placeholder: 'My description'
+
+  = col num: 6 do
+    = f.input :author, placeholder: 'Harbour Crane'
+    = f.input :ports, placeholder: '3001:3000'
+
+  = col num: 6 do
+    = f.input :image, placeholder: 'myname/myapp'
+    = f.input :virtual_host, placeholder: 'myapp.domain.com'
+
+  .ui-bibz-clear
+
+  = panel tap: true do |p|
+    - p.header 'Input files'
+    - p.body do
+      = f.input :compose_file, as: :file, hint: 'docker-compose.yml'
+      = f.input :upstart_file, as: :file, hint: 'upstart.conf'
+
   = f.submit :submit, class: 'btn btn-primary'

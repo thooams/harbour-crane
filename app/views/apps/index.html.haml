@@ -1,6 +1,7 @@
-%h1 Apps#index
-%p Find me in app/views/apps/index.html.haml
-
+%h1= glyph_and_text App::GLYPH, "Apps listing"
+%br
+%br
+%br
 = button_link 'New App', state: :primary, glyph: 'plus-circle', url: new_app_path
 %br
 %br
