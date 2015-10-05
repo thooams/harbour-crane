@@ -4,38 +4,16 @@
 = simple_form_for :app do |f|
   = row do
     = col num: 8 do
-      %h2 Init App (Upstart)
-      = nav type: :tabs do |n|
-        - n.link 'Rookie', url: '#upstart-rookie', status: :disabled, selector: 'upstart-rookie'
-        - n.link 'Expert', url: '#upstart-expert', status: :active, selector: 'upstart-expert'
-      %br
-      .tab-content
-        - bak_files = "#{ upstart_app_dir(@app.slug) }/*.bak-*"
-        = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
-
-        = panel tab: 'upstart-rookie' do
-          = f.input :log_file_path, placeholder: '/var/log/docker-manager.log'
-          = f.input :config_dir_path, placeholder: "$HOME/docker/docker-manager"
-          = f.input :compose_file, placeholder: "docker-compose.yml"
-
-        = panel status: :active, tab: 'upstart-expert' do
-          - file_path = "#{ upstart_app_dir(@app.slug) }/upstart.conf"
-          = "File: #{ file_path }"
-          - if File.exist?(file_path)
-            = f.input :compose, as: :text, label: false, input_html: { rows: 25, class: 'code', value: File.read(file_path) }
-          - else
-            %pre  No file exist
-
       %h2 Docker Compose
       = nav type: :tabs do |n|
-        - n.link 'Rookie', url: '#compose-rookie', status: :active, selector: 'compose-rookie'
-        - n.link 'Expert', url: '#compose-expert', selector: 'compose-expert'
+        - n.link 'Rookie', url: '#compose-rookie', selector: 'compose-rookie'
+        - n.link 'Expert', url: '#compose-expert', selector: 'compose-expert', status: :active
       %br
       .tab-content
         - bak_files = "#{ compose_app_dir(@app.slug) }/*.bak-*"
         = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
 
-        = panel status: :active, tab: 'compose-rookie' do
+        = panel tab: 'compose-rookie' do
           %h3 Container
           = panel do
             = f.input :container_name, label: 'Name', placeholder: 'eq. web'
@@ -49,7 +27,7 @@
             %br
 
           = link_to glyph_and_text('plus-circle', 'New container'), "#"
-        = panel tab: 'compose-expert' do
+        = panel tab: 'compose-expert', status: :active do
           - file_path = "#{ compose_app_dir(@app.slug) }/docker-compose.yml"
           = "File: #{ file_path }"
           - if File.exist?(file_path)

@@ -14,10 +14,10 @@ class App
   # Scopes
 
   # Constants
-  GLYPH = 'cube'
+  GLYPH = DockerManager::Application::Glyph::APP
 
   # Attr_accessor
-  attr_accessor :name, :description, :author, :ports, :image, :virtual_host
+  attr_accessor :name, :state, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file
   attr_reader   :slug
 
   # Associations
@@ -61,6 +61,21 @@ class App
 
   private
 
+  def upload_compose_file
+    dir_name = compose_app_dir(slug)
+    FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
+
+    File.open(compose_app_file(slug), 'wb') do |file|
+      file.write(compose_file.read)
+    end
+  end
+
+  # create or upload compose file
+  def generate_compose_file
+    ap compose_file.nil?
+    compose_file.nil? ? create_compose_file : upload_compose_file
+  end
+
   def generate_upstart_file
     dir_name = upstart_app_dir(slug)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
@@ -69,10 +84,10 @@ class App
       File.write(upstart_app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
     end
 
-    versioned upstart_app_file(slug)
+    #FileUtils::cp upstart_app_file(slug), "#{ INIT_DIR }/#{ slug }.conf"
   end
 
-  def generate_compose_file
+  def create_compose_file
     dir_name = compose_app_dir(slug)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 

@@ -1,5 +1,5 @@
 %h1= glyph_and_text App::GLYPH, "Apps listing"
-%br
+%p List of Apps in your server
 %br
 %br
 = button_link 'New App', state: :primary, glyph: 'plus-circle', url: new_app_path
@@ -9,11 +9,15 @@
   %tr
     %th Name
     %th Description
+    %th State
+    %th Created At
     %th Actions
   - @apps.each do |app|
     %tr
       %td= app.name
       %td= app.description
+      %td= app.state
+      %td= app.created_at
       %td
         = link_to glyph('pencil'), edit_app_path(app.slug)
         = link_to glyph('eye'), containers_path

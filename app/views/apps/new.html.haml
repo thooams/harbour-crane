@@ -16,9 +16,8 @@
   .ui-bibz-clear
 
   = panel tap: true do |p|
-    - p.header 'Input files'
+    - p.header 'Import files'
     - p.body do
       = f.input :compose_file, as: :file, hint: 'docker-compose.yml'
-      = f.input :upstart_file, as: :file, hint: 'upstart.conf'
 
   = f.submit :submit, class: 'btn btn-primary'

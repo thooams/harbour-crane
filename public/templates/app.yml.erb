@@ -4,4 +4,7 @@ app:
   author: <%= @app.author %>
   ports: <%= @app.ports %>
   image: <%= @app.image %>
+  created_at: <%= DateTime.current %>
   virtual_host: <%= @app.virtual_host %>
+  state: pending
+

@@ -35,6 +35,6 @@ class AppsController < ApplicationController
   private
 
   def app_params
-    params.require(:app).permit(:name, :description, :author, :image, :ports, :virtual_host)
+    params.require(:app).permit(:name, :description, :author, :image, :compose_file, :ports, :virtual_host)
   end
 end
