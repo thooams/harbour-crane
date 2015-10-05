@@ -1,7 +1,11 @@
 %h1= glyph_and_text DockerManager::Application::Glyph::APP, "New app"
 
 %br
-= simple_form_for :app do |f|
+= simple_form_for :app, url: apps_path, method: 'POST' do |f|
   = f.input :name
   = f.input :description
   = f.input :author
+  = f.input :ports
+  = f.input :image
+  = f.input :virtual_host
+  = f.submit :submit, class: 'btn btn-primary'

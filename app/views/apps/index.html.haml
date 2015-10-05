@@ -7,10 +7,12 @@
 %table.table
   %tr
     %th Name
+    %th Description
     %th Actions
   - @apps.each do |app|
     %tr
-      %td= app
+      %td= app.name
+      %td= app.description
       %td
         = link_to glyph('pencil'), edit_app_path(app)
         = link_to glyph('eye'), containers_path

@@ -1,8 +1,13 @@
+require 'yaml'
 class AppsController < ApplicationController
 
   def index
     #@apps = Dir.entries(DockerManager::Application::COMPOSE_FILE_DIR).reject{ |n| ['.', '..'].include?(n) }
-    @apps = %w(App1 App2)
+    #@apps = %w(App1 App2)
+    @apps = []
+    Dir.entries(DockerManager::Application::APP_DIR).reject{ |n| ['.', '..'].include?(n) }.each do |file|
+      @apps << OpenStruct.new(YAML.load(File.read("#{ DockerManager::Application::APP_DIR }/#{ file }/app.yml"))["app"])
+    end
   end
 
   def new
@@ -10,14 +15,15 @@ class AppsController < ApplicationController
 
   def create
     @app = App.new(app_params)
+    ap @app
 
     respond_to do |format|
-      if @app.save
-        format.html { redirect_to @brand, notice: 'Brand was successfully created.' }
-        format.json { render :show, status: :created, location: @brand }
+      if @app.generate
+        format.html { redirect_to @app, notice: 'Brand was successfully created.' }
+        format.json { render :show, status: :created, location: @app }
       else
         format.html { render :new }
-        format.json { render json: @brand.errors, status: :unprocessable_entity }
+        format.json { render json: @app.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -29,6 +35,6 @@ class AppsController < ApplicationController
   private
 
   def app_params
-    params.require(:app).permit(:name)
+    params.require(:app).permit(:name, :description, :author, :image, :ports, :virtual_host)
   end
 end

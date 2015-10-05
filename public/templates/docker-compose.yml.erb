@@ -1,0 +1,11 @@
+web:
+  image: <%= @app.image %>
+  ports:
+    - <%= @app.ports %>
+  volumes:
+    - <%= "/srv/docker/#{ @app.slug }/vol:/usr/src/app/public/system" %>
+    - <%= "/srv/docker/#{ @app.slug }/log:/usr/src/app/log" %>
+  environment:
+    RAILS_ENV: production
+    VIRTUAL_HOST: <%= @app.virtual_host %>
+    SECRET_KEY_BASE: 53f5f599e08171a3c8959d7b7caecf1fec5b5e14

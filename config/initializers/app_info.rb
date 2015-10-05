@@ -7,6 +7,7 @@ module DockerManager
     DOCKER_DIR       = "#{ ENV['HOME'] }/#{ SLUG }"
     COMPOSE_DIR      = "#{ DOCKER_DIR }/compose"
     UPSTART_DIR      = "#{ DOCKER_DIR }/upstart"
+    APP_DIR          = "#{ DOCKER_DIR }/app"
     VOLUME_DIR       = "/srv/docker"
     INIT_DIR         = "/etc/init"
 
