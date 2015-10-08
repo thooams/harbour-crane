@@ -15,11 +15,11 @@
   - @containers.each do |container|
     %tr
       %td= container.info["id"][0..12]
-      %td= container.info["Image"]
+      %td= display_image_name container.info["Image"]
       %td= container.info["Command"]
       %td= container.info["Created"]
       %td= container.info["Status"]
-      %td= container.info["Ports"].join(', ')
+      %td= display_ports_info container.info["Ports"]
       %td= container.info["Names"].join(', ')
       %td
         = link_to glyph('pencil'), edit_container_path(container.info["id"])

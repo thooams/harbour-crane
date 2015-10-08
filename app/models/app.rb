@@ -1,6 +1,6 @@
 require 'fileutils'
 class App
-  include ApplicationHelper
+  include PathHelper
   include ActiveModel::Validations
   include ActiveModel::Conversion
   extend ActiveModel::Naming
