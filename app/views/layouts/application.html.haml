@@ -6,7 +6,7 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    = navbar title: 'Docker Manager' do |nv|
+    = navbar title: HarbourCrane::Application::NAME do |nv|
       - nv.nav do |n|
         - n.link 'Apps', url: apps_path
         - n.link 'Images', url: images_path
