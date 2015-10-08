@@ -1,0 +1,9 @@
+%h1 Proxy configuration
+
+= simple_form_for :proxy do |f|
+  = panel do
+    - file_path = template_file('nginx.tmpl')
+    = "File: #{ file_path }"
+    - if File.exist?(file_path)
+      = f.input :proxy_configuration, as: :text, input_html: { rows: 25, class: 'code', value: File.read(file_path) }
+

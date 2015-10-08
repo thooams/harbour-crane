@@ -40,8 +40,7 @@
       - dir_path = "#{ DockerManager::Application::VOLUME_DIR }/#{ @app.slug }"
       - volumes = Dir.exist?(dir_path) ? Dir.entries(dir_path).reject{ |n| ['.', '..'].include?(n) } : []
       - volumes.each do |vol|
-        = f.input :volume, label: false, as: :extra_text, append: glyph('folder-open'), prepend: 'x', input_html: { value: "#{ dir_path }/#{ vol }" }, placeholder: 'eq. logs; infos/public'
-      = link_to glyph_and_text('plus-circle', 'New volume'), "#"
+        = f.input :volume, label: false, as: :extra_text, disabled: true, append: glyph('folder-open'), prepend: 'x', input_html: { value: "#{ dir_path }/#{ vol }" }, placeholder: 'eq. logs; infos/public'
 
 
 

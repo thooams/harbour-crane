@@ -10,6 +10,7 @@ module DockerManager
     APP_DIR          = "#{ DOCKER_DIR }/app"
     VOLUME_DIR       = "/srv/docker"
     INIT_DIR         = "/etc/init"
+    TEMPLATE_DIR     = "public/templates"
 
 
     class Glyph

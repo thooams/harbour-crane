@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
   get 'home/index'
+  get 'proxy/index' => 'proxy#index', as: :proxy
 
   resources :apps, param: :name
   resources :images
   resources :containers
+
   root 'home#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

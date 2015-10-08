@@ -50,9 +50,6 @@ class App
       # generate app conf
       generate_app_file
 
-      # create volumes
-      #generate_volumes
-
       true
     else
       false
@@ -72,7 +69,6 @@ class App
 
   # create or upload compose file
   def generate_compose_file
-    ap compose_file.nil?
     compose_file.nil? ? create_compose_file : upload_compose_file
   end
 
@@ -80,7 +76,7 @@ class App
     dir_name = upstart_app_dir(slug)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
-    File.open("public/templates/upstart.conf.erb",'r') do |f|
+    File.open(template_file('upstart.conf.erb'),'r') do |f|
       File.write(upstart_app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
     end
 
@@ -91,7 +87,7 @@ class App
     dir_name = compose_app_dir(slug)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
-    File.open("public/templates/docker-compose.yml.erb",'r') do |f|
+    File.open(template_file('docker-compose.yml.erb'),'r') do |f|
       File.write(compose_app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
     end
 
@@ -102,17 +98,11 @@ class App
     dir_name = app_dir(slug)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
-    File.open("public/templates/app.yml.erb",'r') do |f|
+    File.open(template_file('app.yml.erb'),'r') do |f|
       File.write(app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
     end
 
     versioned app_file(slug)
-  end
-
-  def generate_volumes
-    ["/srv/docker/#{ @app.slug }/vol", "/srv/docker/#{ @app.slug }/log"].each do |dir_name|
-      FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
-    end
   end
 
   def versioned file

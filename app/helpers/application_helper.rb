@@ -34,6 +34,11 @@ module ApplicationHelper
     "#{ app_dir(app_name) }/app.yml"
   end
 
+  # public/templates/file.erb
+  def template_file file_name
+    "#{ DockerManager::Application::TEMPLATE_DIR }/#{ file_name }"
+  end
+
   # /var/log/harbour-crane/app1.log
   def log_app_file app_name
     "/var/log/#{ DockerManager::Application::SLUG }/#{ app_name }.log"
