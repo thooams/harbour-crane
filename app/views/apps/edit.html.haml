@@ -1,4 +1,4 @@
-%h1= glyph_and_text DockerManager::Application::Glyph::APP, "Edit \"#{ @app.slug.titleize }\""
+%h1= glyph_and_text HarbourCrane::Application::Glyph::APP, "Edit \"#{ @app.slug.titleize }\""
 
 %br
 = simple_form_for :app do |f|
@@ -37,7 +37,7 @@
 
     = col num: 4 do
       %h2 Volumes
-      - dir_path = "#{ DockerManager::Application::VOLUME_DIR }/#{ @app.slug }"
+      - dir_path = "#{ HarbourCrane::Application::VOLUME_DIR }/#{ @app.slug }"
       - volumes = Dir.exist?(dir_path) ? Dir.entries(dir_path).reject{ |n| ['.', '..'].include?(n) } : []
       - volumes.each do |vol|
         = f.input :volume, label: false, as: :extra_text, disabled: true, append: glyph('folder-open'), prepend: 'x', input_html: { value: "#{ dir_path }/#{ vol }" }, placeholder: 'eq. logs; infos/public'

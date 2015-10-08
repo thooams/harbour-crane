@@ -14,7 +14,7 @@ class App
   # Scopes
 
   # Constants
-  GLYPH = DockerManager::Application::Glyph::APP
+  GLYPH = HarbourCrane::Application::Glyph::APP
 
   # Attr_accessor
   attr_accessor :name, :state, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file

@@ -1,4 +1,4 @@
-module DockerManager
+module HarbourCrane
   class Application
     VERSION          = '1.0.0.beta'
     NAME             = 'Harbour Crane'
