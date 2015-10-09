@@ -1,0 +1,12 @@
+%h2= @app.name
+= jumbotron do
+  %p
+    %strong Description:
+    = @app.description
+  %p
+    %strong State:
+    = @app.state
+  %p
+    %strong Created at:
+    = @app.created_at
+

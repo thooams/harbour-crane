@@ -4,8 +4,12 @@ class ContainerPresenter < ApplicationPresenter
     @containers = containers
   end
 
-  def render
+  def containers
     @containers.map{ |container| format_container(container) }
+  end
+
+  def container
+    format_container @containers
   end
 
   private

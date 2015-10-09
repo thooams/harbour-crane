@@ -19,6 +19,7 @@
       %td= app.state
       %td= app.created_at
       %td
+        = link_to glyph('refresh'), restart_app_path(app.slug)
         = link_to glyph('pencil'), edit_app_path(app.slug)
-        = link_to glyph('eye'), containers_path
+        = link_to glyph('eye'), app_path(app.slug)
         = link_to glyph('trash'), containers_path

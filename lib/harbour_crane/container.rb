@@ -26,7 +26,7 @@ module HarbourCrane
     end
 
     def short_id
-      info['id'][0..12]
+      id[0..12]
     end
 
     def status

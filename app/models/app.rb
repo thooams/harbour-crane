@@ -33,6 +33,16 @@ class App
     false
   end
 
+  def self.all
+    Dir.entries(HarbourCrane::Application::APP_DIR).reject{ |n| ['.', '..'].include?(n) }.map do |name|
+      self.find name
+    end
+  end
+
+  def self.find id
+    App.new(YAML.load(File.read("#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml"))["app"])
+  end
+
   def slug
     name.parameterize
   end

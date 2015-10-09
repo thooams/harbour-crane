@@ -11,11 +11,11 @@
     %th Actions
   - @images.each do |image|
     %tr
-      %td= image.info["id"][0..12]
-      %td= image.info["RepoTags"].join(', ')
-      %td= image.info["Created"]
-      %td= image.info["Size"]
+      %td= image.id
+      %td= image.names
+      %td= image.created_at
+      %td= image.size
       %td
-        = link_to glyph('pencil'), containers_path
-        = link_to glyph('eye'), containers_path
-        = link_to glyph('trash'), containers_path
+        - unless image.infos.proxy? || image.infos.administration?
+          = link_to glyph('eye'), image_path(image.infos.id)
+          = link_to glyph('trash'), image_path(image.infos.id), :method => :delete, :data => { :confirm => 'Are you sure?' }

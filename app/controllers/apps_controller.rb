@@ -2,10 +2,7 @@ require 'yaml'
 class AppsController < ApplicationController
 
   def index
-    @apps = []
-    Dir.entries(HarbourCrane::Application::APP_DIR).reject{ |n| ['.', '..'].include?(n) }.each do |file|
-      @apps << App.new(YAML.load(File.read("#{ HarbourCrane::Application::APP_DIR }/#{ file }/app.yml"))["app"])
-    end
+    @apps = App.all
   end
 
   def new
@@ -28,6 +25,10 @@ class AppsController < ApplicationController
 
   def edit
     @app = OpenStruct.new(slug: params[:name], name: params[:name].humanize, upstart_file_version: 2)
+  end
+
+  def show
+    @app = App.find(params[:name])
   end
 
   private

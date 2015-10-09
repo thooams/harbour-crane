@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'proxy/index' => 'proxy#index', as: :proxy
 
-  resources :apps, param: :name
+  resources :apps, param: :name do
+    member do
+      get :restart
+    end
+  end
   resources :images
   resources :containers
 

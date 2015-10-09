@@ -9,7 +9,7 @@
     %th Command
     %th Created at
     %th Status
-    %th Ports
+    %th.container_ports Ports
     %th Names
     %th Actions
   - @containers.each do |container|
@@ -23,6 +23,4 @@
       %td= container.names
       %td
         - unless container.infos.proxy? || container.infos.administration?
-          = link_to glyph('pencil'), edit_container_path(container.infos.id)
           = link_to glyph('eye'), container_path(container.infos.id)
-          = link_to glyph('trash'), container_path(container.infos.id)
