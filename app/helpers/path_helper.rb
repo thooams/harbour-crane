@@ -44,21 +44,4 @@ module PathHelper
     "/var/log/#{ HarbourCrane::Application::SLUG }/#{ app_name }.log"
   end
 
-  def version_array array
-    array.map do |name|
-      num = name.split('.bak-').last
-      ["version #{ num }", num]
-    end
-  end
-
-  def display_image_name name
-     case name
-     when 'jwilder/nginx-proxy'
-       "#{ name } #{ etiquette('Proxy', state: :danger) }".html_safe
-     when 'thooams/harbour-crane'
-      "#{ name } #{ etiquette('Admin', state: :primary) }".html_safe
-     else
-       name
-     end
-  end
 end

@@ -14,14 +14,15 @@
     %th Actions
   - @containers.each do |container|
     %tr
-      %td= container.info["id"][0..12]
-      %td= display_image_name container.info["Image"]
-      %td= container.info["Command"]
-      %td= container.info["Created"]
-      %td= container.info["Status"]
-      %td= display_ports_info container.info["Ports"]
-      %td= container.info["Names"].join(', ')
+      %td= container.id
+      %td= container.image_name
+      %td= container.command
+      %td= container.created_at
+      %td= container.status
+      %td= container.ports
+      %td= container.names
       %td
-        = link_to glyph('pencil'), edit_container_path(container.info["id"])
-        = link_to glyph('eye'), container_path(container.info["id"])
-        = link_to glyph('trash'), container_path(container.info["id"])
+        - unless container.infos.proxy? || container.infos.administration?
+          = link_to glyph('pencil'), edit_container_path(container.infos.id)
+          = link_to glyph('eye'), container_path(container.infos.id)
+          = link_to glyph('trash'), container_path(container.infos.id)

@@ -11,24 +11,4 @@ module ApplicationHelper
     end
   end
 
-  def display_image_name name
-     case name
-     when 'jwilder/nginx-proxy'
-       "#{ name } #{ etiquette('Proxy', state: :danger) }".html_safe
-     when 'thooams/harbour-crane'
-      "#{ name } #{ etiquette('Admin', state: :primary) }".html_safe
-     else
-       name
-     end
-  end
-
-  def is_proxy? container
-    'jwilder/nginx-proxy' == container.info["Image"]
-  end
-
-  def display_ports_info ports
-    ports.map do |port|
-      "#{ port['IP'] }:#{ port['PrivatePort']}->#{ port['PublicPort'] }/#{ port['Type']}"
-    end.join('<br/>').html_safe
-  end
 end
