@@ -1,19 +1,22 @@
-= jumbotron do
-  %h1=HarbourCrane::Application::NAME
-  %p= HarbourCrane::Application::DESCRIPTION
-  %p= "v#{ HarbourCrane::Application::VERSION }"
-  %br
-  %h2 Docker infos
-  = panel do
-    - Docker.version.each do |k,v|
-      %b= "#{ k }:"
-      = "#{ v }"
+- content_for :pageheader do
+  = col num: 6 do
+    = image_tag 'harbour-crane.png', width: 300
+  = col num: 6 do
+    = jumbotron do
+      %h1=HarbourCrane::Application::NAME
+      %p= HarbourCrane::Application::DESCRIPTION
+      %p= "v#{ HarbourCrane::Application::VERSION }"
       %br
+%h2 Docker infos
+= panel do
+  - Docker.version.each do |k,v|
+    %b= "#{ k }:"
+    = "#{ v }"
+    %br
 
-  %h2 Docker
-  = panel do
-    - Docker.info.each do |k,v|
-      %b= "#{ k }:"
-      = "#{ v }"
-      %br
-
+%h2 Docker
+= panel do
+  - Docker.info.each do |k,v|
+    %b= "#{ k }:"
+    = "#{ v }"
+    %br

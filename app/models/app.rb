@@ -5,6 +5,10 @@ class App
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
+  RUNNING = :running
+  STOPPED = :stopped
+  STATES  = [RUNNING, STOPPED]
+
   def initialize(attributes = {})
     attributes.each do |name, value|
       send("#{name}=", value)
@@ -17,13 +21,14 @@ class App
   GLYPH = HarbourCrane::Application::Glyph::APP
 
   # Attr_accessor
-  attr_accessor :name, :state, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file
+  attr_accessor :name, :state, :app, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file
   attr_reader   :slug
 
   # Associations
 
   # Validations
   validates :name, :ports, :virtual_host, :image, presence: true
+  #validates :name, uniqueness: true
 
   # Delegation
 
@@ -40,11 +45,47 @@ class App
   end
 
   def self.find id
-    App.new(YAML.load(File.read("#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml"))["app"])
+    App.new(YAML.load_file("#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml"))
   end
 
   def slug
     name.parameterize
+  end
+
+  def running?
+    state == RUNNING
+  end
+
+  def running!
+    update_attribute :state, RUNNING
+  end
+
+  def update_attribute att, value
+    h = YAML.load_file(app_file(slug))
+    h[att.to_s] = value
+    update
+  end
+
+  def update
+    File.open(app_file(slug),'w') do |h|
+      h.write self.to_yaml
+    end
+  end
+
+  def command action
+    system("sudo #{ action } #{ slug }")
+  end
+
+  def start
+    command 'start'
+  end
+
+  def stop
+    command 'stop'
+  end
+
+  def restart
+    command 'restart'
   end
 
   def generate
@@ -66,7 +107,12 @@ class App
     end
   end
 
+
   private
+
+  def app_file id
+    "#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml"
+  end
 
   def upload_compose_file
     dir_name = compose_app_dir(slug)
@@ -101,7 +147,7 @@ class App
       File.write(compose_app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
     end
 
-    versioned compose_app_file(slug)
+    #versioned compose_app_file(slug)
   end
 
   def generate_app_file
@@ -112,7 +158,7 @@ class App
       File.write(app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
     end
 
-    versioned app_file(slug)
+    #versioned app_file(slug)
   end
 
   def versioned file

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :apps, param: :name do
     member do
       get :restart
+      get :start
+      get :stop
     end
   end
   resources :images

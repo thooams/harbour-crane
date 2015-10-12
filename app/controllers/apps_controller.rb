@@ -1,6 +1,8 @@
 require 'yaml'
 class AppsController < ApplicationController
 
+  before_action :set_app, only: [:show, :start, :stop, :restart]
+
   def index
     @apps = App.all
   end
@@ -29,6 +31,27 @@ class AppsController < ApplicationController
 
   def show
     @app = App.find(params[:name])
+  end
+
+  def start
+    @app.start
+    respond_to do |format|
+      format.html { redirect_to apps_path, notice: 'App was successfully started.' }
+    end
+  end
+
+  def stop
+    @app.stop
+    respond_to do |format|
+      format.html { redirect_to apps_path, notice: 'App was successfully stopped.' }
+    end
+  end
+
+  def restart
+    @app.restart
+    respond_to do |format|
+      format.html { redirect_to apps_path, notice: 'App was successfully restarted.' }
+    end
   end
 
   private

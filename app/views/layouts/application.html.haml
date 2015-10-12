@@ -12,5 +12,15 @@
         - n.link 'Images', url: images_path
         - n.link 'Containers', url: containers_path
         - n.link 'Proxy', url: proxy_path
-    .container
-      = yield
+    - if controller_name == 'home'
+      .pageheader
+        .container
+          = yield :pageheader
+      .container
+        = yield
+    - else
+      .container
+        = yield
+
+
+

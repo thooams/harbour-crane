@@ -2,7 +2,7 @@ require 'docker'
 class ContainersController < ApplicationController
 
   def index
-    @containers = ContainerPresenter.new(HarbourCrane::Container.all).containers
+    @containers = ContainerPresenter.new(Container.all).containers
   end
 
   def edit
