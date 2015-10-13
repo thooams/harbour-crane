@@ -16,14 +16,14 @@
   - @apps.each do |app|
     %tr
       %td
-        = button_link '', { glyph: 'play', url: restart_app_path(app.slug), size: :lg, status: app.running? ? :disabled : :default }, { title: 'Start' }
-        = button_link '', { glyph: 'stop', url: restart_app_path(app.slug), size: :xs, status: app.running? ? :default : :disabled }, { title: 'Stop' }
-        = button_link '', { glyph: 'refresh', url: restart_app_path(app.slug), size: :xs, status: app.running? ? :default : :disabled }, { title: 'Restart' }
+        = button_link '', { glyph: 'play', url: start_app_path(app.id), size: :lg, status: app.running? ? :disabled : :default }, { title: 'Start' }
+        = button_link '', { glyph: 'stop', url: stop_app_path(app.id), size: :xs, status: app.running? ? :default : :disabled }, { title: 'Stop' }
+        = button_link '', { glyph: 'refresh', url: restart_app_path(app.id), size: :xs, status: app.running? ? :default : :disabled }, { title: 'Restart' }
       %td= app.name
       %td= app.description
       %td= app.state
       %td= app.created_at
       %td
-        = link_to glyph('pencil'), edit_app_path(app.slug)
-        = link_to glyph('eye'), app_path(app.slug)
+        = link_to glyph('pencil'), edit_app_path(app.id)
+        = link_to glyph('eye'), app_path(app.id)
         = link_to glyph('trash'), containers_path

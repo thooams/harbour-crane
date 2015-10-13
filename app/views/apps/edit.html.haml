@@ -1,4 +1,4 @@
-%h1= glyph_and_text HarbourCrane::Application::Glyph::APP, "Edit \"#{ @app.slug.titleize }\""
+%h1= glyph_and_text HarbourCrane::Application::Glyph::APP, "Edit \"#{ @app.name.titleize }\""
 
 %br
 = simple_form_for :app do |f|
@@ -10,7 +10,7 @@
         - n.link 'Expert', url: '#compose-expert', selector: 'compose-expert', status: :active
       %br
       .tab-content
-        - bak_files = "#{ compose_app_dir(@app.slug) }/*.bak-*"
+        - bak_files = "#{ compose_app_dir(@app.id) }/*.bak-*"
         = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
 
         = panel tab: 'compose-rookie' do
@@ -28,7 +28,7 @@
 
           = link_to glyph_and_text('plus-circle', 'New container'), "#"
         = panel tab: 'compose-expert', status: :active do
-          - file_path = "#{ compose_app_dir(@app.slug) }/docker-compose.yml"
+          - file_path = "#{ compose_app_dir(@app.id) }/docker-compose.yml"
           = "File: #{ file_path }"
           - if File.exist?(file_path)
             = f.input :docker_compose, as: :text, input_html: { rows: 25, class: 'code', value: File.read(file_path) }
@@ -37,7 +37,7 @@
 
     = col num: 4 do
       %h2 Volumes
-      - dir_path = "#{ HarbourCrane::Application::VOLUME_DIR }/#{ @app.slug }"
+      - dir_path = "#{ HarbourCrane::Application::VOLUME_DIR }/#{ @app.id }"
       - volumes = Dir.exist?(dir_path) ? Dir.entries(dir_path).reject{ |n| ['.', '..'].include?(n) } : []
       - volumes.each do |vol|
         = f.input :volume, label: false, as: :extra_text, disabled: true, append: glyph('folder-open'), prepend: 'x', input_html: { value: "#{ dir_path }/#{ vol }" }, placeholder: 'eq. logs; infos/public'

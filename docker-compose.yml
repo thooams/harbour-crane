@@ -4,9 +4,12 @@ web:
     - "3000:3000"
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
+    - /sbin/initctl:/sbin/initctl:ro
     - ~/docker/harbour-crane/app:/root/harbour-crane/app
     - /srv/docker/harbour-crane/log:/usr/src/app/log
     - /etc/init:/etc/init
+    - ~/Apps/harbour-crane:/usr/src/app
   environment:
-    RAILS_ENV: production
+    RAILS_ENV: development
+    #RAILS_ENV: production
     VIRTUAL_HOST: harbour-crane.com

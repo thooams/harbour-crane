@@ -22,7 +22,7 @@ class App
 
   # Attr_accessor
   attr_accessor :name, :id, :state, :app, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file
-  attr_reader   :slug
+  attr_reader   :slug, :upstart_name
 
   # Associations
 
@@ -45,11 +45,19 @@ class App
   end
 
   def self.find id
-    App.new(YAML.load_file("#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml"))
+    begin
+      App.new(YAML.load_file("#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml"))
+    rescue
+      nil
+    end
   end
 
   def slug
     name.parameterize
+  end
+
+  def upstart_name
+    "#{ slug }-#{ id }"
   end
 
   def running?
@@ -73,7 +81,7 @@ class App
   end
 
   def command action
-    system("sudo -A #{ action } #{ slug }")
+    system("sudo #{ action } #{ upstart_name }")
   end
 
   def start
@@ -101,7 +109,7 @@ class App
   def generate
     if self.valid?
       @app    = self
-      @app.id = generate_id
+      @app.id = generate_id if @app.id.nil?
 
       # generate upstart file and bak
       generate_upstart_file
@@ -140,14 +148,14 @@ class App
   end
 
   def generate_upstart_file
-    dir_name = upstart_app_dir(@app.id)
+    dir_name = upstart_app_dir(@app.upstart_name)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
     File.open(template_file('upstart.conf.erb'),'r') do |f|
-      File.write(upstart_app_file(@app.id), ERB.new(f.read).result(binding), mode: 'w')
+      File.write(upstart_app_file(@app.upstart_name), ERB.new(f.read).result(binding), mode: 'w')
     end
 
-    FileUtils::cp upstart_app_file(@app.id), "#{ HarbourCrane::Application::INIT_DIR }/#{ @app.id }.conf"
+    FileUtils::cp upstart_app_file(@app.upstart_name), "#{ HarbourCrane::Application::INIT_DIR }/#{ @app.upstart_name }.conf"
   end
 
   def create_compose_file

@@ -9,7 +9,7 @@ class Container < Docker::Container
   end
 
   def administration?
-    'thooams/harbour-crane' == image_name
+    ['thooams/harbour-crane', 'harbour_crane:latest'].include?(image_name)
   end
 
   def image_name

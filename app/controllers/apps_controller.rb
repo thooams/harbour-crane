@@ -35,6 +35,7 @@ class AppsController < ApplicationController
 
   def start
     @app.start
+
     respond_to do |format|
       format.html { redirect_to apps_path, notice: 'App was successfully started.' }
     end
@@ -55,6 +56,10 @@ class AppsController < ApplicationController
   end
 
   private
+
+  def set_app
+    @app = App.find(params[:name])
+  end
 
   def app_params
     params.require(:app).permit(:name, :description, :author, :image, :compose_file, :ports, :virtual_host)
