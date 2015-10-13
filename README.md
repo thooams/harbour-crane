@@ -1,4 +1,5 @@
 # Harbour Crane
 Manage you apps through Docker containers.
 
-![habour crane]([app/assets/images/habour-crane.png)
+![habour
+crane]([https://raw.githubusercontent.com/thooams/harbour-crane/master/app/assets/images/harbour-crane.png]
