@@ -1,9 +1,5 @@
 module PathHelper
 
-  def glyph_and_text glyph_args, text
-    "#{ glyph glyph_args } #{ text }".html_safe
-  end
-
   # ~/harbour-crane/compose/app1/
   def compose_app_dir app_name
     "#{ HarbourCrane::Application::COMPOSE_DIR }/#{ app_name }"

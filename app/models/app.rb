@@ -21,7 +21,7 @@ class App
   GLYPH = HarbourCrane::Application::Glyph::APP
 
   # Attr_accessor
-  attr_accessor :name, :state, :app, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file
+  attr_accessor :name, :id, :state, :app, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file
   attr_reader   :slug
 
   # Associations
@@ -73,7 +73,7 @@ class App
   end
 
   def command action
-    system("sudo #{ action } #{ slug }")
+    system("sudo -A #{ action } #{ slug }")
   end
 
   def start
@@ -88,9 +88,20 @@ class App
     command 'restart'
   end
 
+  def destroy
+    destroy_upstart_file
+    destroy_compose_file
+    destroy_app_file
+  end
+
+  def generate_id
+    SecureRandom.hex(10)
+  end
+
   def generate
     if self.valid?
-      @app = self
+      @app    = self
+      @app.id = generate_id
 
       # generate upstart file and bak
       generate_upstart_file
@@ -115,10 +126,10 @@ class App
   end
 
   def upload_compose_file
-    dir_name = compose_app_dir(slug)
+    dir_name = compose_app_dir(@app.id)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
-    File.open(compose_app_file(slug), 'wb') do |file|
+    File.open(compose_app_file(id), 'wb') do |file|
       file.write(compose_file.read)
     end
   end
@@ -129,36 +140,53 @@ class App
   end
 
   def generate_upstart_file
-    dir_name = upstart_app_dir(slug)
+    dir_name = upstart_app_dir(@app.id)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
     File.open(template_file('upstart.conf.erb'),'r') do |f|
-      File.write(upstart_app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
+      File.write(upstart_app_file(@app.id), ERB.new(f.read).result(binding), mode: 'w')
     end
 
-    #FileUtils::cp upstart_app_file(slug), "#{ INIT_DIR }/#{ slug }.conf"
+    FileUtils::cp upstart_app_file(@app.id), "#{ HarbourCrane::Application::INIT_DIR }/#{ @app.id }.conf"
   end
 
   def create_compose_file
-    dir_name = compose_app_dir(slug)
+    dir_name = compose_app_dir(@app.id)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
     File.open(template_file('docker-compose.yml.erb'),'r') do |f|
-      File.write(compose_app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
+      File.write(compose_app_file(@app.id), ERB.new(f.read).result(binding), mode: 'w')
     end
 
-    #versioned compose_app_file(slug)
+    #versioned compose_app_file(id)
   end
 
   def generate_app_file
-    dir_name = app_dir(slug)
+    dir_name = app_dir(@app.id)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
     File.open(template_file('app.yml.erb'),'r') do |f|
-      File.write(app_file(slug), ERB.new(f.read).result(binding), mode: 'w')
+      File.write(app_file(@app.id), ERB.new(f.read).result(binding), mode: 'w')
     end
 
-    #versioned app_file(slug)
+    #versioned app_file(id)
+  end
+
+  def destroy_app_file
+    destroy_file app_dir(id)
+  end
+
+  def destroy_file dir_name
+    File.delete(dir_name) unless File.exists?(dir_name)
+  end
+
+  def destroy_upstart_file
+    stop
+    destroy_file upstart_app_dir(id)
+  end
+
+  def destroy_compose_file
+    destroy_file compose_app_dir(id)
   end
 
   def versioned file

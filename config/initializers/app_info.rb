@@ -15,8 +15,8 @@ module HarbourCrane
 
     class Glyph
       # Glyphs
-      APP       = 'cube'
-      CONTAINER = 'cloud'
+      CONTAINER = 'cube'
+      APP       = 'cloud'
       IMAGE     = 'camera'
     end
   end

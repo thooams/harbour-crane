@@ -3,8 +3,8 @@ web:
   ports:
     - <%= @app.ports %>
   volumes:
-    - <%= "/srv/docker/#{ @app.slug }/vol:/usr/src/app/public/system" %>
-    - <%= "/srv/docker/#{ @app.slug }/log:/usr/src/app/log" %>
+    - <%= "/srv/docker/#{ @app.id }/vol:/usr/src/app/public/system" %>
+    - <%= "/srv/docker/#{ @app.id }/log:/usr/src/app/log" %>
   environment:
     RAILS_ENV: production
     VIRTUAL_HOST: <%= @app.virtual_host %>
