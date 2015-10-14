@@ -64,24 +64,23 @@ class App
     state == RUNNING
   end
 
+  # Force state in running
   def running!
     update_attribute :state, RUNNING
   end
 
+  # Update an attribute
   def update_attribute att, value
     h = YAML.load_file(app_file(slug))
     h[att.to_s] = value
     update
   end
 
+  # Update complete file app.yml file
   def update
     File.open(app_file(slug),'w') do |h|
       h.write self.to_yaml
     end
-  end
-
-  def command action
-    system("sudo #{ action } #{ upstart_name }")
   end
 
   def start
@@ -129,6 +128,11 @@ class App
 
   private
 
+  def command action
+    ap "sudo #{ action } #{ upstart_name }"
+    system("sudo #{ action } #{ upstart_name }")
+  end
+
   def app_file id
     "#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml"
   end
@@ -148,14 +152,14 @@ class App
   end
 
   def generate_upstart_file
-    dir_name = upstart_app_dir(@app.upstart_name)
+    dir_name = upstart_app_dir(id)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
     File.open(template_file('upstart.conf.erb'),'r') do |f|
-      File.write(upstart_app_file(@app.upstart_name), ERB.new(f.read).result(binding), mode: 'w')
+      File.write(upstart_app_file(@app.id), ERB.new(f.read).result(binding), mode: 'w')
     end
 
-    FileUtils::cp upstart_app_file(@app.upstart_name), "#{ HarbourCrane::Application::INIT_DIR }/#{ @app.upstart_name }.conf"
+    FileUtils::cp upstart_app_file(@app.id), init_upstart_file(@app.upstart_name)
   end
 
   def create_compose_file
@@ -181,20 +185,20 @@ class App
   end
 
   def destroy_app_file
-    destroy_file app_dir(id)
+    FileUtils.remove_dir(app_dir(id))
   end
 
-  def destroy_file dir_name
-    File.delete(dir_name) unless File.exists?(dir_name)
+  def destroy_file path_file
+    File.delete(path_file) if File.exists?(path_file)
   end
 
   def destroy_upstart_file
     stop
-    destroy_file upstart_app_dir(id)
+    destroy_file init_upstart_file(upstart_name)
   end
 
   def destroy_compose_file
-    destroy_file compose_app_dir(id)
+    destroy_file compose_app_file(id)
   end
 
   def versioned file

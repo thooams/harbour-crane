@@ -40,4 +40,9 @@ module PathHelper
     "/var/log/#{ HarbourCrane::Application::SLUG }/#{ app_name }.log"
   end
 
+  # /etc/init/app1-1b155e45b4.conf
+  def init_upstart_file app_name
+    "#{ HarbourCrane::Application::INIT_DIR }/#{ app_name }.conf"
+  end
+
 end

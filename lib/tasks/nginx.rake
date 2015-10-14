@@ -1,6 +1,7 @@
 desc "Create App server Nginx"
 task nginx: :environment do
   id   = "8709f9ec7fc18331549f"
+
   @app = App.find(id)
 
   if @app.nil?
@@ -11,7 +12,7 @@ task nginx: :environment do
       author:       'Thomas HUMMEL',
       ports:        '80:80;443:443',
       image:        'jwilder/nginx-proxy',
-      virtual_host: nil
+      virtual_host: 'nginx'
     })
 
     @app.generate
@@ -19,3 +20,4 @@ task nginx: :environment do
 
   @app.start
 end
+

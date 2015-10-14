@@ -26,4 +26,4 @@
       %td
         = link_to glyph('pencil'), edit_app_path(app.id)
         = link_to glyph('eye'), app_path(app.id)
-        = link_to glyph('trash'), containers_path
+        = link_to glyph('trash'), app_path(app.id), :method => :delete, :data => { :confirm => 'Are you sure?' }

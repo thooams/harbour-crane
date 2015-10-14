@@ -31,6 +31,7 @@ gem 'ui_bibz', '~> 1.2.2'
 
 gem 'simple_form'
 
+gem 'awesome_print'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -47,7 +48,6 @@ group :development, :test do
   # Better errors extensions
   gem "binding_of_caller"
 
-  gem 'awesome_print'
 
   gem 'rails-footnotes', '~> 4.0'
 

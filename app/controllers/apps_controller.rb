@@ -1,7 +1,7 @@
 require 'yaml'
 class AppsController < ApplicationController
 
-  before_action :set_app, only: [:show, :start, :stop, :restart]
+  before_action :set_app, only: [:show, :start, :stop, :destroy, :restart]
 
   def index
     @apps = App.all
@@ -16,10 +16,10 @@ class AppsController < ApplicationController
 
     respond_to do |format|
       if @app.generate
-        format.html { redirect_to @app, notice: 'Brand was successfully created.' }
+        format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render :show, status: :created, location: @app }
       else
-        format.html { render :new }
+        format.html { render :new, notice: @app.errors.full_messages.to_sentence }
         format.json { render json: @app.errors, status: :unprocessable_entity }
       end
     end
@@ -52,6 +52,13 @@ class AppsController < ApplicationController
     @app.restart
     respond_to do |format|
       format.html { redirect_to apps_path, notice: 'App was successfully restarted.' }
+    end
+  end
+
+  def destroy
+    @app.destroy
+    respond_to do |format|
+      format.html { redirect_to apps_path, notice: 'App was successfully deleted.' }
     end
   end
 

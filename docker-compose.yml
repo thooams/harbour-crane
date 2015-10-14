@@ -3,11 +3,17 @@ web:
   ports:
     - "3000:3000"
   volumes:
+    # for system
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /sbin/initctl:/sbin/initctl:ro
-    - ~/docker/harbour-crane/app:/root/harbour-crane/app
-    - /srv/docker/harbour-crane/log:/usr/src/app/log
     - /etc/init:/etc/init
+    - /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
+    # for save
+    - /root/harbour-crane/app:/root/harbour-crane/app
+    - /root/harbour-crane/compose:/root/harbour-crane/compose
+    - /root/harbour-crane/upstart:/root/harbour-crane/upstart
+    - /srv/docker/harbour-crane/log:/usr/src/app/log
+    # for development
     - ~/Apps/harbour-crane:/usr/src/app
   environment:
     RAILS_ENV: development
