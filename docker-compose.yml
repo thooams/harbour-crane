@@ -5,8 +5,8 @@ web:
   volumes:
     # for system
     - /var/run/docker.sock:/var/run/docker.sock:ro
-    - /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
-    - /etc/init:/etc/init
+    #- /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
+    #- /etc/init:/etc/init
     # for save
     - /root/harbour-crane/app:/root/harbour-crane/app
     - /root/harbour-crane/compose:/root/harbour-crane/compose

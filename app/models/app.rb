@@ -21,7 +21,7 @@ class App
   GLYPH = HarbourCrane::Application::Glyph::APP
 
   # Attr_accessor
-  attr_accessor :name, :id, :state, :app, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file
+  attr_accessor :name, :id, :state, :app, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file, :volumes
   attr_reader   :slug, :upstart_name
 
   # Associations
@@ -178,8 +178,10 @@ class App
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
     File.open(template_file('docker-compose.yml.erb'),'r') do |f|
-      File.write(compose_app_file(@app.id), ERB.new(f.read).result(binding), mode: 'w')
+      File.write(compose_app_file(@app.id), ERB.new(f.read, nil, '-').result(binding), mode: 'w')
     end
+
+    puts File.read(compose_app_file(@app.id))
 
     #versioned compose_app_file(id)
   end

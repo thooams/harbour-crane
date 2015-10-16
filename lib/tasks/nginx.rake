@@ -12,7 +12,8 @@ task nginx: :environment do
       author:       'Thomas HUMMEL',
       ports:        '80:80;443:443',
       image:        'jwilder/nginx-proxy',
-      virtual_host: 'nginx'
+      virtual_host: 'nginx',
+      volumes:      '/var/run/docker.sock:/tmp/docker.sock:ro;/srv/docker/nginx/nginx.tmpl:/app/nginx.tmpl:ro;/etc/nginx/ssl:/etc/nginx/certs:ro'
     })
 
     @app.generate
