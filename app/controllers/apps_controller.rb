@@ -34,10 +34,12 @@ class AppsController < ApplicationController
   end
 
   def start
-    @app.start
-
     respond_to do |format|
-      format.html { redirect_to apps_path, notice: 'App was successfully started.' }
+      if @app.start
+        format.html { redirect_to apps_path, notice: 'App was successfully started.' }
+      else
+        format.html { redirect_to apps_path, notice: @app.errors.full_messages.to_sentence }
+      end
     end
   end
 

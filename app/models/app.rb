@@ -84,7 +84,10 @@ class App
   end
 
   def start
-    command 'start'
+    #command 'start'
+    fu = "COMPOSE_FILE=#{ compose_app_file(id) } /usr/local/bin/docker-compose up"
+    ap fu
+    system(fu)
   end
 
   def stop
@@ -129,8 +132,16 @@ class App
   private
 
   def command action
-    ap "sudo #{ action } #{ upstart_name }"
-    system("sudo #{ action } #{ upstart_name }")
+    func = "#{ action } #{ upstart_name }"
+    ap func
+    #system("sudo #{ action } #{ upstart_name }")
+    if system(func)
+      ap 'ca fonctionne'
+      true
+    else
+      ap 'ca fonctionne po !!'
+      errors.add(:system, "Command system '#{ func }' fail")
+    end
   end
 
   def app_file id

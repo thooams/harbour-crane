@@ -13,7 +13,7 @@ end script
 
 script
   cd $CONFIG_DIR
-  COMPOSE_FILE=docker-compose.yml /usr/local/bin/docker-compose up
+  COMPOSE_FILE=docker-compose.yml /usr/local/bin/docker-compose up -d
 end script
 
 pre-stop script
