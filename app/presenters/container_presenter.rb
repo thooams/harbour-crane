@@ -52,7 +52,12 @@ class ContainerPresenter < ApplicationPresenter
   end
 
   def format_names container
-    container.names.join('<br/>').html_safe
+    if container.names.count > 2
+      container_names = container.names.join('; ')
+      content_tag :span, container.names[0..1].push('...').join('<br/>').html_safe, title: container_names
+    else
+      container.names.join('<br/>').html_safe
+    end
   end
 
 end

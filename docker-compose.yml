@@ -12,6 +12,8 @@ web:
     - /root/harbour-crane/compose:/root/harbour-crane/compose
     - /root/harbour-crane/upstart:/root/harbour-crane/upstart
     - /srv/docker/harbour-crane/log:/usr/src/app/log
+    # for debugging
+    - /srv/docker/nginx/nginx.tmpl:/srv/docker/nginx/nginx.tmpl
     # for development
     - ~/Apps/harbour-crane:/usr/src/app
   environment:

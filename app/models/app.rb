@@ -85,6 +85,7 @@ class App
 
   def start
     #command 'start'
+    system("COMPOSE_FILE=#{ compose_app_file(id) } /usr/local/bin/docker-compose rm --force")
     fu = "COMPOSE_FILE=#{ compose_app_file(id) } /usr/local/bin/docker-compose up"
     ap fu
     system(fu)

@@ -10,8 +10,15 @@ Rails.application.routes.draw do
       get :stop
     end
   end
+
   resources :images
-  resources :containers
+
+  resources :containers do
+    member do
+      get :restart
+      get :stop
+    end
+  end
 
   root 'home#index'
 
