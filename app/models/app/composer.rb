@@ -56,15 +56,11 @@ module App::Composer
     dir_name = compose_app_dir(@app.id)
     FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
 
-    ap @app
-    ap compose_app_file(@app.id)
     File.open(template_file('docker-compose.yml.erb'),'r') do |f|
-      ap f.read
-      ap ERB.new(f.read, nil, '-').result(binding)
       File.write(compose_app_file(@app.id), ERB.new(f.read, nil, '-').result(binding), mode: 'w')
     end
 
-    puts File.read(compose_app_file(@app.id))
+    #puts File.read(compose_app_file(@app.id))
 
     #versioned compose_app_file(id)
   end

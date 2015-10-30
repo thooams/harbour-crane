@@ -1,19 +1,25 @@
 module App::Action
 
   def start
-    #command 'start'
-    system("COMPOSE_FILE=#{ compose_app_file(id) } /usr/local/bin/docker-compose rm --force")
-    fu = "COMPOSE_FILE=#{ compose_app_file(id) } /usr/local/bin/docker-compose up"
-    ap fu
-    system(fu)
+    rm
+    system("#{ docker_compose_action } up -d")
+    running!
   end
 
   def stop
-    command 'stop'
+    system("#{ docker_compose_action } stop")
+    stopped!
+  end
+
+  def rm
+    system("#{ docker_compose_action } rm --force")
   end
 
   def restart
-    command 'restart'
+    stop
+    stopped!
+    start
+    running!
   end
 
   def destroy
@@ -24,17 +30,8 @@ module App::Action
 
   private
 
-  def command action
-    func = "#{ action } #{ upstart_name }"
-    ap func
-    #system("sudo #{ action } #{ upstart_name }")
-    if system(func)
-      ap 'ca fonctionne'
-      true
-    else
-      ap 'ca fonctionne po !!'
-      errors.add(:system, "Command system '#{ func }' fail")
-    end
+  def docker_compose_action
+    "COMPOSE_FILE=#{ compose_app_file(id) } /usr/local/bin/docker-compose"
   end
 
 end

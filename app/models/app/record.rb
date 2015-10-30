@@ -13,7 +13,7 @@ module App::Record
 
     def self.find id
       begin
-        App.new(YAML.load_file("#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml"))
+        YAML.load_file("#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml")
       rescue
         nil
       end
@@ -34,20 +34,24 @@ module App::Record
 
   # Update an attribute
   def update_attribute att, value
-    h = YAML.load_file(app_file(slug))
-    h[att.to_s] = value
+    send("#{att}=", value)
+
     update
   end
 
   # Update complete file app.yml file
   def update
-    File.open(app_file(slug),'w') do |h|
+    File.open(app_file(id),'w') do |h|
       h.write self.to_yaml
     end
   end
 
   def generate_id
     SecureRandom.hex(10)
+  end
+
+  def app_file id
+    "#{ HarbourCrane::Application::APP_DIR }/#{ id }/app.yml"
   end
 
 end

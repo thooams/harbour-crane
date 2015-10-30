@@ -5,8 +5,10 @@ web:
   <%= "- #{ port.strip }" %>
   <% end -%>
 volumes:
+  <% if @app.volumes -%>
   <% @app.volumes.split(';').each do |vol| -%>
   <%= "- #{ vol.strip }" %>
+  <% end -%>
   <% end -%>
   - <%= "/srv/docker/#{ @app.id }/vol:/usr/src/app/public/system" %>
     - <%= "/srv/docker/#{ @app.id }/log:/usr/src/app/log" %>

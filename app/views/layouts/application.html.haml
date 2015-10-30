@@ -14,6 +14,8 @@
         - n.link 'Apps', url: apps_path
         - n.link 'Images', url: images_path
         - n.link 'Containers', url: containers_path
+        - n.link 'Databases', url: '#database', status: :disabled
+        - n.link 'Store', url: '#store', status: :disabled
         - n.link 'Proxy', url: proxy_path
     - if controller_name == 'home'
       .pageheader

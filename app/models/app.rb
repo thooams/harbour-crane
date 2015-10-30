@@ -54,4 +54,8 @@ class App
     update_attribute :state, RUNNING
   end
 
+  def stopped!
+    update_attribute :state, STOPPED
+  end
+
 end
