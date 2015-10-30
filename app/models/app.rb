@@ -1,23 +1,13 @@
 require 'fileutils'
-class App
+class App < HcRecord
   include PathHelper
   include ActiveModel::Validations
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  include App::Record
+  include App::State
   include App::Action
   include App::Composer
-
-  RUNNING = :running
-  STOPPED = :stopped
-  STATES  = [RUNNING, STOPPED]
-
-  def initialize(attributes = {})
-    attributes.each do |name, value|
-      send("#{name}=", value)
-    end
-  end
 
   # Scopes
 
@@ -37,25 +27,16 @@ class App
   # Delegation
 
   # Methods
+  def path
+    HarbourCrane::Application::APP_DIR
+  end
+
   def slug
     name.parameterize
   end
 
   def upstart_name
     "#{ slug }-#{ id }"
-  end
-
-  def running?
-    state == RUNNING
-  end
-
-  # Force state in running
-  def running!
-    update_attribute :state, RUNNING
-  end
-
-  def stopped!
-    update_attribute :state, STOPPED
   end
 
 end

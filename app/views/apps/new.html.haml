@@ -16,6 +16,10 @@
         %option{ value: image.names.join(', ') }
     = f.input :virtual_host, placeholder: 'myapp.domain.com'
 
+  = col num: 12 do
+    = f.input :database, as: :select, collection: Database.All
+
+
   .ui-bibz-clear
 
   = panel tap: true do |p|

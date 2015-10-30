@@ -18,6 +18,7 @@ module HarbourCrane
       CONTAINER = 'cube'
       APP       = 'cloud'
       IMAGE     = 'camera'
+      DATABASE  = 'database'
     end
   end
 
