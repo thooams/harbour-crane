@@ -4,31 +4,48 @@ class AppTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
-
-  test 'create App' do
-    @app = App.new({
+  #
+  def setup
+    @app = App.create!({
       name:          'My App',
+      slug:          'my-app',
       description:   'My first App',
       author:        'John Doe',
       ports:         '3001:3000',
       image:         'test/test',
       virtual_host:  'my-app.test.com'
     })
+    @compose_file = @app.compose_app_file(@app.slug)
+  end
 
-    @app.generate
+  test 'Create app' do
+    actual   = @app.attributes.except(*%w(created_at updated_at))
+    expected = {"id"=>1, "name"=>"My App", "ports"=>"3001:3000", "volumes"=>nil, "slug"=>"my-app", "state"=>"stopped", "author"=>"John Doe", "description"=>"My first App", "image"=>"test/test", "app_type"=>nil, "virtual_host"=>"my-app.test.com"}
+    assert_equal expected, actual
+  end
 
-    assert File.exists?(@app.compose_app_dir(@app.slug))
-    assert File.exists?(@app.upstart_app_dir(@app.slug))
-    assert File.exists?(@app.app_dir(@app.slug))
+  test 'Create compose file' do
+    actual   = File.read(@compose_file)
+    expected = "web:
+  image: test/test
+  ports:
+    - 3001:3000
+  volumes:
+    - /srv/docker/1/vol:/usr/src/app/public/system
+    - /srv/docker/1/log:/usr/src/app/log
+  environment:
+    RAILS_ENV: production
+    VIRTUAL_HOST: my-app.test.com
+    SECRET_KEY_BASE: 53f5f599e08171a3c8959d7b7caecf1fec5b5e14
+"
+    assert File.exists?(@compose_file)
+    assert_equal expected, actual
   end
 
 
-  #test 'remove App' do
-  #  @app = App.find 'my-app'
-  #  @app.destroy
+  test 'Remove App' do
+    @app.destroy
 
-  #  assert !File.exists?(@app.compose_app_dir(@app.slug)), 'File exist'
-  #  assert !File.exists?(@app.upstart_app_dir(@app.slug))
-  #  assert !File.exists?(@app.app_dir(@app.slug))
-  #end
+    assert !File.exists?(@compose_file), 'File exist'
+  end
 end

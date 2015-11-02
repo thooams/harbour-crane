@@ -8,14 +8,13 @@ web:
     #- /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
     #- /etc/init:/etc/init
     # for save
-    - /root/harbour-crane/app:/root/harbour-crane/app
     - /root/harbour-crane/compose:/root/harbour-crane/compose
-    - /root/harbour-crane/upstart:/root/harbour-crane/upstart
     - /srv/docker/harbour-crane/log:/usr/src/app/log
     # for debugging
     - /srv/docker/nginx/nginx.tmpl:/srv/docker/nginx/nginx.tmpl
     # for development
     - ~/Apps/harbour-crane:/usr/src/app
+    - /root/harbour-crane/development.sqlite3:/root/harbour-crane/development.sqlite3
   environment:
     RAILS_ENV: development
     #RAILS_ENV: production

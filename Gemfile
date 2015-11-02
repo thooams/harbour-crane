@@ -31,6 +31,8 @@ gem 'ui_bibz', '~> 1.2.2'
 
 gem 'simple_form'
 
+gem 'aasm', '~> 4.4', '>= 4.4.1'
+
 gem 'awesome_print'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

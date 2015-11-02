@@ -1,12 +1,16 @@
 %h1= glyph_and_text HarbourCrane::Application::Glyph::APP, "New app"
 
-%br
-= simple_form_for @app, url: apps_path, method: 'POST' do |f|
-  = f.input :name, placeholder: 'My app name'
-  = f.input :description, as: :text, placeholder: 'My description'
+= simple_form_for @app do |f|
+  = col num: 6 do
+    = f.input :name, placeholder: 'My app name'
+  = col num: 6 do
+    = f.input :slug, placeholder: 'my-app-name'
+  = col num: 12 do
+    = f.input :description, as: :text, placeholder: 'My description'
 
   = col num: 6 do
     = f.input :author, placeholder: 'Harbour Crane'
+  = col num: 6 do
     = f.input :ports, placeholder: '3001:3000', readonly: true, input_html: { value: "#{ 3000 + App.all.count + 1 }:3000" }
 
   = col num: 6 do
@@ -14,13 +18,15 @@
     %datalist{ id: 'toto'}
       - Image.all.each do |image|
         %option{ value: image.names.join(', ') }
+  = col num: 6 do
     = f.input :virtual_host, placeholder: 'myapp.domain.com'
 
   .ui-bibz-clear
 
-  = panel tap: true do |p|
-    - p.header 'Import files'
-    - p.body do
-      = f.input :compose_file, as: :file, hint: 'docker-compose.yml'
+  = col num: 12 do
+    = panel tap: true do |p|
+      - p.header 'Import files'
+      - p.body do
+        = f.input :compose_file, as: :file, hint: 'docker-compose.yml'
 
   = f.submit :submit, class: 'btn btn-primary'

@@ -15,7 +15,7 @@ class AppsController < ApplicationController
     @app = App.new(app_params)
 
     respond_to do |format|
-      if @app.generate
+      if @app.save
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render :show, status: :created, location: @app }
       else
@@ -67,10 +67,10 @@ class AppsController < ApplicationController
   private
 
   def set_app
-    @app = App.find(params[:name])
+    @app = App.find(params[:id])
   end
 
   def app_params
-    params.require(:app).permit(:name, :description, :author, :image, :compose_file, :ports, :virtual_host)
+    params.require(:app).permit(:name, :description, :slug, :author, :image, :compose_file, :ports, :virtual_host)
   end
 end

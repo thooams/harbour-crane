@@ -1,61 +1,29 @@
-require 'fileutils'
-class App
-  include PathHelper
-  include ActiveModel::Validations
-  include ActiveModel::Conversion
-  extend ActiveModel::Naming
-
-  include App::Record
-  include App::Action
+class App < ActiveRecord::Base
+  include App::AASM
   include App::Composer
 
-  RUNNING = :running
-  STOPPED = :stopped
-  STATES  = [RUNNING, STOPPED]
-
-  def initialize(attributes = {})
-    attributes.each do |name, value|
-      send("#{name}=", value)
-    end
-  end
+  #include App::Record
 
   # Scopes
+
+  # Callbacks
+  after_create   :generate_compose_file
+  before_destroy :destroy_compose_file
 
   # Constants
   GLYPH = HarbourCrane::Application::Glyph::APP
 
   # Attr_accessor
-  attr_accessor :name, :id, :state, :app, :description, :author, :ports, :image, :virtual_host, :created_at, :compose_file, :volumes
-  attr_reader   :slug, :upstart_name
+  attr_accessor :compose_file
 
   # Associations
 
   # Validations
-  validates :name, :ports, :virtual_host, :image, presence: true
-  #validates :name, uniqueness: true
+  validates :name, :slug, :ports, :virtual_host, :image, presence: true
+  validates :slug, uniqueness: true
 
   # Delegation
 
   # Methods
-  def slug
-    name.parameterize
-  end
-
-  def upstart_name
-    "#{ slug }-#{ id }"
-  end
-
-  def running?
-    state == RUNNING
-  end
-
-  # Force state in running
-  def running!
-    update_attribute :state, RUNNING
-  end
-
-  def stopped!
-    update_attribute :state, STOPPED
-  end
 
 end
