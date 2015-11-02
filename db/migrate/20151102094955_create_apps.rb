@@ -5,11 +5,11 @@ class CreateApps < ActiveRecord::Migration
       t.text   :ports
       t.text   :volumes
       t.string :slug
-      t.string :state, default: :stopped #App::STOPPED
+      t.integer :state, default: App.states[:stopped]
       t.string :author
       t.text   :description
       t.string :image
-      t.string :app_type
+      t.integer:category, default: App.categories[:web]
       t.string :virtual_host
 
       t.timestamps null: false

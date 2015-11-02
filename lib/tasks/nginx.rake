@@ -9,7 +9,7 @@ task nginx: :environment do
     ports:        '80:80;443:443',
     image:        'jwilder/nginx-proxy',
     virtual_host: 'nginx',
-    app_type:     :proxy,
+    category:     :proxy,
     volumes:      '/var/run/docker.sock:/tmp/docker.sock:ro;/srv/docker/nginx/nginx.tmpl:/app/nginx.tmpl:ro;/etc/nginx/ssl:/etc/nginx/certs:ro'
   }).first_or_create!
 

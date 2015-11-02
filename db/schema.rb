@@ -18,14 +18,14 @@ ActiveRecord::Schema.define(version: 20151102094955) do
     t.text     "ports"
     t.text     "volumes"
     t.string   "slug"
-    t.string   "state",        default: "stopped"
+    t.integer  "state",        default: 0
     t.string   "author"
     t.text     "description"
     t.string   "image"
-    t.string   "app_type"
+    t.integer  "category",     default: 2
     t.string   "virtual_host"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
 end

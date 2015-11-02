@@ -4,15 +4,16 @@ module App::Aasm
   included do
     include AASM
 
-    RUNNING = :running
-    STOPPED = :stopped
-    STATES  = [RUNNING, STOPPED]
+    enum state: {
+      stopped: 0,
+      running: 1
+    }
 
-    aasm do
-      state :stopped
+    aasm column: :state, enum: true do
+      state :stopped, initial: true
       state :running
 
-      event :run do
+      event :start do
         transitions :from => :stopped, :to => :running
       end
 
@@ -50,5 +51,4 @@ module App::Aasm
     end
 
   end
-
 end

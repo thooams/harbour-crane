@@ -1,5 +1,5 @@
 class App < ActiveRecord::Base
-  include App::AASM
+  include App::Aasm
   include App::Composer
 
   #include App::Record
@@ -12,6 +12,11 @@ class App < ActiveRecord::Base
 
   # Constants
   GLYPH = HarbourCrane::Application::Glyph::APP
+  enum category: {
+    admin: 0,
+    proxy: 1,
+    web:   2
+  }
 
   # Attr_accessor
   attr_accessor :compose_file
