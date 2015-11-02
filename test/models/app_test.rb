@@ -48,4 +48,12 @@ class AppTest < ActiveSupport::TestCase
 
     assert !File.exists?(@compose_file), 'File exist'
   end
+
+
+  test 'Start App' do
+    @app.start
+
+    container = Container
+    assert
+  end
 end
