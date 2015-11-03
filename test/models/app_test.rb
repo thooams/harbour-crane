@@ -19,8 +19,19 @@ class AppTest < ActiveSupport::TestCase
   end
 
   test 'Create app' do
-    actual   = @app.attributes.except(*%w(created_at updated_at))
-    expected = {"id"=>1, "name"=>"My App", "ports"=>"3001:3000", "volumes"=>nil, "slug"=>"my-app", "state"=>"stopped", "author"=>"John Doe", "description"=>"My first App", "image"=>"test/test", "app_type"=>nil, "virtual_host"=>"my-app.test.com"}
+    actual   = @app.attributes.except(*%w(id created_at updated_at))
+    expected = {
+      "name"         => "My App",
+      "ports"        => "3001:3000",
+      "volumes"      => nil,
+      "slug"         => "my-app",
+      "state"        => App.states[:stopped],
+      "author"       => "John Doe",
+      "description"  => "My first App",
+      "image"        => "test/test",
+      "category"     => App.categories[:web],
+      "virtual_host" => "my-app.test.com"
+    }
     assert_equal expected, actual
   end
 
@@ -31,8 +42,8 @@ class AppTest < ActiveSupport::TestCase
   ports:
     - 3001:3000
   volumes:
-    - /srv/docker/1/vol:/usr/src/app/public/system
-    - /srv/docker/1/log:/usr/src/app/log
+    - /srv/docker/#{ @app.id }/vol:/usr/src/app/public/system
+    - /srv/docker/#{ @app.id }/log:/usr/src/app/log
   environment:
     RAILS_ENV: production
     VIRTUAL_HOST: my-app.test.com
@@ -53,7 +64,7 @@ class AppTest < ActiveSupport::TestCase
   test 'Start App' do
     @app.start
 
-    container = Container
+    container = Container.all(filters: { names: [my]})
     assert
   end
 end

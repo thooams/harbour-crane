@@ -19,9 +19,8 @@ module App::Composer
   end
 
   def create_compose_file
-    dir_name = compose_app_dir(slug)
     @app     = self
-    FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
+    init_dir
 
     File.open(template_file('docker-compose.yml.erb'),'r') do |f|
       File.write(compose_app_file(slug), ERB.new(f.read, nil, '-').result(binding), mode: 'w')
@@ -30,6 +29,11 @@ module App::Composer
     #puts File.read(compose_app_file(@app.id))
 
     #versioned compose_app_file(id)
+  end
+
+  def init_dir
+    dir_name = compose_app_dir(slug)
+    File.exists?(dir_name) ? destroy_compose_file : FileUtils::mkdir_p(dir_name)
   end
 
   def destroy_file path_file

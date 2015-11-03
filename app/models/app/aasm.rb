@@ -13,35 +13,35 @@ module App::Aasm
       state :stopped, initial: true
       state :running
 
-      event :start do
+      event :state_run do
         transitions :from => :stopped, :to => :running
       end
 
-      event :stop do
+      event :state_stop do
         transitions :from => :running, :to => :stopped
       end
     end
 
-    def compose_start
-      compose_rm
+    def start
+      rm
       system("#{ docker_compose_action } up -d")
-      run!
+      state_run!
     end
 
-    def compose_stop
+    def stop
       system("#{ docker_compose_action } stop")
-      stop!
+      state_stop!
     end
 
-    def compose_rm
+    def rm
       system("#{ docker_compose_action } rm --force")
     end
 
-    def compose_restart
-      compose_stop
-      stop!
-      compose_start
-      run!
+    def restart
+      stop
+      state_stop!
+      start
+      state_run!
     end
 
     private
