@@ -2,7 +2,6 @@ desc "Create App server Nginx"
 task nginx: :environment do
 
   @app = App.where({
-    id:           id,
     name:         'Nginx Server',
     description:  'NGINX is running as a HTTP(S) proxy, with automated configuration from Docker',
     author:       'Thomas HUMMEL',

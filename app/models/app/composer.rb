@@ -5,8 +5,7 @@ module App::Composer
   private
 
   def upload_compose_file
-    dir_name = compose_app_dir(slug)
-    FileUtils::mkdir_p(dir_name) unless File.exists?(dir_name)
+    init_dir
 
     File.open(compose_app_file(slug), 'wb') do |file|
       file.write(compose_file.read)

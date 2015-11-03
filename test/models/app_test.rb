@@ -12,7 +12,7 @@ class AppTest < ActiveSupport::TestCase
       description:   'My first App',
       author:        'John Doe',
       ports:         '3001:3000',
-      image:         'test/test',
+      image:         'hello-world',
       virtual_host:  'my-app.test.com'
     })
     @compose_file = @app.compose_app_file(@app.slug)
@@ -28,7 +28,7 @@ class AppTest < ActiveSupport::TestCase
       "state"        => App.states[:stopped],
       "author"       => "John Doe",
       "description"  => "My first App",
-      "image"        => "test/test",
+      "image"        => "hello-world",
       "category"     => App.categories[:web],
       "virtual_host" => "my-app.test.com"
     }
@@ -38,12 +38,13 @@ class AppTest < ActiveSupport::TestCase
   test 'Create compose file' do
     actual   = File.read(@compose_file)
     expected = "web:
-  image: test/test
+  image: hello-world
+  container_name: #{ @app.slug }
   ports:
     - 3001:3000
   volumes:
-    - /srv/docker/#{ @app.id }/vol:/usr/src/app/public/system
-    - /srv/docker/#{ @app.id }/log:/usr/src/app/log
+    - /srv/docker/#{ @app.slug }/vol:/usr/src/app/public/system
+    - /srv/docker/#{ @app.slug }/log:/usr/src/app/log
   environment:
     RAILS_ENV: production
     VIRTUAL_HOST: my-app.test.com
@@ -63,8 +64,9 @@ class AppTest < ActiveSupport::TestCase
 
   test 'Start App' do
     @app.start
-
-    container = Container.all(filters: { names: [my]})
-    assert
+    ap({ names: [@app.slug] }.to_json)
+    container = Container.all(all: false, filters: { names: [@app.slug] }.to_json )
+    ap container
+    assert true
   end
 end

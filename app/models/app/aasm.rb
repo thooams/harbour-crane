@@ -47,7 +47,7 @@ module App::Aasm
     private
 
     def docker_compose_action
-      "COMPOSE_FILE=#{ compose_app_file(id) } /usr/local/bin/docker-compose"
+      "COMPOSE_FILE=#{ compose_app_file(slug) } /usr/local/bin/docker-compose"
     end
 
   end
