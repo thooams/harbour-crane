@@ -32,6 +32,10 @@ class Container < Docker::Container
     info['Status']
   end
 
+  def state
+    info['State']
+  end
+
   def command
     info['Command']
   end
@@ -45,7 +49,31 @@ class Container < Docker::Container
   end
 
   def image
-    Docker::Image.get(info['Image'])
+    Image.get(info['Image'])
+  end
+
+  def infos
+    if @infos.nil?
+      @infos = info.deep_transform_keys{ |key| key.to_s.underscore }
+    end
+    @infos
+  end
+
+  private
+
+  def build_json hash
+    hash.map do |k, v|
+      if v.kind_of? Hash
+        infos = infos.merge(Hash[sanitize_json(k), build_json(v, infos)])
+      else
+        infos = infos.merge(Hash[sanitize_json(k), v])
+      end
+    end
+    infos
+  end
+
+  def sanitize_json name
+    name.underscore
   end
 
 end
