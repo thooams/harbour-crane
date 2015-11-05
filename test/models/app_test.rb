@@ -60,6 +60,8 @@ class AppTest < ActiveSupport::TestCase
     #ap container.info
     #ap "-----------------------------------"
     ap container.infos
+    ap container.infos.state
+    ap container.infos.state.status
     #ap container.status
     assert true
   end
