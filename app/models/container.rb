@@ -1,6 +1,23 @@
 class Container
   include HarbourCrane::DeepStruct
 
+  ########  Class methods
+  def self.all
+    hashes = Docker::Container.all
+    hashes.map { |hash| self.find(hash.id) }
+  end
+
+  def self.find id
+    c = Docker::Container.get(id)
+    hash = c.info.merge({ id: c.id })
+    new hash
+  end
+
+  def self.first
+    self.all.first
+  end
+
+  ####### Object methods
   def initialize params = {}
     params.each do |key, value|
       o = value.kind_of?(Hash) ? toto(value) : value
@@ -25,25 +42,6 @@ class Container
     created
   end
 
-  #def id
-  #  info.id
-  #end
-
-  def self.all
-    hashes = Docker::Container.all
-    hashes.map { |hash| self.find(hash.id) }
-  end
-
-  def self.find id
-    c = Docker::Container.get(id)
-    hash = c.info.merge({ id: c.id })
-    new hash
-  end
-
-  def self.first
-    self.all.first
-  end
-
   def toto value
     DeepStruct.new(value.deep_transform_keys{ |key| key.to_s.underscore.to_sym })
   end
@@ -62,8 +60,12 @@ class Container
 
   def ports
     network_settings.ports.to_h.map do |port|
-      port[1].map do |v|
-        "#{ v[:host_ip] }:#{ v[:host_port] }->#{ port[0] }"
+      if port[1].kind_of?(Array)
+        port[1].map do |v|
+          "#{ v[:host_ip] }:#{ v[:host_port] }->#{ port[0] }"
+        end
+      else
+        "#{  port[0] }"
       end
     end
   end
@@ -75,10 +77,5 @@ class Container
   #def image
     #Image.get(info.image)
   #end
-
-  #def info connection = self.connection
-    #DeepStruct.new(Docker::Util.parse_json(connection.get('/info')).deep_transform_keys{ |key| key.to_s.underscore })
-  #end
-
 
 end
