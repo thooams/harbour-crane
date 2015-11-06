@@ -7,7 +7,7 @@ module HarbourCrane
 
         if hash
           hash.each do |k,v|
-            @table[k.to_sym] = (v.is_a?(Hash) ? self.class.new(v) : v)
+            @table[k.to_sym] = (v.is_a?(Hash) && v.blank? ? self.class.new(v) : v)
             @hash_table[k.to_sym] = v
 
             new_ostruct_member(k)

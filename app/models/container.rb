@@ -38,48 +38,39 @@ class Container
     c = Docker::Container.get(id)
     hash = c.info.merge({ id: c.id })
     new hash
-    #hash.each do |key, value|
-      #ap key.underscore
-      #o = value.kind_of?(Hash) ? toto(value) : value
-      ##instance_variable_set("@#{ key.underscore }", o)
-      #send "#{key.underscore }=", o
-    #end
+  end
+
+  def self.first
+    self.all.first
   end
 
   def toto value
-    #value.deep_transform_keys{ |key| key.to_s.underscore.to_sym }
     DeepStruct.new(value.deep_transform_keys{ |key| key.to_s.underscore.to_sym })
   end
 
   def short_id
-    #id[0..12]
+    id[0..12]
   end
 
   def status
     state.status
   end
 
-  #def state
-    #info.state
-  #end
-
   def command
     config.cmd.join(' ')
   end
 
   def ports
-    #ap self
-    ap network_settings
-    network_settings.ports.map do |k, v|
-      v.each do |_,v|
-        "#{ v.host_ip }:#{ v.host_port }->#{ k }"
+    network_settings.ports.to_h.map do |port|
+      port[1].map do |v|
+        "#{ v[:host_ip] }:#{ v[:host_port] }->#{ port[0] }"
       end
     end
   end
 
-  #def names
-    #info.names
-  #end
+  def names
+    [name]
+  end
 
   #def image
     #Image.get(info.image)
