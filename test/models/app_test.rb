@@ -57,7 +57,18 @@ class AppTest < ActiveSupport::TestCase
   test 'Start App' do
     @app.start
     container = Container.find(@app.slug)
+
+    assert_equal 'running', @app.state
     assert_equal 'running', container.state.status
+  end
+
+  test 'Stop App' do
+    @app.state_run!
+    @app.stop
+    container = Container.find(@app.slug)
+
+    assert_equal 'stopped', @app.state
+    assert_equal 'exited', container.state.status
   end
 
   test 'Remove App' do

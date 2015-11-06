@@ -8,6 +8,7 @@ class CreateApps < ActiveRecord::Migration
       t.integer :state, default: App.states[:stopped]
       t.string :author
       t.text   :description
+      t.text   :environment
       t.string :image
       t.integer:category, default: App.categories[:web]
       t.string :virtual_host

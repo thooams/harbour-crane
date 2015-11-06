@@ -21,6 +21,22 @@
   = col num: 6 do
     = f.input :virtual_host, placeholder: 'myapp.domain.com'
 
+  = col num: 12 do
+    %label Volumes
+    .ui-bibz-clear
+
+  = col num: 12 do
+    .form-group.volumes.optional
+      .input-group
+        %span.input-group-addon.path= "/srv/docker/my-app-name/storage/"
+        %input{ placeholder: "my-dir", type: "text", class: "volume_1 extra_text optional form-control" }
+        %span.input-group-addon.separator= ":"
+        %input{ placeholder: "/usr/src/app/public/system/", type: "text", class: "volume_2 extra_text optional form-control" }
+      = f.input :volumes, label: false, as: :hidden
+
+  = col num: 12 do
+    = f.input :environment
+
   .ui-bibz-clear
 
   = col num: 12 do

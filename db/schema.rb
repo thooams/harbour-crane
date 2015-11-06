@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20151102094955) do
     t.integer  "state",        default: 0
     t.string   "author"
     t.text     "description"
+    t.text     "environment"
     t.string   "image"
     t.integer  "category",     default: 2
     t.string   "virtual_host"

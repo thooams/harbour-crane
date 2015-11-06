@@ -19,7 +19,7 @@ class App < ActiveRecord::Base
   }
 
   # Attr_accessor
-  attr_accessor :compose_file
+  attr_accessor :compose_file, :volume_1, :volume_2
 
   # Associations
 

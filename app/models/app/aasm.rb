@@ -10,7 +10,7 @@ module App::Aasm
     }
 
     aasm column: :state, enum: true do
-      state :stopped, initial: true
+      state :stopped
       state :running
 
       event :state_run do
