@@ -31,10 +31,15 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'docker-api', :require => 'docker'
-gem 'ui_bibz', '~> 1.2.2'
-#gem 'ui_bibz', path: "~/Apps/Ui-Bibz"
-
+#gem 'ui_bibz', '~> 1.2.2'
+gem 'ui_bibz', path: "/root/GitHub/Ui-Bibz"
 gem 'simple_form'
+
+gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate-bootstrap'
+gem 'will-paginate-i18n'
+gem 'font-awesome-sass'
+gem 'bootstrap-sass', '~> 3.3.5'
 
 gem 'aasm', '~> 4.4', '>= 4.4.1'
 

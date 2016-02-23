@@ -5,6 +5,7 @@ web:
   volumes:
     # for system
     - /var/run/docker.sock:/var/run/docker.sock:ro
+    - /root/GitHub/Ui-Bibz:/root/GitHub/Ui-Bibz
     #- /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
     #- /etc/init:/etc/init
     # for save
@@ -13,7 +14,7 @@ web:
     # for debugging
     - /srv/docker/nginx/nginx.tmpl:/srv/docker/nginx/nginx.tmpl
     # for development
-    - ~/Apps/harbour-crane:/usr/src/app
+    - ~/GitHub/harbour-crane:/usr/src/app
     - /root/harbour-crane/development.sqlite3:/root/harbour-crane/development.sqlite3
   environment:
     RAILS_ENV: development
