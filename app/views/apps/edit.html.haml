@@ -1,4 +1,4 @@
-%h1= glyph_and_text HarbourCrane::Application::Glyph::APP, "Edit \"#{ @app.name.titleize }\""
+%h1= glyph_and_text HarbourCrane::Application::Glyph::APP, "Edit \"#{ @appname }\""
 
 %br
 = simple_form_for :app do |f|
@@ -11,7 +11,7 @@
       %br
       .tab-content
         - bak_files = "#{ compose_app_dir(@app.id) }/*.bak-*"
-        //= f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
+        = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
 
         = card tab: 'compose-rookie' do
           %h3 Container

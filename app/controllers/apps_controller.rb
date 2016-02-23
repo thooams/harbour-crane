@@ -26,11 +26,12 @@ class AppsController < ApplicationController
   end
 
   def edit
-    #@app = OpenStruct.new(slug: params[:name], name: params[:name].humanize, upstart_file_version: 2)
+    @app = OpenStruct.new(slug: params[:name], name: params[:id].humanize, upstart_file_version: 2)
+    @appname = App.find(params[:id]).name.titleize
   end
 
   def show
-    @app = App.find(params[:name])
+    @app = App.find(params[:id])
   end
 
   def start
@@ -75,8 +76,8 @@ class AppsController < ApplicationController
   end
 
   def message mymessage
-    # Si mymessage est un string et qu'il ne contient qu'un mot c'est un message success
+    # Si mymessage ne contient qu'un mot c'est un message success
     # Sinon c'est un message d'erreur complet
-    ((mymessage.is_a?(String)) && ((mymessage.scan(/\w+/).size) == 1)) ? (redirect_to apps_path, notice: "App was successfully #{mymessage}.") : (redirect_to apps_path, notice: mymessage)
+    ((mymessage.scan(/\w+/).size) == 1) ? (redirect_to apps_path, notice: "App was successfully #{mymessage}.") : (redirect_to apps_path, notice: mymessage)
   end
 end
