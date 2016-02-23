@@ -11,12 +11,12 @@
         = image_tag 'grey-crane.png'
         = HarbourCrane::Application::NAME
       - nv.nav do |n|
-        - n.link 'Apps', url: apps_path
-        - n.link 'Images', url: images_path
-        - n.link 'Containers', url: containers_path
+        - n.link 'Apps', url: apps_path, status: active_link('apps')
+        - n.link 'Images', url: images_path, status: active_link('images')
+        - n.link 'Containers', url: containers_path, status: active_link('containers')
         - n.link 'Databases', url: '#database', status: :disabled
         - n.link 'Store', url: '#store', status: :disabled
-        - n.link 'Proxy', url: proxy_path
+        - n.link 'Proxy', url: proxy_path, status: active_link('proxy')
     - if controller_name == 'home'
       .pageheader
         .container
@@ -26,6 +26,3 @@
     - else
       .container
         = yield
-
-
-
