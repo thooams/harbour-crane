@@ -17,6 +17,7 @@
 %h2 Docker
 = card do
   - Docker.info.each do |k,v|
-    %b= "#{ k }:"
-    = "#{ v }"
-    %br
+    - unless v.to_s.empty?
+      %b= "#{ k }:"
+      = "#{ v }"
+      %br
