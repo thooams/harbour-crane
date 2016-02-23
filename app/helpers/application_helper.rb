@@ -11,4 +11,8 @@ module ApplicationHelper
     end
   end
 
+  def active_link name
+    [*name].include?(params[:controller]) ? :active : nil
+  end
+
 end

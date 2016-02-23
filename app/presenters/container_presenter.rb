@@ -1,11 +1,11 @@
 class ContainerPresenter < ApplicationPresenter
 
-  def initialize containers
-    @containers = containers
+  def initialize objs
+    @containers = objs
   end
 
   def containers
-    @containers.map{ |container| format_container(container) }
+    @containers.map{ |c| format_container(c) }
   end
 
   def container
@@ -14,49 +14,47 @@ class ContainerPresenter < ApplicationPresenter
 
   private
 
-  def format_container container
+  def format_container obj
     OpenStruct.new({
-      id:          format_id(container),
-      image_name:  format_image_name(container),
-      created_at:  format_created_at(container),
-      command:     container.command,
-      status:      container.status,
-      ports:       format_ports(container),
-      names:       format_names(container),
-      infos:       container
+      id:          format_id(obj),
+      image_name:  format_image_name(obj),
+      created_at:  format_created_at(obj),
+      command:     obj.command,
+      status:      obj.status,
+      ports:       format_ports(obj),
+      names:       format_names(obj),
+      infos:       obj
     })
   end
 
-  def format_id container
-    content_tag :span, container.short_id, title: container.id
+  def format_id obj
+    content_tag :span, obj.short_id, title: obj.id
   end
 
-  def format_image_name container
-    if container.proxy?
-      "#{ container.image_name } #{ etiquette('Proxy', state: :danger) }".html_safe
-    elsif container.administration?
-      "#{ container.image_name } #{ etiquette('Admin', state: :primary) }".html_safe
+  def format_image_name obj
+    if obj.proxy?
+      "#{ obj.image_name } #{ etiquette('Proxy', state: :danger) }".html_safe
+    elsif obj.administration?
+      "#{ obj.image_name } #{ etiquette('Admin', state: :primary) }".html_safe
     else
-      container.image_name
+      obj.image_name
     end
   end
 
-  def format_created_at container
-    container.created_at
+  def format_created_at obj
+    obj.created_at
   end
 
-  def format_ports container
-    container.ports.map do |port|
-      "#{ port['IP'] }:#{ port['PrivatePort']}->#{ port['PublicPort'] }/#{ port['Type']}"
-    end.join('<br/>').html_safe
+  def format_ports obj
+    obj.ports.join('<br/>').html_safe
   end
 
-  def format_names container
-    if container.names.count > 2
-      container_names = container.names.join('; ')
-      content_tag :span, container.names[0..1].push('...').join('<br/>').html_safe, title: container_names
+  def format_names obj
+    if obj.names.count > 2
+      obj_names = obj.names.join('; ')
+      content_tag :span, obj.names[0..1].push('...').join('<br/>').html_safe, title: obj_names
     else
-      container.names.join('<br/>').html_safe
+      obj.names.join('<br/>').html_safe
     end
   end
 

@@ -1,7 +1,29 @@
-class Container < Docker::Container
+class Container
+  include HarbourCrane::DeepStruct
 
-  def initialize connection, hash={}
-    super
+  ########  Class methods
+  def self.all
+    hashes = Docker::Container.all
+    hashes.map { |hash| self.find(hash.id) }
+  end
+
+  def self.find id
+    c = Docker::Container.get(id)
+    hash = c.info.merge({ id: c.id })
+    new hash
+  end
+
+  def self.first
+    self.all.first
+  end
+
+  ####### Object methods
+  def initialize params = {}
+    params.each do |key, value|
+      o = value.kind_of?(Hash) ? toto(value) : value
+      instance_variable_set("@#{ key.to_s.underscore }", o)
+      instance_eval "class << self; attr_accessor :#{key.to_s.underscore}; end"
+    end
   end
 
   def proxy?
@@ -13,15 +35,15 @@ class Container < Docker::Container
   end
 
   def image_name
-    info['Image']
+    config.image
   end
 
   def created_at
-    Time.at(info['Created'])
+    created
   end
 
-  def id
-    info['id']
+  def toto value
+    DeepStruct.new(value.deep_transform_keys{ |key| key.to_s.underscore.to_sym })
   end
 
   def short_id
@@ -29,23 +51,31 @@ class Container < Docker::Container
   end
 
   def status
-    info['Status']
+    state.status
   end
 
   def command
-    info['Command']
+    config.cmd.join(' ')
   end
 
   def ports
-    info['Ports']
+    network_settings.ports.to_h.map do |port|
+      if port[1].kind_of?(Array)
+        port[1].map do |v|
+          "#{ v[:host_ip] }:#{ v[:host_port] }->#{ port[0] }"
+        end
+      else
+        "#{  port[0] }"
+      end
+    end
   end
 
   def names
-    info['Names']
+    [name]
   end
 
-  def image
-    Docker::Image.get(info['Image'])
-  end
+  #def image
+    #Image.get(info.image)
+  #end
 
 end
