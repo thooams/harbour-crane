@@ -8,15 +8,16 @@
       %p= "v#{ HarbourCrane::Application::VERSION }"
       %br
 %h2 Docker infos
-= panel do
+= card do
   - Docker.version.each do |k,v|
     %b= "#{ k }:"
     = "#{ v }"
     %br
 
 %h2 Docker
-= panel do
+= card do
   - Docker.info.each do |k,v|
-    %b= "#{ k }:"
-    = "#{ v }"
-    %br
+    - unless v.blank?
+      %b= "#{ k }:"
+      = "#{ v }"
+      %br
