@@ -40,9 +40,8 @@
   .ui-bibz-clear
 
   = col num: 12 do
-    = panel tap: true do |p|
+    = card tap: true do |p|
       - p.header 'Import files'
-      - p.body do
+      - p.block do
         = f.input :compose_file, as: :file, hint: 'docker-compose.yml'
-
-  = f.submit :submit, class: 'btn btn-primary'
+    = button 'Submit', state: :primary

@@ -1,7 +1,7 @@
 require 'yaml'
 class AppsController < ApplicationController
 
-  before_action :set_app, only: [:show, :start, :stop, :destroy, :restart]
+  before_action :set_app, only: [:show, :start, :edit, :stop, :destroy, :restart]
 
   def index
     @apps = App.all
@@ -16,7 +16,7 @@ class AppsController < ApplicationController
 
     respond_to do |format|
       if @app.save
-        format.html { redirect_to apps_path, notice: 'App was successfully created.' }
+        format.html { message("created") }
         format.json { render :show, status: :created, location: @app }
       else
         format.html { render :new, notice: @app.errors.full_messages.to_sentence }
@@ -26,19 +26,20 @@ class AppsController < ApplicationController
   end
 
   def edit
-    @app = OpenStruct.new(slug: params[:name], name: params[:name].humanize, upstart_file_version: 2)
+    @app = OpenStruct.new(slug: params[:name], name: params[:id].humanize, upstart_file_version: 2)
+    @appname = App.find(params[:id]).name.titleize
   end
 
   def show
-    @app = App.find(params[:name])
+    @app = App.find(params[:id])
   end
 
   def start
     respond_to do |format|
       if @app.start
-        format.html { redirect_to apps_path, notice: 'App was successfully started.' }
+        format.html { message("started") }
       else
-        format.html { redirect_to apps_path, notice: @app.errors.full_messages.to_sentence }
+        format.html { message(@app.errors.full_messages.to_sentence) }
       end
     end
   end
@@ -46,21 +47,21 @@ class AppsController < ApplicationController
   def stop
     @app.stop
     respond_to do |format|
-      format.html { redirect_to apps_path, notice: 'App was successfully stopped.' }
+      format.html { message("stopped") }
     end
   end
 
   def restart
     @app.restart
     respond_to do |format|
-      format.html { redirect_to apps_path, notice: 'App was successfully restarted.' }
+      format.html { message("restarted") }
     end
   end
 
   def destroy
     @app.destroy
     respond_to do |format|
-      format.html { redirect_to apps_path, notice: 'App was successfully deleted.' }
+      format.html { message("deleted") }
     end
   end
 
@@ -72,5 +73,11 @@ class AppsController < ApplicationController
 
   def app_params
     params.require(:app).permit(:name, :description, :slug, :author, :image, :compose_file, :ports, :virtual_host)
+  end
+
+  def message mymessage
+    # Si mymessage ne contient qu'un mot c'est un message success
+    # Sinon c'est un message d'erreur complet
+    ((mymessage.scan(/\w+/).size) == 1) ? (redirect_to apps_path, notice: "App was successfully #{mymessage}.") : (redirect_to apps_path, notice: mymessage)
   end
 end

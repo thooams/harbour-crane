@@ -5,6 +5,7 @@ web:
   volumes:
     # for system
     - /var/run/docker.sock:/var/run/docker.sock:ro
+    - /root/Apps/Ui-Bibz:/root/Apps/Ui-Bibz
     #- /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
     #- /etc/init:/etc/init
     # for save
