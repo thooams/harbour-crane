@@ -32,7 +32,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'docker-api', :require => 'docker'
 #gem 'ui_bibz', '~> 1.2.2'
-gem 'ui_bibz', path: "/root/GitHub/Ui-Bibz"
+gem 'ui_bibz', path: "/root/Apps/Ui-Bibz"
 gem 'simple_form'
 
 gem 'will_paginate', '~> 3.1.0'
