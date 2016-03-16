@@ -16,18 +16,19 @@
   %tr
     %td 1
     %td MyApp
+    %td MyAppDescription
     %td 2016-02-23 15:06:42 UTC
-    %td MyApp
+    %td 784 MB
     %td
-      = link_to glyph('eye'), store_path(store.infos.id)
-      = link_to glyph('download'), store_path(store.infos.id), :method => :download
+      = link_to glyph('eye')
+      = link_to glyph('download')
 
-  /*- @stores.each do |store|
-    %tr
-      %td= store.id
-      %td= store.names
-      %td= store.created_at
-      %td= store.size
-      %td
-        = link_to glyph('eye'), store_path(store.infos.id)
-        = link_to glyph('download'), store_path(store.infos.id), :method => :download
+  //- @stores.each do |store|
+  //  %tr
+  //    %td= store.id
+  //    %td= store.names
+  //    %td= store.created_at
+  //    %td= store.size
+  //    %td
+  //      = link_to glyph('eye'), store_path(store.infos.id)
+  //      = link_to glyph('download'), store_path(store.infos.id), :method => :download
