@@ -11,6 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20151102094955) do
+
+  create_table "apps", force: :cascade do |t|
+    t.string   "name"
+    t.text     "ports"
+    t.text     "volumes"
+    t.string   "slug"
+    t.integer  "state",        default: 0
+    t.string   "author"
+    t.text     "description"
+    t.text     "environment"
+    t.string   "image"
+    t.integer  "category",     default: 2
+    t.string   "virtual_host"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
 end

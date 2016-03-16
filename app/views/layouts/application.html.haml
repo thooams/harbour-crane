@@ -5,18 +5,19 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
+    = favicon_link_tag 'black-crane.ico'
   %body
     = navbar do |nv|
       - nv.brand url: root_url do
         = image_tag 'grey-crane.png'
         = HarbourCrane::Application::NAME
       - nv.nav do |n|
-        - n.link 'Apps', url: apps_path
-        - n.link 'Images', url: images_path
-        - n.link 'Containers', url: containers_path
-        - n.link 'Databases', url: '#database', status: :disabled
-        - n.link 'Store', url: '#store', status: :disabled
-        - n.link 'Proxy', url: proxy_path
+        - n.link 'Apps', url: apps_path, status: active_link('apps')
+        - n.link 'Images', url: images_path, status: active_link('images')
+        - n.link 'Containers', url: containers_path, status: active_link('containers')
+        - n.link 'Store', url: store_path, status: active_link('store')
+        - n.link 'Proxy', url: proxy_path, status: active_link('proxy')
+        - n.link 'About', url: about_path, status: active_link('about')
     - if controller_name == 'home'
       .pageheader
         .container
@@ -26,6 +27,3 @@
     - else
       .container
         = yield
-
-
-

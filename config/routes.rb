@@ -2,8 +2,10 @@ Rails.application.routes.draw do
 
   get 'home/index'
   get 'proxy/index' => 'proxy#index', as: :proxy
+  get 'about/index' => 'about#index', as: :about
+  get 'store/index' => 'store#index', as: :store
 
-  resources :apps, param: :name do
+  resources :apps do
     member do
       get :restart
       get :start

@@ -1,5 +1,6 @@
 web:
   image: <%= @app.image %>
+  container_name: <%= @app.slug %>
   ports:
   <% @app.ports.split(';').each do |port| -%>
   <%= "- #{ port.strip }" %>
@@ -10,8 +11,8 @@ volumes:
   <%= "- #{ vol.strip }" %>
   <% end -%>
   <% end -%>
-  - <%= "/srv/docker/#{ @app.id }/vol:/usr/src/app/public/system" %>
-    - <%= "/srv/docker/#{ @app.id }/log:/usr/src/app/log" %>
+  - <%= "/srv/docker/#{ @app.slug }/vol:/usr/src/app/public/system" %>
+    - <%= "/srv/docker/#{ @app.slug }/log:/usr/src/app/log" %>
   environment:
     RAILS_ENV: production
     VIRTUAL_HOST: <%= @app.virtual_host %>

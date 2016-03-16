@@ -8,7 +8,12 @@ gem 'sqlite3'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+#gem 'coffee-rails', '~> 4.1.0'
+
+# Opal
+gem 'opal-rails'
+gem 'opal-activesupport'
+
 gem 'sass-rails', '~> 5.0.4'
 # Use HAML for html generator
 gem 'haml-rails'
@@ -26,10 +31,17 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'docker-api', :require => 'docker'
-gem 'ui_bibz', '~> 1.2.2'
-#gem 'ui_bibz', path: "~/Apps/Ui-Bibz"
-
+#gem 'ui_bibz', '~> 1.2.2'
+gem 'ui_bibz', path: "/root/Apps/Ui-Bibz"
 gem 'simple_form'
+
+gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate-bootstrap'
+gem 'will-paginate-i18n'
+gem 'font-awesome-sass'
+gem 'bootstrap-sass', '~> 3.3.5'
+
+gem 'aasm', '~> 4.4', '>= 4.4.1'
 
 gem 'awesome_print'
 # Use ActiveModel has_secure_password

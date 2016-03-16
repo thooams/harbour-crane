@@ -1,4 +1,4 @@
-%h1= glyph_and_text HarbourCrane::Application::Glyph::APP, "Edit \"#{ @app.name.titleize }\""
+%h1= glyph_and_text HarbourCrane::Application::Glyph::APP, "Edit \"#{ @appname }\""
 
 %br
 = simple_form_for :app do |f|
@@ -13,9 +13,9 @@
         - bak_files = "#{ compose_app_dir(@app.id) }/*.bak-*"
         = f.input :upstart, label: "Upstart version", selected: @app.upstart_file_version, collection: version_array(Dir.glob(bak_files))
 
-        = panel tab: 'compose-rookie' do
+        = card tab: 'compose-rookie' do
           %h3 Container
-          = panel do
+          = card do
             = f.input :container_name, label: 'Name', placeholder: 'eq. web'
             = f.input :image, placeholder: "eq. docker/docker-manager:beta", hint: 'Must be registry_host[:registery_port]/name[:tag]'
             = f.input :ports, placeholder: 'eq. 3003:3000; 3002:3002'
@@ -27,7 +27,7 @@
             %br
 
           = link_to glyph_and_text('plus-circle', 'New container'), "#"
-        = panel tab: 'compose-expert', status: :active do
+        = card tab: 'compose-expert', status: :active do
           - file_path = "#{ compose_app_dir(@app.id) }/docker-compose.yml"
           = "File: #{ file_path }"
           - if File.exist?(file_path)
@@ -41,7 +41,3 @@
       - volumes = Dir.exist?(dir_path) ? Dir.entries(dir_path).reject{ |n| ['.', '..'].include?(n) } : []
       - volumes.each do |vol|
         = f.input :volume, label: false, as: :extra_text, disabled: true, append: glyph('folder-open'), prepend: 'x', input_html: { value: "#{ dir_path }/#{ vol }" }, placeholder: 'eq. logs; infos/public'
-
-
-
-

@@ -1,0 +1,50 @@
+%h1= glyph_and_text('info-circle', 'About')
+// I don't understand how i use HarbourCrane::Application::Glyph::ABOUT
+%p Some information about the developer
+%br
+%br
+= container do
+  = row do
+    = col num: 3 do
+      = image_tag("thomas.jpg", width: '85%', class: 'img-responsive img-circle')
+    = col num: 9 do
+      %p
+        = "Originally, #{HarbourCrane::Application::NAME} was created by "
+        = link_to("Thommas HUMMEL", "http://hummel.link/", :target => '_blank')
+        a French Ruby developer, on September 30, 2015.
+      %p
+        = "#{HarbourCrane::Application::NAME} developed in"
+        %b Ruby
+        with the
+        %b Ruby On Rails
+        framework.
+      %p
+        = "#{HarbourCrane::Application::NAME} is a web software and web monitoring to manage applications running on a server through"
+        = link_to("Docker", "https://www.docker.com/", :target => '_blank')
+        (free software that automates the deployment of applications in software containers).
+        %br
+        The current use of
+        = link_to("Docker", "https://www.docker.com/", :target => '_blank')
+        = "software and its components are held on the command line, the objective of #{HarbourCrane::Application::NAME} is to simplify the use, administration and supervision of this software by giving users a graphical interface rich and intuitive."
+      %p
+        = "#{HarbourCrane::Application::NAME} is an open source project under the MIT license."
+      %br
+      %br
+  = row do
+    = col num: 3 do
+      = image_tag("github.jpg", width: '85%', class: 'img-responsive img-circle')
+    = col num: 9 do
+      %p
+        = "#{HarbourCrane::Application::NAME} is an"
+        %b Open Source
+        project available on
+        = link_to("GitHub", "https://github.com/thooams/harbour-crane", :target => '_blank')
+        !
+      %p
+        We are listening and open to suggestions from users of the application, so you can suggest anything from the
+        = link_to("project issues", "https://github.com/thooams/harbour-crane/issues", :target => '_blank')
+        it's an
+        %b Open Source
+        project guys, come on !
+
+        You can also suggest improvements to the documentation in the same way !
