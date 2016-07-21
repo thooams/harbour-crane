@@ -1,4 +1,4 @@
-class App < ActiveRecord::Base
+class App < ApplicationRecord
   include App::Aasm
   include App::Composer
 

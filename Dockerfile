@@ -1,7 +1,7 @@
-FROM ruby:2.2
+FROM ruby:2.3
 MAINTAINER Thomas HUMMEL <thummel@codde.fr>
 ENV REFRESHED_AT 2015-09-15
-ENV COMPOSE_VERSION 1.4.2
+ENV COMPOSE_VERSION 2
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
