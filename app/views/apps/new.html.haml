@@ -14,10 +14,7 @@
     = f.input :ports, placeholder: '3001:3000', readonly: true, input_html: { value: "#{ 3000 + App.all.count + 1 }:3000" }
 
   = col num: 6 do
-    = f.input :image, placeholder: 'myname/myapp', input_html: { list: 'toto', autocomplete: 'off' }
-    %datalist{ id: 'toto'}
-      - Image.all.each do |image|
-        %option{ value: image.names.join(', ') }
+    = f.input :image, as: :autocomplete, collection: Image.all.map{ |i| i.names.join(', ') }, placeholder: 'myname/myapp'
   = col num: 6 do
     = f.input :virtual_host, placeholder: 'myapp.domain.com'
 

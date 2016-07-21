@@ -20,10 +20,7 @@
         - n.link 'About', url: about_path, status: active_link('about')
     - if controller_name == 'home'
       .pageheader
-        .container
+        = container do
           = yield :pageheader
-      .container
-        = yield
-    - else
-      .container
-        = yield
+    = container do
+      = yield
