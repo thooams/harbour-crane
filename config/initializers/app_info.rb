@@ -13,6 +13,8 @@ module HarbourCrane
     TEMPLATE_DIR     = "public/templates"
     PROXY_IMAGE_NAME = 'jwilder/nginx-proxy:latest'
     APP_IMAGE_NAME   = 'harbour-crane:latest'
+    DATE_FORMAT      = '%Y-%d-%m'
+    TIME_FORMAT      = '%Y-%d-%m %H:%M:%S'
 
 
     class Glyph

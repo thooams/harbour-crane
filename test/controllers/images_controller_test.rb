@@ -1,33 +1,45 @@
 require 'test_helper'
 
-class ImagesControllerTest < ActionController::TestCase
+class ImagesControllerTest <  ActionDispatch::IntegrationTest
 
   def setup
-    ap Image.find_by_name('hello-world')
-    #  .destroy
-    Image.pull('hello-world')
-    @image = Image.find('hello-world')
   end
 
   test "should get index" do
-    get :index
+    get images_url
     assert_response :success
   end
 
   test "should get new" do
-    get :new
+    get new_image_url
     assert_response :success
   end
 
   test "should create image" do
+    image = Image.find_by_name('hello-world')
+    image.destroy unless image.nil?
     assert_difference('Image.count') do
-      post :create, image: {
-        name: @image.names.split(',')[0].split(':')[0],
-        tag:  @image.names.split(',')[0].split(':')[1]
+      post images_url, params: {
+        image: {
+          name: 'hello-world',
+          tag:  'latest'
+        }
       }
     end
 
-    assert_redirected_to images_path
+    assert_redirected_to images_url
+  end
+
+  test "should destroy image" do
+    image = Image.find_by_name('hello-world')
+    image = image.nil? ? Image.pull(name: 'hello-world') : image
+    ap Image.count
+    assert_difference('Image.count', -1) do
+      delete image_url(image)
+    end
+    ap Image.count
+
+    assert_redirected_to images_url
   end
 
   #test "should get edit" do

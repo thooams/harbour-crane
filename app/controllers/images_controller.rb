@@ -1,5 +1,4 @@
 class ImagesController < ApplicationController
-
   before_action :set_image, only: [:show, :destroy]
 
   def index
@@ -7,22 +6,27 @@ class ImagesController < ApplicationController
   end
 
   def new
+    @image = Image.new
   end
 
   def show
-    @image = ImagePresenter.new(@raw_image).image
   end
 
   def create
-    Image.pull(image_params[:name], image_params[:tag])
+    @image = Image.pull(name: image_params[:name], tag: image_params[:tag])
     respond_to do |format|
-      format.html { redirect_to images_url, notice: 'Image was successfully added.' }
-      format.json { head :no_content }
+      if @image
+        format.html { redirect_to images_url, notice: 'Image was successfully added.' }
+        format.json { head :no_content }
+      else
+        format.html { render :new }
+        format.json { render json: @image.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
-    @raw_image.destroy
+    @image.destroy
     respond_to do |format|
       format.html { redirect_to images_url, notice: 'Image was successfully destroyed.' }
       format.json { head :no_content }
@@ -32,7 +36,7 @@ class ImagesController < ApplicationController
   private
 
   def set_image
-    @raw_image = Image.find(params[:id])
+    @image = Image.find(params[:id])
   end
 
   def image_params
