@@ -33,11 +33,10 @@ class ImagesControllerTest <  ActionDispatch::IntegrationTest
   test "should destroy image" do
     image = Image.find_by_name('hello-world')
     image = image.nil? ? Image.pull(name: 'hello-world') : image
-    ap Image.count
+
     assert_difference('Image.count', -1) do
-      delete image_url(image)
+      delete image_url(id: image.id)
     end
-    ap Image.count
 
     assert_redirected_to images_url
   end
