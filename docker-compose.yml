@@ -1,5 +1,5 @@
 web:
-  image: harbour_crane:latest
+  image: harbour-crane:latest
   ports:
     - "3000:3000"
   volumes:

@@ -11,6 +11,8 @@ module HarbourCrane
     VOLUME_DIR       = "/srv/docker"
     INIT_DIR         = "/etc/init"
     TEMPLATE_DIR     = "public/templates"
+    PROXY_IMAGE_NAME = 'jwilder/nginx-proxy:latest'
+    APP_IMAGE_NAME   = 'harbour-crane:latest'
 
 
     class Glyph

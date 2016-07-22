@@ -1,2 +1,9 @@
-%h1 Images#new
-%p Find me in app/views/images/new.html.haml
+%h1= glyph_and_text HarbourCrane::Application::Glyph::IMAGE, "New Image"
+
+= simple_form_for :image do |f|
+  = col num: 10
+    = f.input :name, placeholder: 'wordpress, ruby, php...'
+  = col num: 2 do
+    = f.input :tag, placeholder: 'latest, 3.3...'
+  = col num: 12 do
+    = f.submit 'Add Image'

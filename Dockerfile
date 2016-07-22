@@ -1,7 +1,7 @@
 FROM ruby:2.3
 MAINTAINER Thomas HUMMEL <thummel@codde.fr>
 ENV REFRESHED_AT 2015-09-15
-ENV COMPOSE_VERSION 2
+ENV COMPOSE_VERSION 1.7.1
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
@@ -11,7 +11,7 @@ WORKDIR /usr/src/app
 
 COPY Gemfile /usr/src/app/
 COPY Gemfile.lock /usr/src/app/
-RUN bundle install --without test development
+RUN bundle install #--without test development
 
 COPY . /usr/src/app
 
