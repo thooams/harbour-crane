@@ -1,8 +1,8 @@
 %h1= glyph_and_text HarbourCrane::Application::Glyph::IMAGE, "New Image"
 
-= simple_form_for :image do |f|
+= simple_form_for :image, method: :post, url: url_for(controller: :images, action: :create) do |f|
   = col num: 10 do
-    = f.input :name, placeholder: 'wordpress, ruby, php...'
+    = f.input :name, placeholder: 'wordpress, ruby, php...', autofocus: true
   = col num: 2 do
     = f.input :tag, placeholder: 'latest, 3.3...'
   = col num: 12 do

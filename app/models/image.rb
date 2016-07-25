@@ -1,5 +1,6 @@
 class Image
   include ActiveModel
+  #extend ActiveModel::Naming
 
   attr_accessor :id, :name, :tag, :names, :size, :created_at
 
@@ -32,7 +33,7 @@ class Image
 
   # Return Image object
   def self.pull args
-    self.new Docker::Image.create('fromImage' => "#{ args[:name] }:#{ args[:tag] || 'latest' }")
+    self.new Docker::Image.create('fromImage' => "#{ args[:name] }:#{ args[:tag].blank? ? 'latest' : args[:tag] }")
   end
 
   def self.count

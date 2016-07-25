@@ -2,9 +2,6 @@ require 'test_helper'
 
 class ImagesControllerTest <  ActionDispatch::IntegrationTest
 
-  def setup
-  end
-
   test "should get index" do
     get images_url
     assert_response :success
@@ -40,10 +37,5 @@ class ImagesControllerTest <  ActionDispatch::IntegrationTest
 
     assert_redirected_to images_url
   end
-
-  #test "should get edit" do
-    #get :edit
-    #assert_response :success
-  #end
 
 end
