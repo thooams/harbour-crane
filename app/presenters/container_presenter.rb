@@ -16,14 +16,15 @@ class ContainerPresenter < ApplicationPresenter
 
   def format_container obj
     OpenStruct.new({
-      id:          format_id(obj),
-      image_name:  format_image_name(obj),
-      created_at:  format_created_at(obj),
-      command:     obj.command,
-      status:      obj.status,
-      ports:       format_ports(obj),
-      names:       format_names(obj),
-      infos:       obj
+      id:            obj.id,
+      display_id:    format_id(obj),
+      display_image: format_image_name(obj),
+      created_at:    obj.created_at,
+      command:       obj.command,
+      status:        obj.status,
+      ports:         format_ports(obj),
+      image:         obj.image,
+      names:         format_names(obj)
     })
   end
 
@@ -32,12 +33,12 @@ class ContainerPresenter < ApplicationPresenter
   end
 
   def format_image_name obj
-    if obj.proxy?
-      "#{ obj.image_name } #{ etiquette('Proxy', state: :danger) }".html_safe
-    elsif obj.administration?
-      "#{ obj.image_name } #{ etiquette('Admin', state: :primary) }".html_safe
+    if obj.image.proxy?
+      "#{ obj.image.names } #{ etiquette('Proxy', state: :danger) }".html_safe
+    elsif obj.image.administration?
+      "#{ obj.image.names } #{ etiquette('Admin', state: :primary) }".html_safe
     else
-      obj.image_name
+      obj.image.names
     end
   end
 

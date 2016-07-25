@@ -17,7 +17,7 @@
     %th Actions
   - @containers.each do |container|
     %tr
-      %td= container.id
+      %td= container.display_id
       %td= container.image_name
       %td= container.command
       %td= container.created_at
@@ -25,6 +25,6 @@
       %td= container.ports
       %td= container.names
       %td
-        - unless container.infos.proxy? || container.infos.administration?
-          = link_to glyph('eye'), container_path(container.infos.id)
-          = link_to glyph('square'), stop_container_path(container.infos.id)
+        - unless container.image.proxy? || container.image.administration?
+          = link_to glyph('eye'), container_path(container.id)
+          = link_to glyph('square'), stop_container_path(container.id)

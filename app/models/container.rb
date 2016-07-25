@@ -1,81 +1,103 @@
 class Container
-  include HarbourCrane::DeepStruct
+  include ActiveModel
 
-  ########  Class methods
+  attr_accessor :id, :name, :command, :names, :ports, :image, :created_at, :status
+
+  def initialize cont = nil
+    unless cont.nil?
+      if cont.class.to_s == "Docker::Container"
+        @id         = cont.id
+        @info       = cont.info
+        @image      = get_image
+        @names      = get_names
+        @name       = get_name
+        @created_at = get_date_time
+        @status     = get_status
+        @ports      = get_ports
+      else
+        cont.each{ |k,v| instance_variable_set("@#{ k.to_s.underscore }", v) }
+      end
+    end
+  end
+
+  # Class methods  ##############################################################
+
   def self.all
-    hashes = Docker::Container.all
-    hashes.map { |hash| self.find(hash.id) }
+    Docker::Container.all(all: true).map{ |i| self.new(i) }
   end
 
   def self.find id
-    c = Docker::Container.get(id)
-    hash = c.info.merge({ id: c.id })
-    new hash
+    self.new Docker::Container.get(id)
+  end
+
+  def self.find_by_name name
+    self.all.select{ |c| c.names.include?(name) }.first
   end
 
   def self.first
     self.all.first
   end
 
-  ####### Object methods
-  def initialize params = {}
-    params.each do |key, value|
-      o = value.kind_of?(Hash) ? toto(value) : value
-      instance_variable_set("@#{ key.to_s.underscore }", o)
-      instance_eval "class << self; attr_accessor :#{key.to_s.underscore}; end"
-    end
+  def self.run image_name, args
+    self.create(image_name, args).start
   end
 
-  def proxy?
-    'jwilder/nginx-proxy' == image_name
+  def self.create image_name, args
+    arguments = { 'Image': image_name }
+    arguments = arguments.merge({ 'Cmd'  => args[:cmd] })  if args[:cmd]
+    arguments = arguments.merge({ 'name' => args[:name] }) if args[:name]
+    self.new Docker::Container.create(arguments)
   end
 
-  def administration?
-    ['thooams/harbour-crane', 'harbour_crane:latest'].include?(image_name)
+  # Object methods  ##############################################################
+
+  def destroy
+    Docker::Container.get(self.id).delete(force: true)
   end
 
-  def image_name
-    config.image
-  end
-
-  def created_at
-    created
-  end
-
-  def toto value
-    DeepStruct.new(value.deep_transform_keys{ |key| key.to_s.underscore.to_sym })
+  def start
+    Docker::Container.get(id).start
   end
 
   def short_id
     id[0..12]
   end
 
-  def status
-    state.status
-  end
-
-  def command
-    config.cmd.join(' ')
-  end
-
-  def ports
-    network_settings.ports.to_h.map do |port|
-      if port[1].kind_of?(Array)
-        port[1].map do |v|
-          "#{ v[:host_ip] }:#{ v[:host_port] }->#{ port[0] }"
-        end
-      else
-        "#{  port[0] }"
-      end
-    end
-  end
-
-  def names
-    [name]
-  end
-
-  #def image
-    #Image.get(info.image)
+  #def ports
+  #  network_settings.ports.to_h.map do |port|
+  #    if port[1].kind_of?(Array)
+  #      port[1].map do |v|
+  #        "#{ v[:host_ip] }:#{ v[:host_port] }->#{ port[0] }"
+  #      end
+  #    else
+  #      "#{  port[0] }"
+  #    end
+  #  end
   #end
 
+  def get_names info
+    names = info['Names'].blank? ? [info['Name']] : [info['Names']].flatten
+    names.compact.map{ |n| n[1..-1] }
+  end
+
+  def get_status info
+    info[:state]
+  end
+
+  def get_name
+    @names.first
+  end
+
+  def get_image info
+    ap Image.find(info["ImageID"]) unless info["ImageID"].nil?
+    Image.find(info["ImageID"]) unless info["ImageID"].nil?
+  end
+
+  def get_ports info
+    info['Ports'].map{ |p| p.values.join } unless info["Ports"].nil?
+  end
+
+  def get_date_time info
+    Time.utc(info['Created']).strftime(HarbourCrane::Application::TIME_FORMAT) unless info['Created'].nil?
+  end
 end

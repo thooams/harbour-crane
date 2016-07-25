@@ -3,16 +3,21 @@ class Image
   #extend ActiveModel::Naming
 
   attr_accessor :id, :name, :tag, :names, :size, :created_at
+  attr_reader  :info
 
   def initialize image = nil
     unless image.nil?
-      @id         = without_hashing_method(image.id)
-      @names      = image.info['RepoTags']
-      @name       = get_name
-      @tag        = get_tag
-      @info       = image.info
-      @size       = image.info['VirtualSize']
-      @created_at = get_date_time
+      if image.class == Docker::Image
+        @id         = without_hashing_method(image.id)
+        @info       = image.info
+        @names      = get_names
+        @name       = get_name
+        @tag        = get_tag
+        @size       = get_size
+        @created_at = get_date_time
+      else
+        image.each{ |k,v| instance_variable_set("@#{ k.to_s.underscore }", v) }
+      end
     end
   end
 
@@ -86,6 +91,14 @@ class Image
 
   def get_tag
     @names.first.split(':').last
+  end
+
+  def get_names
+    @info['RepoTags']
+  end
+
+  def get_size
+    @info['VirtualSize']
   end
 
 end
