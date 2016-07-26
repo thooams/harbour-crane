@@ -36,7 +36,7 @@ class ImagePresenter < ApplicationPresenter
     image_name = [image.names]
     image_name << etiquette('Proxy', state: :danger)    if image.proxy?
     image_name << etiquette('Admin', state: :primary)   if image.administration?
-    image_name << etiquette('Used',  state: :secondary) if image.used?
+    image_name << etiquette("Used",  state: :secondary) if image.used?
     image_name.join(' ').html_safe
   end
 

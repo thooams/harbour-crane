@@ -62,9 +62,7 @@ class Image
   end
 
   def used?
-    names.select do |name|
-      Container.find_by_image(name)
-    end.first
+    !names.select{ |name| Container.find_by_image(name) }.first.nil?
   end
 
   def destroy
