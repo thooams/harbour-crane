@@ -6,7 +6,7 @@ class ImageTest < ActiveSupport::TestCase
   # end
   #
   def setup
-    Image.pull(name: 'hello-world') if Image.find_by_name('hello-world').nil?
+    Image.first_or_create(name: 'hello-world')
   end
 
   test 'pull' do
@@ -25,9 +25,11 @@ class ImageTest < ActiveSupport::TestCase
 
   test 'find by name' do
     actual   = Image.find_by_name('hello-world').name
+    actual2  = Image.find_by_name('hello-world:latest').name
     expected = 'hello-world'
 
     assert_equal expected, actual
+    assert_equal expected, actual2
   end
 
   test 'all' do

@@ -13,8 +13,11 @@ class Image
     Docker::Image.all.map{ |i| self.new(Image::ConvertImage.new(i).attributes) }
   end
 
+  # Find by name alone or with tag
+  #  => hello-world or hello-world:beta
   def self.find_by_name name
-    all.select{ |c| c.names_without_tags.include?(name) }.first
+    name_with_tag = name.split(':').count > 1 ? name : "#{ name }:latest"
+    all.select{ |c| c.names.include?(name_with_tag) }.first
   end
 
   def self.find id
@@ -30,6 +33,12 @@ class Image
     Docker::Image.all.count
   end
 
+  def self.first_or_create args
+    raise 'name argument must be present.' if args[:name].nil?
+    img = Image.find_by_name(args[:name])
+    img.nil? ? pull(args) : img
+  end
+
   def self.first
     all.first
   end
@@ -39,10 +48,6 @@ class Image
   end
 
   # Object methods  ##############################################################
-
-  def names_without_tags
-    names.map{ |name| name.split(':').first }
-  end
 
   def short_id
     id[0..12]
@@ -54,6 +59,12 @@ class Image
 
   def administration?
     names.include?(HarbourCrane::Application::APP_IMAGE_NAME) || names.include?('harbourcrane/harbourcrane')
+  end
+
+  def used?
+    names.select do |name|
+      Container.find_by_image(name)
+    end.first
   end
 
   def destroy

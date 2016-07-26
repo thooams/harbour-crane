@@ -16,11 +16,11 @@ class ImagePresenter < ApplicationPresenter
 
   def format_image image
     OpenStruct.new({
-      id:          format_id(image),
+      display_id:  format_id(image),
       created_at:  format_created_at(image),
       size:        format_size(image),
       names:       format_image_name(image),
-      infos:       image
+      image:       image
     })
   end
 
@@ -33,13 +33,11 @@ class ImagePresenter < ApplicationPresenter
   end
 
   def format_image_name image
-    if image.proxy?
-      "#{ image.names.join(', ') } #{ etiquette('Proxy', state: :danger) }".html_safe
-    elsif image.administration?
-      "#{ image.names.join(', ') } #{ etiquette('Admin', state: :primary) }".html_safe
-    else
-      image.names.join(', ')
-    end
+    image_name = [image.names]
+    image_name << etiquette('Proxy', state: :danger)    if image.proxy?
+    image_name << etiquette('Admin', state: :primary)   if image.administration?
+    image_name << etiquette('Used',  state: :secondary) if image.used?
+    image_name.join(' ').html_safe
   end
 
   def format_created_at image

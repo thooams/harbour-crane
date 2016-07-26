@@ -1,19 +1,20 @@
 require 'test_helper'
 
-class ContainersControllerTest < ActionController::TestCase
+class ContainersControllerTest < ActionDispatch::IntegrationTest
+
   test "should get index" do
-    get :index
+    get containers_url
     assert_response :success
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
+  test "should destroy container" do
+    container = Container.first_or_create('hello-world-container')
 
-  #test "should get edit" do
-    #get :edit
-    #assert_response :success
-  #end
+    assert_difference('Container.count', -1) do
+      delete container_url(id: container.id)
+    end
+
+    assert_redirected_to containers_url
+  end
 
 end

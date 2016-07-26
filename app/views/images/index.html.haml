@@ -3,23 +3,33 @@
 %br
 %br
 = button_link 'Refresh', state: :success, glyph: 'refresh', url: images_path
-= button_link 'New App', state: :primary, glyph: 'plus-circle', url: new_image_path
+= button_link 'New Image', state: :primary, glyph: 'plus-circle', url: new_image_path
 %br
 %br
-%table.table
-  %tr
-    %th Image ID
-    %th Name:Tag
-    %th Created at
-    %th Virtual Size
-    %th Actions
-  - @images.each do |image|
+%table.table.table-striped
+  %thead
     %tr
-      %td= image.id
-      %td= image.names
-      %td= image.created_at
-      %td= image.size
+      %th Image ID
+      %th Name:Tag
+      %th Created at
+      %th Virtual Size
+      %th Actions
+  %tbody
+  - @images_presenter.each do |image_presenter|
+    %tr
+      %td= image_presenter.display_id
+      %td= image_presenter.names
+      %td= image_presenter.created_at
+      %td= image_presenter.size
       %td
-        - unless image.infos.proxy? || image.infos.administration?
-          = link_to glyph('eye'), image_path(image.infos.id)
-          = link_to glyph('trash'), image_path(image.infos.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
+        - unless image_presenter.image.proxy? || image_presenter.image.administration?
+          = link_to glyph('eye'), image_path(image_presenter.image.id)
+          = link_to glyph('trash'), image_path(image_presenter.image.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
+  %tfoot
+    %tr
+      %td
+        %b Total
+      %td
+      %td
+        %td= number_to_human_size @images_presenter.sum{ |s| s.try(:image).try(:size) }
+      %td

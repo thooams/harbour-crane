@@ -10,7 +10,7 @@ class Container
   # Class methods  ##############################################################
 
   def self.all
-    Docker::Container.all(all: true).map{ |i| self.new(Container::ConvertContainer.new(i).attributes) }
+    Docker::Container.all(all: true).map{ |i| new(Container::ConvertContainer.new(i).attributes) }
   end
 
   def self.find id
@@ -21,19 +21,32 @@ class Container
     all.select{ |c| c.names.include?(name) }.first
   end
 
+  def self.find_by_image name
+    all.select{ |c| c.image.names.include?(name) }.first
+  end
+
   def self.first
     all.first
   end
 
-  def self.run image_name, args
-    create(image_name, args).start
+  def self.first_or_create args
+    cont = find_by_name args[:name]
+    cont.nil? ? create(args) : cont
   end
 
-  def self.create image_name, args
-    arguments = { 'Image': image_name }
-    arguments = arguments.merge({ 'Cmd'  => args[:cmd] })  if args[:cmd]
-    arguments = arguments.merge({ 'name' => args[:name] }) if args[:name]
-    new Container::ConvertContainer.new(Docker::Container.create(arguments)).attributes
+  def self.run args
+    cont = create(args)
+    cont.start
+  end
+
+  def self.create args
+    raise 'image argument must be present.' if args[:image].nil?
+    arguments = { 'Image' => args[:image] }
+    arguments = arguments.merge({ 'Cmd'  => args[:cmd] })  unless args[:cmd].nil?
+    arguments = arguments.merge({ 'name' => args[:name] }) unless args[:name].nil?
+    docker_container_tmp = Docker::Container.create(arguments)
+    docker_container     = Docker::Container.get(docker_container_tmp.id)
+    new Container::ConvertContainer.new(docker_container).attributes
   end
 
   # Object methods  ##############################################################
@@ -44,10 +57,12 @@ class Container
 
   def start
     Docker::Container.get(id).start
+    self
   end
 
   def stop
     Docker::Container.get(id).stop
+    self
   end
 
   def short_id
@@ -70,7 +85,6 @@ class Container
   end
 
   def can_start?
-    ap exited?
     exited? || stopped?
   end
 

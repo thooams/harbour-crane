@@ -2,7 +2,7 @@ class ImagesController < ApplicationController
   before_action :set_image, only: [:show, :destroy]
 
   def index
-    @images = ImagePresenter.new(Image.all).images
+    @images_presenter = ImagePresenter.new(Image.all).images
   end
 
   def new
