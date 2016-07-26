@@ -1,31 +1,16 @@
 class Image
   include ActiveModel
-  #extend ActiveModel::Naming
 
   attr_accessor :id, :name, :tag, :names, :size, :created_at
-  attr_reader  :info
 
-  def initialize image = nil
-    unless image.nil?
-      if image.class == Docker::Image
-        @id         = without_hashing_method(image.id)
-        @info       = image.info
-        @names      = get_names
-        @name       = get_name
-        @tag        = get_tag
-        @size       = get_size
-        @created_at = get_date_time
-      else
-        image.each{ |k,v| instance_variable_set("@#{ k.to_s.underscore }", v) }
-      end
-    end
+  def initialize attributes = {}
+    attributes.each{ |k,v| instance_variable_set("@#{ k.to_s.underscore }", v) }
   end
-
 
   # Class methods  ##############################################################
 
   def self.all
-    Docker::Image.all.map{ |i| self.new(i) }
+    Docker::Image.all.map{ |i| self.new(Image::ConvertImage.new(i).attributes) }
   end
 
   def self.find_by_name name
@@ -38,11 +23,19 @@ class Image
 
   # Return Image object
   def self.pull args
-    self.new Docker::Image.create('fromImage' => "#{ args[:name] }:#{ args[:tag].blank? ? 'latest' : args[:tag] }")
+    new(Image::ConvertImage.new(Docker::Image.create('fromImage' => image_with_tag(args))).attributes)
   end
 
   def self.count
     Docker::Image.all.count
+  end
+
+  def self.first
+    all.first
+  end
+
+  def self.last
+    all.last
   end
 
   # Object methods  ##############################################################
@@ -63,10 +56,6 @@ class Image
     names.include?(HarbourCrane::Application::APP_IMAGE_NAME) || names.include?('harbourcrane/harbourcrane')
   end
 
-  def author
-    @info['Author']
-  end
-
   def destroy
     Docker::Image.get(id).remove(force: true)
   end
@@ -77,28 +66,14 @@ class Image
     str.split(':').last
   end
 
-  def get_date_time
-    Time.utc(@info['Created']).strftime(HarbourCrane::Application::TIME_FORMAT)
-  end
-
   def without_hashing_method str
     str.split(':').last
   end
 
-  def get_name
-    @names.first.split(':').first
+  def self.image_with_tag args
+    "#{ args[:name] }:#{ args[:tag].blank? ? 'latest' : args[:tag] }"
   end
 
-  def get_tag
-    @names.first.split(':').last
-  end
-
-  def get_names
-    @info['RepoTags']
-  end
-
-  def get_size
-    @info['VirtualSize']
-  end
+  self.singleton_class.send(:alias_method, :create, :pull)
 
 end

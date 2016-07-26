@@ -15,16 +15,20 @@
     %th.container_ports Ports
     %th Names
     %th Actions
-  - @containers.each do |container|
+  - @containers_presenter.each do |container_presenter|
     %tr
-      %td= container.display_id
-      %td= container.image_name
-      %td= container.command
-      %td= container.created_at
-      %td= container.status
-      %td= container.ports
-      %td= container.names
+      %td= container_presenter.display_id
+      %td= container_presenter.display_image
+      %td= container_presenter.command
+      %td= container_presenter.created_at
+      %td= container_presenter.status
+      %td= container_presenter.ports
+      %td= container_presenter.names
       %td
-        - unless container.image.proxy? || container.image.administration?
-          = link_to glyph('eye'), container_path(container.id)
-          = link_to glyph('square'), stop_container_path(container.id)
+        - unless container_presenter.image.proxy? || container_presenter.image.administration?
+          = link_to glyph('eye'), container_path(container_presenter.container.id)
+          - if container_presenter.container.can_start?
+            = link_to glyph('play'), start_container_path(container_presenter.container.id)
+          - if container_presenter.container.can_stop?
+            = link_to glyph('square'), stop_container_path(container_presenter.container.id)
+          = link_to glyph('trash'), container_path(container_presenter.container.id), data: { method: :delete, confirm: 'Are you sure?'}

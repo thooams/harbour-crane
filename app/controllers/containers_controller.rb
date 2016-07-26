@@ -1,10 +1,13 @@
 require 'docker'
 class ContainersController < ApplicationController
 
-  before_action :set_container, only: [:edit, :stop]
+  before_action :set_container, only: [:edit, :stop, :start]
 
   def index
-    @containers = ContainerPresenter.new(Container.all).containers
+    @containers_presenter = ContainerPresenter.new(Container.all).containers
+  end
+
+  def show
   end
 
   def edit
@@ -17,10 +20,17 @@ class ContainersController < ApplicationController
     end
   end
 
+  def start
+    @container.start
+    respond_to do |format|
+      format.html { redirect_to containers_path, notice: 'Container was successfully started.' }
+    end
+  end
+
   private
 
   def set_container
-    @container = Docker::Container.get(params[:id])
+    @container = Container.find(params[:id])
   end
 
 end

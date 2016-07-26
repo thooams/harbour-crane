@@ -16,6 +16,13 @@ class ImageTest < ActiveSupport::TestCase
     assert_equal expected, actual
   end
 
+  test 'create' do
+    actual   = Image.create(name: 'hello-world').name
+    expected = 'hello-world'
+
+    assert_equal expected, actual
+  end
+
   test 'find by name' do
     actual   = Image.find_by_name('hello-world').name
     expected = 'hello-world'

@@ -1,10 +1,7 @@
 require 'test_helper'
 
 class ContainerTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-  #
+
   def setup
     Container.run('hello-world', name: 'hello-world-container') if Container.find_by_name('hello-world-container').nil?
   end
@@ -33,7 +30,7 @@ class ContainerTest < ActiveSupport::TestCase
 
   test 'destroy' do
     container = Container.find_by_name('hello-world-container')
-    container.destroy
+    container.destroy(true)
     actual   = Container.find_by_name('hello-world-container')
     expected = nil
 
