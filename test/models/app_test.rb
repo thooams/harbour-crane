@@ -43,8 +43,8 @@ class AppTest < ActiveSupport::TestCase
   ports:
     - 3001:3000
   volumes:
-    - /srv/docker/#{ @app.slug }/vol:/usr/src/app/public/system
-    - /srv/docker/#{ @app.slug }/log:/usr/src/app/log
+    - #{ volumes_app_dir(@app.slug) }/vol:/usr/src/app/public/system
+    - #{ log_app_file(@app.slug) }/log:/usr/src/app/log
   environment:
     RAILS_ENV: production
     VIRTUAL_HOST: my-app.test.com
@@ -56,26 +56,26 @@ class AppTest < ActiveSupport::TestCase
 
   test 'Start App' do
     @app.start
-    container = Container.find(@app.slug)
+    container = Container.find_by_name(@app.slug)
 
     assert_equal 'running', @app.state
-    assert_equal 'running', container.state.status
+    assert_equal 'running', container.status
   end
 
   test 'Stop App' do
     @app.state_run!
     @app.stop
-    container = Container.find(@app.slug)
+    container = Container.find_by_name(@app.slug)
 
     assert_equal 'stopped', @app.state
-    assert_equal 'exited', container.state.status
+    assert_equal 'exited', container.status
   end
 
   test 'Remove App' do
     @app.destroy
-    container = Container.find(@app.slug)
+    container = Container.find_by_name(@app.slug)
 
-    assert_equal 'exited', container.state.status
+    assert_equal 'exited', container.status
     assert !File.exists?(@compose_file), 'File exist'
   end
 end

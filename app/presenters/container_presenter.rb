@@ -34,9 +34,9 @@ class ContainerPresenter < ApplicationPresenter
 
   def format_image_name obj
     if obj.image.proxy?
-      "#{ obj.image.names.join(', ') } #{ etiquette('Proxy', state: :danger) }".html_safe
+      "#{ obj.image.names.join(', ') } #{ etiquette('Proxy', status: :danger) }".html_safe
     elsif obj.image.administration?
-      "#{ obj.image.names.join(', ') } #{ etiquette('Admin', state: :primary) }".html_safe
+      "#{ obj.image.names.join(', ') } #{ etiquette('Admin', status: :primary) }".html_safe
     else
       obj.image.names.join(', ')
     end

@@ -7,8 +7,9 @@ class App < ApplicationRecord
   # Scopes
 
   # Callbacks
-  after_create   :generate_compose_file
-  before_destroy :destroy_compose_file
+  after_create      :generate_compose_file
+  before_validation :generate_slug
+  before_destroy    :destroy_compose_file
 
   # Constants
   GLYPH = HarbourCrane::Application::Glyph::APP
@@ -30,5 +31,15 @@ class App < ApplicationRecord
   # Delegation
 
   # Methods
+
+  def proxy?
+    slug == 'nginx-server'
+  end
+
+  private
+
+  def generate_slug
+    self.slug = name.parameterize if slug.blank?
+  end
 
 end

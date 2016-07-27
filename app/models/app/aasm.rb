@@ -29,12 +29,12 @@ module App::Aasm
     end
 
     def stop
-      system("#{ docker_compose_action } stop")
+      system("#{ docker_compose_action } down")
       state_stop!
     end
 
     def rm
-      system("#{ docker_compose_action } rm --force")
+      system("#{ docker_compose_action } rm --all --force")
     end
 
     def restart
@@ -47,7 +47,7 @@ module App::Aasm
     private
 
     def docker_compose_action
-      "COMPOSE_FILE=#{ compose_app_file(slug) } /usr/local/bin/docker-compose"
+      "COMPOSE_FILE=#{ compose_app_file(slug) } docker-compose"
     end
 
   end

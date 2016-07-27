@@ -5,11 +5,11 @@ module HarbourCrane
     SLUG             = 'harbour-crane'
     DESCRIPTION      = 'Manage you apps through Docker containers.'
     DOCKER_DIR       = "#{ ENV['HOME'] }/#{ SLUG }"
-    COMPOSE_DIR      = "#{ DOCKER_DIR }/compose"
-    UPSTART_DIR      = "#{ DOCKER_DIR }/upstart"
+    VOLUMES_DIR      = "#{ DOCKER_DIR }/volumes"
+    COMPOSES_DIR     = "#{ DOCKER_DIR }/composes"
+    PROXY_DIR        = "#{ DOCKER_DIR}/proxy"
+    LOGS_DIR         = "#{ DOCKER_DIR}/logs"
     APP_DIR          = "#{ DOCKER_DIR }/app"
-    VOLUME_DIR       = "/srv/docker"
-    INIT_DIR         = "/etc/init"
     TEMPLATE_DIR     = "public/templates"
     PROXY_IMAGE_NAME = 'jwilder/nginx-proxy:latest'
     APP_IMAGE_NAME   = 'harbour-crane:latest'

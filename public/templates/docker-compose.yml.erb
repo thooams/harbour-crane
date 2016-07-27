@@ -1,19 +1,19 @@
-web:
-  image: <%= @app.image %>
-  container_name: <%= @app.slug %>
-  ports:
-  <% @app.ports.split(';').each do |port| -%>
-  <%= "- #{ port.strip }" %>
+version: '2'
+services:
+  web:
+    image: <%= @app.image %>
+    container_name: <%= @app.slug %>
+    ports:
+    <% @app.ports.split(';').each do |port| -%>
+    <%= "- #{ port.strip }" %>
+    <% end -%>
+  volumes:
+  <% if [@app.volumes, "#{ volumes_app_dir(@app.slug) }:/usr/src/ap/public/system", "#{ log_app_dir(@app.slug) }:/usr/src/app/log"].flatten -%>
+    <% @app.volumes.split(';').each do |vol| -%>
+    <%= "- #{ vol.strip }" %>
+    <% end -%>
   <% end -%>
-volumes:
-  <% if @app.volumes -%>
-  <% @app.volumes.split(';').each do |vol| -%>
-  <%= "- #{ vol.strip }" %>
-  <% end -%>
-  <% end -%>
-  - <%= "/srv/docker/#{ @app.slug }/vol:/usr/src/app/public/system" %>
-    - <%= "/srv/docker/#{ @app.slug }/log:/usr/src/app/log" %>
   environment:
-    RAILS_ENV: production
-    VIRTUAL_HOST: <%= @app.virtual_host %>
-    SECRET_KEY_BASE: 53f5f599e08171a3c8959d7b7caecf1fec5b5e14
+      RAILS_ENV: production
+      VIRTUAL_HOST: <%= @app.virtual_host %>
+      SECRET_KEY_BASE: 53f5f599e08171a3c8959d7b7caecf1fec5b5e14

@@ -21,12 +21,23 @@
           = button_link '', { glyph: 'play', url: start_app_path(app.id), state: app.running? ? :disabled : :default }, { title: 'Start' }
           = button_link '', { glyph: 'stop', url: stop_app_path(app.id),  state: app.running? ? :default : :disabled }, { title: 'Stop' }
           = button_link '', { glyph: 'refresh', url: restart_app_path(app.id), state: app.running? ? :default : :disabled }, { title: 'Restart' }
-      %td= app.name
+      %td= [app.name, app.proxy? ? etiquette('Proxy', status: :danger) : nil].compact.join(' ').html_safe
       %td= app.description
       %td= app.image
       %td= app.state
       %td= app.created_at
       %td
-        = link_to glyph('pencil'), edit_app_path(app.id)
-        = link_to glyph('eye'), app_path(app.id)
-        = link_to glyph('trash'), app_path(app.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
+        = dropdown 'Action', glyph: 'ellipsis-v', size: :xs do |d|
+          - d.header 'App actions'
+          - d.link 'Edit', glyph: 'pencil', url: edit_app_path(app.id)
+          - d.link 'Show', glyph: 'eye', url: app_path(app.id)
+          - d.link 'Delete', glyph: 'trash', url: app_path(app.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
+          - d.divider
+          - d.header 'Database actions'
+          - d.link 'db:drop', glyph: 'trash', url: '#'
+          - d.link 'db:create', glyph: 'plus-circle', url: '#'
+          - d.link 'db:migrate', glyph: 'share', url: '#'
+          - d.link 'db:seed', glyph: 'th-list', url: '#'
+          - d.divider
+          - d.header 'Other'
+          - d.link 'Console', glyph: 'terminal', url: '#'

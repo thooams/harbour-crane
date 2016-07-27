@@ -2,12 +2,7 @@ module PathHelper
 
   # ~/harbour-crane/compose/app1/
   def compose_app_dir app_name
-    "#{ HarbourCrane::Application::COMPOSE_DIR }/#{ app_name }"
-  end
-
-  # ~/harbour-crane/upstart/app1/
-  def upstart_app_dir app_name
-    "#{ HarbourCrane::Application::UPSTART_DIR }/#{ app_name }"
+    "#{ HarbourCrane::Application::COMPOSES_DIR }/#{ app_name }"
   end
 
   # ~/harbour-crane/app/app1/
@@ -15,14 +10,9 @@ module PathHelper
     "#{ HarbourCrane::Application::APP_DIR }/#{ app_name }"
   end
 
-  # ~/harbour-crane/compose/app1/docker-compose.yml
-  def compose_app_file app_name
-    "#{ compose_app_dir(app_name) }/docker-compose.yml"
-  end
-
-  # ~/harbour-crane/upstart/app1/upstart.conf
-  def upstart_app_file app_name
-    "#{ upstart_app_dir(app_name) }/upstart.conf"
+  # ~/harbour-crane/compose/app-1/docker-compose.yml
+  def compose_app_file app_slug_name
+    "#{ compose_app_dir(app_slug_name) }/docker-compose.yml"
   end
 
   # ~/harbour-crane/upstart/app1/app.yml
@@ -35,14 +25,18 @@ module PathHelper
     "#{ HarbourCrane::Application::TEMPLATE_DIR }/#{ file_name }"
   end
 
-  # /var/log/harbour-crane/app1.log
-  def log_app_file app_name
-    "/var/log/#{ HarbourCrane::Application::SLUG }/#{ app_name }.log"
+  # ~/harbour-crane/logs/app-1.log
+  def log_app_file app_slug_name
+    "#{ log_app_dir(app_slug_name) }/production.log"
   end
 
-  # /etc/init/app1-1b155e45b4.conf
-  def init_upstart_file app_name
-    "#{ HarbourCrane::Application::INIT_DIR }/#{ app_name }.conf"
+  def log_app_dir app_slug_name
+    "#{ HarbourCrane::Application::LOGS_DIR }/#{ app_slug_name }"
+  end
+
+  # ~/harbour-crane/volumes/app-1
+  def volumes_app_dir app_slug_name
+    "#{ HarbourCrane::Application::VOLUMES_DIR }/#{ app_slug_name }"
   end
 
 end

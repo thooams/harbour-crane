@@ -18,7 +18,7 @@ module App::Composer
   end
 
   def create_compose_file
-    @app     = self
+    @app = self
     init_dir
 
     File.open(template_file('docker-compose.yml.erb'),'r') do |f|
