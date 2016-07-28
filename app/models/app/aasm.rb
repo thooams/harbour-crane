@@ -82,7 +82,7 @@ module App::Aasm
     end
 
     def docker_compose_database_action action
-      system("#{ docker_compose_action } run web rake db:#{ action }")
+      system("#{ docker_compose_action } run --rm web rake db:#{ action }")
     end
 
   end

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class AppTest < ActiveSupport::TestCase
+  include Rails.application.helpers
   # test "the truth" do
   #   assert true
   # end
@@ -8,7 +9,6 @@ class AppTest < ActiveSupport::TestCase
   def setup
     @app = App.where({
       name:          'My App',
-      slug:          'my-app',
       description:   'My first App',
       author:        'John Doe',
       ports:         '3001:3000',
@@ -25,11 +25,12 @@ class AppTest < ActiveSupport::TestCase
       "ports"        => "3001:3000",
       "volumes"      => nil,
       "slug"         => "my-app",
-      "state"        => App.states[:stopped],
+      "state"        => 'stopped',
       "author"       => "John Doe",
       "description"  => "My first App",
       "image"        => "hello-world",
-      "category"     => App.categories[:web],
+      "category"     => 'web',
+      "environment"  => nil,
       "virtual_host" => "my-app.test.com"
     }
     assert_equal expected, actual
@@ -37,18 +38,20 @@ class AppTest < ActiveSupport::TestCase
 
   test 'Create compose file' do
     actual   = File.read(@compose_file)
-    expected = "web:
-  image: hello-world
-  container_name: #{ @app.slug }
-  ports:
-    - 3001:3000
-  volumes:
-    - #{ volumes_app_dir(@app.slug) }/vol:/usr/src/app/public/system
-    - #{ log_app_file(@app.slug) }/log:/usr/src/app/log
-  environment:
-    RAILS_ENV: production
-    VIRTUAL_HOST: my-app.test.com
-    SECRET_KEY_BASE: 53f5f599e08171a3c8959d7b7caecf1fec5b5e14
+    expected = "version: '2'
+services:
+  web:
+    image: hello-world
+    container_name: #{ @app.slug }
+    ports:
+      - 3001:3000
+    volumes:
+      - #{ volumes_app_dir(@app.slug) }:/usr/src/app/public/system
+      - #{ log_app_dir(@app.slug) }:/usr/src/app/log
+    environment:
+      RAILS_ENV: production
+      VIRTUAL_HOST: my-app.test.com
+      SECRET_KEY_BASE: 53f5f599e08171a3c8959d7b7caecf1fec5b5e14
 "
     assert File.exists?(@compose_file)
     assert_equal expected, actual
@@ -63,19 +66,21 @@ class AppTest < ActiveSupport::TestCase
   end
 
   test 'Stop App' do
-    @app.state_run!
+    @app.start if @app.stopped?
     @app.stop
     container = Container.find_by_name(@app.slug)
+    ap container
 
     assert_equal 'stopped', @app.state
     assert_equal 'exited', container.status
   end
 
   test 'Remove App' do
+    slug = @app.slug
     @app.destroy
-    container = Container.find_by_name(@app.slug)
+    container = Container.find_by_name(slug)
 
-    assert_equal 'exited', container.status
+    assert_equal nil, container
     assert !File.exists?(@compose_file), 'File exist'
   end
 end

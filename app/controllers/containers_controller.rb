@@ -34,6 +34,13 @@ class ContainersController < ApplicationController
     end
   end
 
+  def destroy_unused
+    Container.destroy_unused
+    respond_to do |format|
+      format.html { redirect_to containers_path, notice: 'Containers were successfully deleted.' }
+    end
+  end
+
   private
 
   def set_container

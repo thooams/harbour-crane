@@ -40,10 +40,12 @@
           - d.link 'Delete', { glyph: 'trash', url: app_path(app.id) }, { method: :delete, data: { confirm: 'Are you sure?' }}
           - d.divider
           - d.header 'Database actions'
-          - d.link 'db:drop', { glyph: 'trash', url: db_drop_app_path(app.id) }, { data: { confirm: 'Are you sure?' }}
-          - d.link 'db:create', glyph: 'plus-circle', url: db_create_app_path(app.id)
-          - d.link 'db:migrate', glyph: 'share', url: db_migrate_app_path(app.id)
-          - d.link 'db:seed', glyph: 'th-list', url: db_seed_app_path(app.id)
+          - d.link 'Drop', { glyph: 'trash', url: db_drop_app_path(app.id) }, { title: 'rails|rake db:drop', data: { confirm: 'Do you really want drop the database?' }}
+          - d.link 'Create', { glyph: 'plus-circle', url: db_create_app_path(app.id) }, { title: 'rails|rake db:create', data: { confirm: 'Do you really want create the database?'} }
+          - d.link 'Migrate', { glyph: 'share', url: db_migrate_app_path(app.id) } , { title: 'rails|rake db:migrate', data: { confirm: 'Do you really want create the database?'} }
+          - d.link 'Seed', { glyph: 'th-list', url: db_seed_app_path(app.id) }, { title: 'rails|rake db:seed', data: { confirm: 'Do you really want create the database?'} }
+          - d.link 'Import', { state: :disabled, glyph: 'th-list', url: db_seed_app_path(app.id) }, { title: 'rails|rake db:console <', data: { confirm: 'Do you really want create the database?'} }
+          - d.link 'Export', state: :disabled, glyph: 'th-list', url: db_seed_app_path(app.id)
           - d.divider
           - d.header 'Other'
-          - d.link 'Console', glyph: 'terminal', url: '#'
+          - d.link 'Console', glyph: 'terminal', state: :disabled, url: '#'

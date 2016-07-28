@@ -34,6 +34,9 @@ Rails.application.routes.draw do
       get :stop
       get :start
     end
+    collection do
+      get :destroy_unused
+    end
   end
 
   root 'home#index'

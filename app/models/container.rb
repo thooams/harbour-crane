@@ -49,6 +49,10 @@ class Container
     new Container::ConvertContainer.new(docker_container).attributes
   end
 
+  def self.destroy_unused
+    all.each{ |container| container.destroy if %w(exited started).include?(container.status) }
+  end
+
   # Object methods  ##############################################################
 
   def destroy force = false
