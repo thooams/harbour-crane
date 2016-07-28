@@ -1,4 +1,4 @@
-namespace :nginx do
+namespace :proxy do
   desc "Create App server Nginx and start"
   task create: :environment do
 

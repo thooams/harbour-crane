@@ -21,5 +21,14 @@ Manage you apps through Docker containers.
 ```
 
 ```
-  rails nginx
+  rails nginx:create
 ```
+
+
+# Ustart
+
+Upstart must do with harbour-crane
+
+* docker-compose run web rake apps:relaunch (to relaunch all apps ran previously)
+* docker-compose up -d
+

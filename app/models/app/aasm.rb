@@ -49,6 +49,14 @@ module App::Aasm
       App.where(state: 1).each{ |app| app.restart }
     end
 
+    def self.stop
+      App.where(state: 1).each{ |app| app.stop }
+    end
+
+    def self.start
+      App.where(state: 0).each{ |app| app.start }
+    end
+
     # Database actions
 
     def db_drop

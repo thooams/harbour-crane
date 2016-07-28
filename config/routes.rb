@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     end
     collection do
       get :relaunch
+      get :start_all
+      get :stop_all
     end
   end
 

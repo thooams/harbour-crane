@@ -75,6 +75,20 @@ class AppsController < ApplicationController
     end
   end
 
+  def start_all
+    App.start
+    respond_to do |format|
+      format.html { message("All apps were successfully started.") }
+    end
+  end
+
+  def stop_all
+    App.stop
+    respond_to do |format|
+      format.html { message("All apps were successfully stopped.") }
+    end
+  end
+
   # Database Action
 
   def db_drop
