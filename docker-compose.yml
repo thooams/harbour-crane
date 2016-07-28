@@ -1,7 +1,8 @@
 version: '2'
 services:
   web:
-    image: harbour-crane:latest
+    #image: harbourcrane/harbour-crane:latest
+    image: harbourcrane/harbour-crane:beta
     ports:
       - "81:3000"
     volumes:
@@ -13,6 +14,7 @@ services:
       # for save
       - ~/harbour-crane/composes:/root/harbour-crane/composes
       - ~/harbour-crane/logs/harbour-crane:/usr/src/app/log
+      - ~/harbour-crane/db/production.sqlite3:/root/harbour-crane/production.sqlite3
       # for development
       #- ~/Apps/harbour-crane:/usr/src/app
       #- ~/harbour-crane/development.sqlite3:/root/harbour-crane/development.sqlite3
