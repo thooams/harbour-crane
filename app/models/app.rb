@@ -33,7 +33,7 @@ class App < ApplicationRecord
   # Methods
 
   def proxy?
-    slug == 'nginx-server'
+    slug == HarbourCrane::Application::PROXY_NAME.parameterize
   end
 
   private

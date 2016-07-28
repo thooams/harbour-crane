@@ -31,13 +31,13 @@
           - d.header 'App actions'
           - d.link 'Edit', glyph: 'pencil', url: edit_app_path(app.id)
           - d.link 'Show', glyph: 'eye', url: app_path(app.id)
-          - d.link 'Delete', glyph: 'trash', url: app_path(app.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
+          - d.link 'Delete', { glyph: 'trash', url: app_path(app.id) }, { method: :delete, data: { confirm: 'Are you sure?' }}
           - d.divider
           - d.header 'Database actions'
-          - d.link 'db:drop', glyph: 'trash', url: '#'
-          - d.link 'db:create', glyph: 'plus-circle', url: '#'
-          - d.link 'db:migrate', glyph: 'share', url: '#'
-          - d.link 'db:seed', glyph: 'th-list', url: '#'
+          - d.link 'db:drop', { glyph: 'trash', url: db_drop_app_path(app.id) }, { method: :delete, data: { confirm: 'Are you sure?' }}
+          - d.link 'db:create', glyph: 'plus-circle', url: db_create_app_path(app.id)
+          - d.link 'db:migrate', glyph: 'share', url: db_migrate_app_path(app.id)
+          - d.link 'db:seed', glyph: 'th-list', url: db_seed_app_path(app.id)
           - d.divider
           - d.header 'Other'
           - d.link 'Console', glyph: 'terminal', url: '#'

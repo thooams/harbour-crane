@@ -39,7 +39,7 @@ class Container::ConvertContainer
   end
 
   def get_ports
-    @info['Ports'].map{ |p| p.values.join } unless @info["Ports"].nil?
+    @info['Ports'].map{ |p| "#{ p["IP"] }:#{ p['PrivatePort'] }->#{ p['PublicPort']}/#{ p['Type']}" } unless @info["Ports"].nil?
   end
 
   def get_command

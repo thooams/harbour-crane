@@ -4,14 +4,12 @@ services:
     image: <%= @app.image %>
     container_name: <%= @app.slug %>
     ports:
-    <% @app.ports.split(';').each do |port| -%>
+  <% @app.ports.split(';').each do |port| -%>
     <%= "- #{ port.strip }" %>
-    <% end -%>
+  <% end -%>
   volumes:
-  <% if [@app.volumes, "#{ volumes_app_dir(@app.slug) }:/usr/src/ap/public/system", "#{ log_app_dir(@app.slug) }:/usr/src/app/log"].flatten -%>
-    <% @app.volumes.split(';').each do |vol| -%>
-    <%= "- #{ vol.strip }" %>
-    <% end -%>
+  <% [@app.volumes.split(';'), "#{ volumes_app_dir(@app.slug) }:/usr/src/ap/public/system", "#{ log_app_dir(@app.slug) }:/usr/src/app/log"].flatten.compact.each do |volume| -%>
+    <%= "- #{ volume.strip }" %>
   <% end -%>
   environment:
       RAILS_ENV: production

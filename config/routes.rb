@@ -7,9 +7,16 @@ Rails.application.routes.draw do
 
   resources :apps do
     member do
+      # Main actions
       get :restart
       get :start
       get :stop
+
+      # Database actions
+      get :db_drop
+      get :db_create
+      get :db_migrate
+      get :db_seed
     end
   end
 

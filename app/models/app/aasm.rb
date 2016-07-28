@@ -22,6 +22,9 @@ module App::Aasm
       end
     end
 
+
+    # Main actions
+
     def start
       rm
       system("#{ docker_compose_action } up -d")
@@ -44,10 +47,32 @@ module App::Aasm
       state_run!
     end
 
+    # Database actions
+
+    def db_drop
+      docker_compose_database_action :drop
+    end
+
+    def db_create
+      docker_compose_database_action :create
+    end
+
+    def db_migrate
+      docker_compose_database_action :migrate
+    end
+
+    def db_seed
+      docker_compose_database_action :seed
+    end
+
     private
 
     def docker_compose_action
       "COMPOSE_FILE=#{ compose_app_file(slug) } docker-compose"
+    end
+
+    def docker_compose_database_action action
+      system("#{ docker_compose_action } run web rake db:#{ action }")
     end
 
   end
