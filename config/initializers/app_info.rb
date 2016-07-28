@@ -14,7 +14,7 @@ module HarbourCrane
     PROXY_DIR        = "#{ DOCKER_DIR}/proxy"
     LOGS_DIR         = "#{ DOCKER_DIR}/logs"
     APP_DIR          = "#{ DOCKER_DIR }/app"
-    TEMPLATE_DIR     = "public/templates"
+    TEMPLATE_DIR     = "/usr/src/app/public/templates"
 
     # Proxy
     PROXY_NAME       = 'Nginx Server'

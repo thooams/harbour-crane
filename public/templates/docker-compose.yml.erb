@@ -5,10 +5,10 @@ services:
     container_name: <%= @app.slug %>
     ports:
   <% @app.ports.split(';').each do |port| -%>
-    <%= "- #{ port.strip }" %>
+    <%= "- '#{ port.strip }'" %>
   <% end -%>
   volumes:
-  <% [(@app.volumes || []).split(';'), "#{ volumes_app_dir(@app.slug) }:/usr/src/ap/public/system", "#{ log_app_dir(@app.slug) }:/usr/src/app/log"].flatten.compact.each do |volume| -%>
+  <% (@app.volumes || []).split(';').flatten.compact.each do |volume| -%>
     <%= "- #{ volume.strip }" %>
   <% end -%>
   environment:
