@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'settings/index'
   get 'home/index'
   get 'proxy/index' => 'proxy#index', as: :proxy
   get 'about/index' => 'about#index', as: :about
@@ -17,6 +18,9 @@ Rails.application.routes.draw do
       get :db_create
       get :db_migrate
       get :db_seed
+    end
+    collection do
+      get :relaunch
     end
   end
 

@@ -31,6 +31,7 @@ class App < ApplicationRecord
   # Delegation
 
   # Methods
+  #
 
   def proxy?
     slug == HarbourCrane::Application::PROXY_NAME.parameterize

@@ -68,6 +68,12 @@ class AppsController < ApplicationController
     end
   end
 
+  def relaunch
+    App.relaunch
+    respond_to do |format|
+      format.html { message("All running apps were successfully relaunched.") }
+    end
+  end
 
   # Database Action
 

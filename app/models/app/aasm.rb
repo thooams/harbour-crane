@@ -14,7 +14,7 @@ module App::Aasm
       state :running
 
       event :state_run do
-        transitions :from => [:stopped, :running], :to => :running
+        transitions :from => [:stopped], :to => :running
       end
 
       event :state_stop do
@@ -42,9 +42,11 @@ module App::Aasm
 
     def restart
       stop
-      state_stop!
       start
-      state_run!
+    end
+
+    def self.relaunch
+      App.where(state: 1).each{ |app| app.restart }
     end
 
     # Database actions

@@ -1,8 +1,9 @@
 %h1= glyph_and_text App::GLYPH, "Apps listing"
 %p List of apps in your server
 %br
-= button_link 'Refresh', state: :success, glyph: 'refresh', url: apps_path
-= button_link 'New App', state: :primary, glyph: 'plus-circle', url: new_app_path
+= button_link 'Refresh', status: :primary, glyph: 'refresh', url: apps_path
+= button_link 'New App', status: :primary, glyph: 'plus-circle', url: new_app_path
+= button_link 'Relaunch all running apps', status: :danger, glyph: 'share', url: relaunch_apps_path
 %br
 %br
 %table.table

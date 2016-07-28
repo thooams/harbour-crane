@@ -18,6 +18,7 @@
         - n.link 'Store', url: store_path, status: active_link('store')
         - n.link 'Proxy', url: proxy_path, status: active_link('proxy')
         - n.link 'About', url: about_path, status: active_link('about')
+        - n.link 'Settings', url: settings_index_path, status: active_link('settings')
     - if controller_name == 'home'
       .pageheader
         = container do
