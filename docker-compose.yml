@@ -1,21 +1,23 @@
-web:
-  image: harbour-crane:latest
-  ports:
-    - "3000:3000"
-  volumes:
-    # for system
-    - /var/run/docker.sock:/var/run/docker.sock:ro
-    #- /root/Apps/Ui-Bibz:/root/Apps/Ui-Bibz
-    #- /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
-    #- /etc/init:/etc/init
-    # for save
-    - ~/harbour-crane/composes:/root/harbour-crane/composes
-    - ~/harbour-crane/logs/harbour-crane:/usr/src/app/log
-    # for development
-    - ~/Apps/harbour-crane:/usr/src/app
-    - ~/harbour-crane/development.sqlite3:/root/harbour-crane/development.sqlite3
-    - ~/harbour-crane/production.sqlite3:/root/harbour-crane/production.sqlite3
-  environment:
-    RAILS_ENV: development
-    #RAILS_ENV: production
-    VIRTUAL_HOST: harbour-crane.com
+version: '2'
+services:
+  web:
+    image: harbour-crane:latest
+    ports:
+      - "81:3000"
+    volumes:
+      # for system
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      #- /root/Apps/Ui-Bibz:/root/Apps/Ui-Bibz
+      #- /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
+      #- /etc/init:/etc/init
+      # for save
+      - ~/harbour-crane/composes:/root/harbour-crane/composes
+      - ~/harbour-crane/logs/harbour-crane:/usr/src/app/log
+      # for development
+      #- ~/Apps/harbour-crane:/usr/src/app
+      #- ~/harbour-crane/development.sqlite3:/root/harbour-crane/development.sqlite3
+      #- ~/harbour-crane/production.sqlite3:/root/harbour-crane/production.sqlite3
+    environment:
+      #RAILS_ENV: development
+      RAILS_ENV: production
+      VIRTUAL_HOST: harbour-crane.com
