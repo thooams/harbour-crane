@@ -14,7 +14,7 @@ module App::Aasm
       state :running
 
       event :state_run do
-        transitions :from => :stopped, :to => :running
+        transitions :from => [:stopped, :running], :to => :running
       end
 
       event :state_stop do

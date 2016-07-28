@@ -2,6 +2,9 @@ namespace :nginx do
   desc "Create App server Nginx and start"
   task create: :environment do
 
+    ## Add current nginx.tmpl to ~/harbour-crane/proxy/nginx.tmpl
+    system("wget https://raw.githubusercontent.com/jwilder/nginx-proxy/master/nginx.tmpl -O #{ HarbourCrane::Application::PROXY_DIR }/nginx.tmpl")
+
     @app = App.where({
       name:         HarbourCrane::Application::PROXY_NAME,
       description:  'NGINX is running as a HTTP(S) proxy, with automated configuration from Docker',
