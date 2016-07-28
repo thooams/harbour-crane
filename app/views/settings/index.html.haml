@@ -1,2 +1,9 @@
-%h1 Settings#index
-%p Find me in app/views/settings/index.html.haml
+%h1= glyph_and_text HarbourCrane::Application::Glyph::SETTINGS, "Setting"
+= row do
+  = col num: 12 do
+    %p Before create app, you must create a proxy to redirect your application automaticaly.
+    - if App.proxy_exist?
+      = button_link 'Remove Proxy', glyph: 'trash', url: settings_destroy_proxy_url, status: :danger
+    - else
+      = button_link 'Create and launch Proxy', glyph: 'plus-circle', url: settings_create_proxy_url, status: :danger
+

@@ -32,6 +32,7 @@ module HarbourCrane
       IMAGE     = 'camera'
       ABOUT     = 'info-circle'
       STORE     = 'shopping-cart'
+      SETTINGS  = 'sliders'
     end
   end
 

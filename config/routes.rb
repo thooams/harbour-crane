@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   get 'settings/index'
+  get 'settings/create_proxy'
+  get 'settings/destroy_proxy'
   get 'home/index'
   get 'proxy/index' => 'proxy#index', as: :proxy
   get 'about/index' => 'about#index', as: :about

@@ -1,6 +1,7 @@
 class App < ApplicationRecord
   include App::Aasm
   include App::Composer
+  include App::Proxy
 
   #include App::Record
 
@@ -32,10 +33,6 @@ class App < ApplicationRecord
 
   # Methods
   #
-
-  def proxy?
-    slug == HarbourCrane::Application::PROXY_NAME.parameterize
-  end
 
   private
 
