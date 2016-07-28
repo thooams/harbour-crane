@@ -4,7 +4,7 @@ module HarbourCrane
     VERSION          = '1.0.0.beta'
     NAME             = 'Harbour Crane'
     SLUG             = 'harbour-crane'
-    APP_IMAGE_NAME   = 'harbour-crane:latest'
+    APP_IMAGE_NAME   = 'harbourcrane/harbour-crane'
     DESCRIPTION      = 'Manage you apps through Docker containers.'
 
     # Directories

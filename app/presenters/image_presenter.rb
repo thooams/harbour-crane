@@ -34,8 +34,8 @@ class ImagePresenter < ApplicationPresenter
 
   def format_image_name image
     image_name = [image.names]
-    image_name << etiquette('Proxy', status: :danger)    if image.proxy?
-    image_name << etiquette('Admin', status: :primary)   if image.administration?
+    image_name << etiquette('Proxy', status: :danger)  if image.proxy?
+    image_name << etiquette('Admin', status: :success) if image.administration?
     image_name << etiquette("Used",  status: :default) if image.used?
     image_name.join(' ').html_safe
   end

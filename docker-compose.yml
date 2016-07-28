@@ -14,12 +14,13 @@ services:
       # for save
       - ~/harbour-crane/composes:/root/harbour-crane/composes
       - ~/harbour-crane/logs/harbour-crane:/usr/src/app/log
-      - ~/harbour-crane/db/production.sqlite3:/root/harbour-crane/production.sqlite3
+      - ~/harbour-crane/db/production.sqlite3:/usr/src/app/db/production.sqlite3
       # for development
-      #- ~/Apps/harbour-crane:/usr/src/app
+      - ~/Apps/harbour-crane:/usr/src/app
+      - ~/harbour-crane:/root/harbour-crane
       #- ~/harbour-crane/development.sqlite3:/root/harbour-crane/development.sqlite3
       #- ~/harbour-crane/production.sqlite3:/root/harbour-crane/production.sqlite3
     environment:
-      #RAILS_ENV: development
-      RAILS_ENV: production
+      RAILS_ENV: development
+      #RAILS_ENV: production
       VIRTUAL_HOST: harbour-crane.com

@@ -36,7 +36,7 @@ class ContainerPresenter < ApplicationPresenter
     if obj.image.proxy?
       "#{ obj.image.names.join(', ') } #{ etiquette('Proxy', status: :danger) }".html_safe
     elsif obj.image.administration?
-      "#{ obj.image.names.join(', ') } #{ etiquette('Admin', status: :primary) }".html_safe
+      "#{ obj.image.names.join(', ') } #{ etiquette('Admin', status: :success) }".html_safe
     else
       obj.image.names.join(', ')
     end

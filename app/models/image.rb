@@ -58,7 +58,7 @@ class Image
   end
 
   def administration?
-    names.include?(HarbourCrane::Application::APP_IMAGE_NAME) || names.include?('harbourcrane/harbourcrane')
+    names_without_tag.include?(HarbourCrane::Application::APP_IMAGE_NAME)
   end
 
   def used?
@@ -70,6 +70,10 @@ class Image
   end
 
   private
+
+  def names_without_tag
+    names.map{ |name| name.split(':')[0] }
+  end
 
   def self.without_hashing_method str
     str.split(':').last
