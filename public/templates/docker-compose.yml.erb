@@ -3,15 +3,25 @@ services:
   web:
     image: <%= @app.image %>
     container_name: <%= @app.slug %>
+    <% unless @app.ports.blank? %>
     ports:
-  <% @app.ports.split(';').each do |port| -%>
-    <%= "- '#{ port.strip }'" %>
-  <% end -%>
-  volumes:
-  <% (@app.volumes || []).split(';').flatten.compact.each do |volume| -%>
-    <%= "- #{ volume.strip }" %>
-  <% end -%>
-  environment:
+      <% @app.ports.split(';').compact.each do |port| %>
+        <%= "- '#{ port.strip }'" %>
+      <% end %>
+    <% end %>
+    <% unless @app.expose.blank? %>
+    expose:
+      <% @app.expose.split(';').compact.each do |expose| %>
+        <%= "- '#{ expose.strip }'" %>
+      <% end %>
+    <% end %>
+    <% unless @app.volumes.blank? %>
+    volumes:
+      <% @app.volumes.split(';').compact.each do |volume| %>
+        <%= "- #{ volume.strip }" %>
+      <% end %>
+    <% end %>
+    environment:
       RAILS_ENV: production
       VIRTUAL_HOST: <%= @app.virtual_host %>
       SECRET_KEY_BASE: 53f5f599e08171a3c8959d7b7caecf1fec5b5e14

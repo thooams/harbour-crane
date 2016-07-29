@@ -7,6 +7,7 @@ class CreateApps < ActiveRecord::Migration
       t.string :slug
       t.integer :state, default: App.states[:stopped]
       t.string :author
+      t.text   :expose
       t.text   :description
       t.text   :environment
       t.string :image

@@ -20,6 +20,9 @@ RUN curl -o /usr/local/bin/docker-compose -L \
     "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-Linux-x86_64" \
     && chmod +x /usr/local/bin/docker-compose
 
+RUN mkdir -p /root/harbour-crane/proxy/
+RUN wget https://raw.githubusercontent.com/jwilder/nginx-proxy/master/nginx.tmpl -O /root/harbour-crane/proxy/nginx.tmpl
+
 # Precompile assets
 ENV SECRET_KEY_BASE 12332e1d4e0f342613b18645a7db96b41ba599ebf323cda09950f3507c67ad8d32e0946751c2070351eb5f884f272acb6b432a89deedd23389675c57f446ef35
 RUN RAILS_ENV=production bundle exec rake assets:precompile

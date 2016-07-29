@@ -3,6 +3,7 @@ services:
   web:
     #image: harbourcrane/harbour-crane:latest
     image: harbourcrane/harbour-crane:beta
+    container_name: harbour-crane
     ports:
       - "81:3000"
       - "80:80"
@@ -14,8 +15,17 @@ services:
       #- /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
       # for save
       #- ~/harbour-crane/composes:/root/harbour-crane/composes
-      - ~/harbour-crane:/root/harbour-crane
+      #- ~/harbour-crane/composes:/root/harbour-crane/composes
+      #- ~/harbour-crane/db:/root/harbour-crane/db
+      #- ~/harbour-crane/logs:/root/harbour-crane/logs
+      #- ~/harbour-crane/proxy:/root/harbour-crane/proxy
       - ~/harbour-crane/logs/harbour-crane:/usr/src/app/log
+      - ~/harbour-crane/composes:/root/harbour-crane/composes
+      #- ~/harbour-crane/db:/root/harbour-crane/db
+      - ~/harbour-crane/logs:/root/harbour-crane/logs
+      #- ~/harbour-crane/proxy:/root/harbour-crane/proxy
+      - ~/harbour-crane/proxy/nginx.tmpl:/root/harbour-crane/proxy/nginx.tmpl
+      # - ~/harbour-crane/logs/harbour-crane:/usr/src/app/log
       - ~/harbour-crane/db/production.sqlite3:/usr/src/app/db/production.sqlite3
       # for development
       - ~/Apps/harbour-crane:/usr/src/app
@@ -25,3 +35,4 @@ services:
       RAILS_ENV: development
       #RAILS_ENV: production
       VIRTUAL_HOST: localhost
+

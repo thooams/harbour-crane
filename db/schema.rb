@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20151102094955) do
     t.string   "slug"
     t.integer  "state",        default: 0
     t.string   "author"
+    t.text     "expose"
     t.text     "description"
     t.text     "environment"
     t.string   "image"

@@ -126,7 +126,7 @@ class AppsController < ApplicationController
   end
 
   def app_params
-    params.require(:app).permit(:name, :description, :slug, :author, :image, :compose_file, :ports, :virtual_host, :volumes)
+    params.require(:app).permit(:name, :description, :slug, :author, :image, :compose_file, :expose, :ports, :virtual_host, :volumes)
   end
 
   def message mymessage

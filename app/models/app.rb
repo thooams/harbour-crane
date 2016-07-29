@@ -26,7 +26,7 @@ class App < ApplicationRecord
   # Associations
 
   # Validations
-  validates :name, :slug, :ports, :virtual_host, :image, presence: true
+  validates :name, :slug, :virtual_host, :image, presence: true
   validates :slug, uniqueness: true
 
   # Delegation
