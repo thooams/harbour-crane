@@ -28,15 +28,15 @@ class Image::ConvertImage
   end
 
   def get_name
-    @info['RepoTags'] .first.split(':').first
+    @info['RepoTags'].first.split(':').first unless @info['RepoTags'].blank?
   end
 
   def get_tag
-    @info['RepoTags'].first.split(':').last
+    @info['RepoTags'].first.split(':').last unless @info['RepoTags'].blank?
   end
 
   def get_names
-    @info['RepoTags']
+    @info['RepoTags'] || []
   end
 
   def get_size

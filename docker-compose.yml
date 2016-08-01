@@ -12,7 +12,7 @@ services:
       #- /root/Apps/Ui-Bibz:/root/Apps/Ui-Bibz
       #- /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
       # for save
-      #- ~/harbour-crane/composes:/root/harbour-crane/composes
+      - ~/harbour-crane/composes:/root/harbour-crane/composes
       #- ~/harbour-crane/composes:/root/harbour-crane/composes
       #- ~/harbour-crane/db:/root/harbour-crane/db
       #- ~/harbour-crane/logs:/root/harbour-crane/logs
@@ -22,7 +22,7 @@ services:
       #- ~/harbour-crane/db:/root/harbour-crane/db
       #- ~/harbour-crane/logs:/root/harbour-crane/logs
       #- ~/harbour-crane/proxy:/root/harbour-crane/proxy
-      #- ~/harbour-crane/proxy/nginx.tmpl:/root/harbour-crane/proxy/nginx.tmpl
+      - ~/harbour-crane/proxy/nginx.tmpl:/app/nginx.tmpl
       # - ~/harbour-crane/logs/harbour-crane:/usr/src/app/log
       - ~/harbour-crane/db/production.sqlite3:/usr/src/app/db/production.sqlite3
       # for development
@@ -33,10 +33,3 @@ services:
       RAILS_ENV: development
       #RAILS_ENV: production
       VIRTUAL_HOST: localhost
-
-  data:
-    image: busybox
-    volumes:
-      - /var/run/docker.sock
-      - ~/harbour-crane
-
