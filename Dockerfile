@@ -20,7 +20,7 @@ RUN curl -o /usr/local/bin/docker-compose -L \
     "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-Linux-x86_64" \
     && chmod +x /usr/local/bin/docker-compose
 
-#RUN mkdir -p /root/harbour-crane/proxy/
+RUN mkdir -p /root/harbour-crane/proxy
 #RUN wget https://raw.githubusercontent.com/jwilder/nginx-proxy/master/nginx.tmpl -O /root/harbour-crane/proxy/nginx.tmpl
 
 # Precompile assets

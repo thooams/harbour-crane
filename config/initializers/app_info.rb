@@ -8,11 +8,12 @@ module HarbourCrane
     DESCRIPTION      = 'Manage you apps through Docker containers.'
 
     # Directories
-    DOCKER_DIR       = "#{ ENV['HOME'] }/#{ SLUG }"
+    #DOCKER_DIR       = "#{ ENV['HOME'] }/#{ SLUG }"
+    DOCKER_DIR       = "/root/#{ SLUG }"
     VOLUMES_DIR      = "#{ DOCKER_DIR }/volumes"
     COMPOSES_DIR     = "#{ DOCKER_DIR }/composes"
-    PROXY_DIR        = "#{ DOCKER_DIR}/proxy"
-    LOGS_DIR         = "#{ DOCKER_DIR}/logs"
+    PROXY_DIR        = "#{ DOCKER_DIR }/proxy"
+    LOGS_DIR         = "#{ DOCKER_DIR }/logs"
     APP_DIR          = "#{ DOCKER_DIR }/app"
     TEMPLATE_DIR     = "/usr/src/app/public/templates"
 

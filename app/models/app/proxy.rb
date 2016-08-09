@@ -23,18 +23,19 @@ module App::Proxy
     def self.create_proxy
       ## Add current nginx.tmpl to ~/harbour-crane/proxy/nginx.tmpl
       system("wget https://raw.githubusercontent.com/jwilder/nginx-proxy/master/nginx.tmpl -O #{ HarbourCrane::Application::PROXY_DIR }/nginx.tmpl")
+      system("touch #{ HarbourCrane::Application::PROXY_DIR }/default.conf")
 
       self.where({
         name:         HarbourCrane::Application::PROXY_NAME,
         description:  'NGINX is running as a HTTP(S) proxy, with automated configuration from Docker',
         author:       'Thomas HUMMEL',
-        #ports:        '80:80;443:443',
-        expose:        '80;443',
+        ports:        '80:80;443:443',
         image:        'jwilder/nginx-proxy',
         virtual_host: 'nginx',
         category:     :proxy,
         volumes:      [
           "/var/run/docker.sock:/tmp/docker.sock:ro",
+          "#{ HarbourCrane::Application::PROXY_DIR }/default.conf:/etc/nginx/conf.d/default.conf:ro",
           "#{ HarbourCrane::Application::PROXY_DIR }/nginx.tmpl:/app/nginx.tmpl:ro",
           "#{ HarbourCrane::Application::PROXY_DIR }/ssl:/etc/nginx/certs:ro"
         ].join(';')
