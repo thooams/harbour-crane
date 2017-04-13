@@ -2,7 +2,7 @@
 %p List of containers running in your server
 %br
 = button_link 'Refresh', glyph: 'refresh', url: containers_path
-= button_link '(Safe) Delete', { status: :danger, glyph: 'trash', url: destroy_unused_containers_path }, { title: 'Delete unused containers'}
+= button_link 'Remove unused containers', { status: :danger, glyph: 'trash', url: destroy_unused_containers_path }, { title: 'Delete unused containers with exited and started status'}
 %br
 %br
 %table.table

@@ -1,5 +1,5 @@
 class Container
-  include ActiveModel
+  include ActiveModel::Model
 
   attr_accessor :id, :name, :command, :names, :ports, :image, :created_at, :status
 

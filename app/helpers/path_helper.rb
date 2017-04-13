@@ -25,6 +25,14 @@ module PathHelper
     "#{ HarbourCrane::Application::TEMPLATE_DIR }/#{ file_name }"
   end
 
+  def nginx_template_file file_name
+    "#{ nginx_template_dir }/#{ file_name }"
+  end
+
+  def nginx_template_dir
+    "#{ HarbourCrane::Application::PROXY_DIR }/templates"
+  end
+
   # ~/harbour-crane/logs/app-1.log
   def log_app_file app_slug_name
     "#{ log_app_dir(app_slug_name) }/production.log"

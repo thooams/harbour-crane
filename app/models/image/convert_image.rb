@@ -20,7 +20,7 @@ class Image::ConvertImage
   private
 
   def get_date_time
-    Time.utc(@info['Created']).strftime(HarbourCrane::Application::TIME_FORMAT)
+    Time.at(@info['Created']).strftime(HarbourCrane::Application::TIME_FORMAT) unless @info['Created']
   end
 
   def without_hashing_method str

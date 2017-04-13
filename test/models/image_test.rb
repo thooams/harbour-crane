@@ -48,12 +48,19 @@ class ImageTest < ActiveSupport::TestCase
   end
 
   test 'destroy' do
-    image = Image.find_by_name('hello-world')
-    image.destroy
-    actual   = Image.find_by_name('hello-world')
-    expected = nil
+    Image.find_by_name('hello-world').destroy
+    expected = Image.find_by_name('hello-world')
 
-    assert_equal expected, actual
+    assert_nil expected
+  end
+
+  test 'destroy_all' do
+    hw_tutum    = Image.first_or_create(name: 'tutum/hello-world')
+    hw          = Image.find_by_name('hello-world')
+    image_count = Image.count
+
+    Image.destroy_all(hw_tutum.id, hw.id)
+    assert_equal Image.count, image_count - 2
   end
 
 end

@@ -25,17 +25,5 @@ module HarbourCrane
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths += Dir[File.join(Rails.root, "lib", "habour-crane", "*.rb")].each {|l| require l }
 
-
-    # These are the available options with their default value:
-    config.opal.method_missing      = true
-    config.opal.optimized_operators = true
-    config.opal.arity_check         = false
-    config.opal.const_missing       = true
-    config.opal.dynamic_require_severity = :ignore
-
-    # Enable/disable /opal_specs route
-    config.opal.enable_specs        = true
-
-    config.opal.spec_location = 'spec-opal'
   end
 end

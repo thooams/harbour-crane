@@ -23,5 +23,6 @@
       .pageheader
         = container do
           = yield :pageheader
-    = container class: 'content' do
+    = container class: 'content', type: :fluid do
+      = render "layouts/flash_messages"
       = yield

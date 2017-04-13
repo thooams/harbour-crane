@@ -25,6 +25,20 @@ class ImagesController < ApplicationController
     end
   end
 
+  def destroy_all
+    params.permit!
+    errors = Image.destroy_all(params[:ids].to_h.map{|k,_| k })
+    respond_to do |format|
+      if errors.empty?
+        format.html { redirect_to images_url, notice: 'Images were successfully destroyed.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to images_url, alert: errors.join(', ') }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   def destroy
     @image.destroy
     respond_to do |format|

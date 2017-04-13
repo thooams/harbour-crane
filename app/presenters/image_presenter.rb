@@ -17,6 +17,8 @@ class ImagePresenter < ApplicationPresenter
   def format_image image
     OpenStruct.new({
       display_id:  format_id(image),
+      id:          image.id,
+      short_id:    image.short_id,
       created_at:  format_created_at(image),
       size:        format_size(image),
       names:       format_image_name(image),

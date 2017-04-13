@@ -5,10 +5,10 @@ module HarbourCrane
     NAME             = 'Harbour Crane'
     SLUG             = 'harbour-crane'
     APP_IMAGE_NAME   = 'harbourcrane/harbour-crane'
-    DESCRIPTION      = 'Manage you apps through Docker containers.'
+    DESCRIPTION      = 'Manage you apps through Docker.'
 
     # Directories
-    #DOCKER_DIR       = "#{ ENV['HOME'] }/#{ SLUG }"
+    #DOCKER_DIR       = "#{ ENV['HOME'] }/#{ SLUG }/srv"
     DOCKER_DIR       = "/root/#{ SLUG }"
     VOLUMES_DIR      = "#{ DOCKER_DIR }/volumes"
     COMPOSES_DIR     = "#{ DOCKER_DIR }/composes"
@@ -18,7 +18,7 @@ module HarbourCrane
     TEMPLATE_DIR     = "/usr/src/app/public/templates"
 
     # Proxy
-    PROXY_NAME       = 'Nginx Server'
+    PROXY_NAME       = 'Harbour Crane Proxy'
     PROXY_IMAGE_NAME = 'jwilder/nginx-proxy:latest'
 
     # Date format

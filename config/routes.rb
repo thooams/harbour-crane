@@ -28,7 +28,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :images
+  resources :images do
+    collection do
+      post :destroy_all
+    end
+  end
 
   resources :containers do
     member do

@@ -1,0 +1,13 @@
+- flash.each do |msg_type, message|
+  - if msg_type == "record_error"
+    - if message.any?
+      #error_explanation
+        = notify(status: :danger) do
+          %h2= "#{pluralize(message.count, "error")} prohibited this product from being saved:"
+          %ul
+            - message.each do |msg|
+              %li= msg
+  - else
+    = notify(status: bootstrap_status_for(msg_type)) do
+      %button.close{ data: { dismiss: 'alert' } } x
+      = glyph_and_text bootstrap_icon_for(msg_type), message

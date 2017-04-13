@@ -1,7 +1,7 @@
-FROM ruby:2.3
+FROM ruby:2.4.1
 MAINTAINER Thomas HUMMEL <thummel@codde.fr>
-ENV REFRESHED_AT 2015-09-15
-ENV COMPOSE_VERSION 1.7.1
+ENV REFRESHED_AT 2017-03-28
+ENV COMPOSE_VERSION 1.11.0
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
@@ -11,7 +11,7 @@ WORKDIR /usr/src/app
 
 COPY Gemfile /usr/src/app/
 COPY Gemfile.lock /usr/src/app/
-RUN bundle install #--without test development
+RUN bundle install --system #--without test development
 
 COPY . /usr/src/app
 
@@ -20,7 +20,7 @@ RUN curl -o /usr/local/bin/docker-compose -L \
     "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-Linux-x86_64" \
     && chmod +x /usr/local/bin/docker-compose
 
-RUN mkdir -p /root/harbour-crane/proxy
+#RUN mkdir -p /root/harbour-crane/proxy
 #RUN wget https://raw.githubusercontent.com/jwilder/nginx-proxy/master/nginx.tmpl -O /root/harbour-crane/proxy/nginx.tmpl
 
 # Precompile assets

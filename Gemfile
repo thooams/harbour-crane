@@ -20,8 +20,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'turbolinks', '~> 5'
 
 # Opal
-gem 'opal-rails'
-gem 'opal-activesupport'
+#gem 'opal-rails'
+#gem 'opal-activesupport'
 
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -34,7 +34,8 @@ gem 'opal-activesupport'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'docker-api', :require => 'docker'
-gem 'ui_bibz', '~> 2.0.0.alpha16'
+gem 'ui_bibz', '~> 2.0.0.alpha32'
+#gem 'ui_bibz', path: '~/Apps/Ui-Bibz'
 gem 'simple_form'
 
 gem 'will_paginate', '~> 3.1.0'

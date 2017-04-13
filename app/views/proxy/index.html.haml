@@ -1,8 +1,22 @@
 %h1 Proxy configuration
 
-= simple_form_for :proxy do |f|
-  = card do
-    - file_path = template_file('nginx.tmpl')
-    = "File: #{ file_path }"
-    - if File.exist?(file_path)
-      = f.input :proxy_configuration, as: :text, input_html: { rows: 25, class: 'code', value: File.read(file_path) }
+= row do
+  = col num: 6 do
+    %h3= "Nginx Configuration (Version #{ @version })"
+    = card do
+      = select_field option_tags: options_for_select(@versions), selected: @file_name
+      - file_path = nginx_template_file(@file_name)
+      = "File: #{ file_path }"
+      - if File.exist?(file_path)
+        = card class: 'code' do
+          %pre= File.read(file_path)
+  = col num: 6 do
+    %h3= "Nginx Configuration (#{ @last_version }) #{ etiquette('current', status: :danger) }".html_safe
+    = card do
+      - file_path = nginx_template_file('nginx.tmpl')
+      = "File: #{ file_path }"
+      - if File.exist?(file_path)
+        = simple_form_for :proxy do |f|
+          = f.input :proxy_configuration, as: :text, input_html: { rows: 25, class: 'code', value: File.read(file_path) }
+          = f.submit "Upgrade version", class: 'btn btn-primary'
+

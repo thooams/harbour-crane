@@ -40,10 +40,9 @@ class ContainerTest < ActiveSupport::TestCase
   test 'destroy' do
     container = Container.find_by_name('hello-world-container')
     container.destroy(true)
-    actual   = Container.find_by_name('hello-world-container')
-    expected = nil
+    expected = Container.find_by_name('hello-world-container')
 
-    assert_equal expected, actual
+    assert_nil expected
   end
 
   test 'run' do

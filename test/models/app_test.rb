@@ -69,7 +69,6 @@ services:
     @app.start if @app.stopped?
     @app.stop
     container = Container.find_by_name(@app.slug)
-    ap container
 
     assert_equal 'stopped', @app.state
     assert_equal 'exited', container.status

@@ -1,34 +1,40 @@
 %h1= glyph_and_text HarbourCrane::Application::Glyph::IMAGE, "Images listing"
 %p List of images in your server
 %br
-= button_link 'Refresh', state: :success, glyph: 'refresh', url: images_path
-= button_link 'New Image', state: :primary, glyph: 'plus-circle', url: new_image_path
+= button_link 'Refresh', status: :success, glyph: 'refresh', url: images_path
+= button_link 'New Image', status: :primary, glyph: 'plus-circle', url: new_image_path
+= button_link 'Delete', { status: :danger, glyph: 'trash', url: destroy_all_images_path }, { id: 'delete_btn'}
 %br
 %br
-%table.table.table-striped
-  %thead
-    %tr
-      %th Image ID
-      %th Name:Tag
-      %th Created at
-      %th Virtual Size
-      %th Actions
-  %tbody
-  - @images_presenter.each do |image_presenter|
-    %tr
-      %td= image_presenter.display_id
-      %td= image_presenter.names
-      %td= image_presenter.created_at
-      %td= image_presenter.size
-      %td
-        - unless image_presenter.image.proxy? || image_presenter.image.administration?
-          = link_to glyph('eye'), image_path(image_presenter.image.id)
-          = link_to glyph('trash'), image_path(image_presenter.image.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
-  %tfoot
-    %tr
-      %td
-        %b Total
-      %td
-      %td
+= form_tag images_path, method: :post do
+  %table.table.table-striped
+    %thead
+      %tr
+        %th= checkbox_field :select_all, { label: '' }
+        %th Image ID
+        %th Name:Tag
+        %th Created at
+        %th Virtual Size
+        %th Actions
+      %tbody
+        - @images_presenter.each_with_index do |image_presenter, i|
+          %tr
+            %td= checkbox_field "ids[#{image_presenter.id}]", { label: '' } unless image_presenter.image.protected?
+            %td= image_presenter.display_id
+            %td= image_presenter.names
+            %td= image_presenter.created_at
+            %td= image_presenter.size
+            %td
+              - unless image_presenter.image.protected?
+                = link_to glyph('eye'), image_path(image_presenter.image.id)
+                = link_to glyph('trash'), image_path(image_presenter.image.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
+    %tfoot
+      %tr
+        %td
+        %td
+          %b Total
+        %td
+        %td
         %td= number_to_human_size @images_presenter.sum{ |s| s.try(:image).try(:size) }
-      %td
+        %td
+

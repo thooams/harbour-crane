@@ -23,7 +23,7 @@
   - @apps.each do |app|
     %tr
       %td
-        = button_group size: :xs, class: 'upstart-action' do
+        = button_group size: :sm, class: 'upstart-action' do
           = button_link '', { glyph: 'play', url: start_app_path(app.id), state: app.running? ? :disabled : :default }, { title: 'Start' }
           = button_link '', { glyph: 'stop', url: stop_app_path(app.id),  state: app.running? ? :default : :disabled }, { title: 'Stop' }
           = button_link '', { glyph: 'refresh', url: restart_app_path(app.id), state: app.running? ? :default : :disabled }, { title: 'Restart' }
